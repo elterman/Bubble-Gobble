@@ -1,8 +1,20 @@
 <script>
+    import Blob from './Blob.svelte';
+    import { ss } from './state.svelte';
+
+    const onPointerDown = (e) => {
+        console.log(e);
+        const blob = { cx: e.offsetX, cy: e.offsetY, r: 50 };
+        ss.blobs.push(blob);
+    };
 </script>
 
 <div class="game-page">
-    <div class="inner">GAME PAGE</div>
+    <div class="inner" onpointerdown={onPointerDown}>
+        {#each ss.blobs as blob, i (i)}
+            <Blob {blob} />
+        {/each}
+    </div>
 </div>
 
 <style>
