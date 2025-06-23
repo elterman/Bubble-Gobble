@@ -1,5 +1,5 @@
 <script>
-    import { MIN_BLOB_RADIUS } from './const';
+    import { MIN_BLOB_RADIUS, PAD } from './const';
     import { onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
     import { post } from './utils';
@@ -7,10 +7,10 @@
     const { blob } = $props();
     const { cx, cy, maxRadius, radius } = blob;
     const id = $derived(`blob-${cx}-${cy}`);
-    let x = $derived(cx - (radius || MIN_BLOB_RADIUS));
-    let y = $derived(cy - (radius || MIN_BLOB_RADIUS));
+    let x = $derived(cx - ((radius || MIN_BLOB_RADIUS) + PAD));
+    let y = $derived(cy - ((radius || MIN_BLOB_RADIUS) + PAD));
     const transform = $derived(`translate(${x}px, ${y}px)`);
-    let width = $derived((radius || MIN_BLOB_RADIUS) * 2 - 1);
+    let width = $derived(((radius || MIN_BLOB_RADIUS) + PAD) * 2 - 1);
     const transition = $derived(radius ? 'initial' : `${maxRadius / 100}s linear`);
     let _this = $state(null);
 
@@ -20,9 +20,10 @@
         }
 
         post(() => {
-            width = maxRadius * 2 - 1;
-            x = cx - maxRadius;
-            y = cy - maxRadius;
+            const r = maxRadius + PAD;
+            width = r * 2 - 1;
+            x = cx - r;
+            y = cy - r;
         });
 
         const onTransitionStart = () => {
@@ -52,7 +53,9 @@
     {id}
     bind:this={_this}
     class="blob"
-    style="width: {width}px; transform: {transform}; transition: {transition};" onpointerdown={onPointerDown}>
+    style="width: {width}px; padding: {PAD}px; transform: {transform}; transition: {transition};"
+    onpointerdown={onPointerDown}>
+    <div class="inner"></div>
 </div>
 
 <style>
@@ -60,9 +63,14 @@
         grid-area: 1/1;
         display: grid;
         border-radius: 50%;
-        background: linear-gradient(135deg, #feb47b80, #ff7e5f80);
-        aspect-ratio: 1;
-        box-sizing: border-box;
         z-index: 2;
+        box-sizing: border-box;
+        border: 1px solid #ffffff80;
+        aspect-ratio: 1;
+    }
+
+    .inner {
+        border-radius: 50%;
+        background: linear-gradient(135deg, #feb47b80, #ff7e5f80);
     }
 </style>

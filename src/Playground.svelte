@@ -1,11 +1,11 @@
 <script>
     import Blob from './Blob.svelte';
+    import { PAD } from './const';
     import { onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
     import { clientRect, underMouse } from './utils';
 
     const mouse = $state({ x: 0, y: 0 });
-    const pad = 20;
     let cursor = $state('crosshair');
 
     $effect(() => {
@@ -20,7 +20,7 @@
     };
 </script>
 
-<div class="playground" style="padding: {pad}px">
+<div class="playground" style="padding: {PAD}px">
     <div class="mouse">{`x = ${mouse.x} • y = ${mouse.y} • blobs = ${ss.blobs.length}`}</div>
     <div class="clickable" onpointerdown={onPointerDown} onpointermove={onPointerMove} style="cursor: {cursor}"></div>
     {#each ss.blobs as blob (`${blob.cx}-${blob.cy}-${blob.radius || 0}`)}
@@ -34,7 +34,6 @@
         display: grid;
         border: 1px solid #ff0055;
         box-sizing: border-box;
-        padding: 20px;
     }
 
     .clickable {

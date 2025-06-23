@@ -17,7 +17,7 @@ export const onPointerDown = (e) => {
         ss.blobs.pop();
 
         const r = clientRect(`#blob-${cx}-${cy}`);
-        const radius = r.width / 2;
+        const radius = r.width / 2 - PAD;
         ss.blobs.push({ cx, cy, radius });
 
         return;
