@@ -1,5 +1,6 @@
 <script>
     import { MIN_BLOB_RADIUS } from './const';
+    import { onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
     import { post } from './utils';
 
@@ -51,7 +52,7 @@
     {id}
     bind:this={_this}
     class="blob"
-    style="width: {width}px; transform: {transform}; transition: {transition};">
+    style="width: {width}px; transform: {transform}; transition: {transition};" onpointerdown={onPointerDown}>
 </div>
 
 <style>
@@ -62,5 +63,6 @@
         background: linear-gradient(135deg, #feb47b80, #ff7e5f80);
         aspect-ratio: 1;
         box-sizing: border-box;
+        z-index: 2;
     }
 </style>
