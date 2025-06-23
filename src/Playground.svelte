@@ -1,11 +1,11 @@
 <script>
     import Blob from './Blob.svelte';
-    import { log } from './shared.svelte';
     import { ss } from './state.svelte';
-    import { clientRect } from './utils';
+    import { clientRect, underMouse } from './utils';
 
     const mouse = $state({ x: 0, y: 0 });
     const pad = 20;
+    let cursor = $state('crosshair');
 
     $effect(() => {
         ss.playground = clientRect('.playground');
@@ -14,6 +14,23 @@
     const onPointerDown = (e) => {
         if (e.ctrlKey) {
             ss.blobs = [];
+            return;
+        }
+
+        if (ss.blowing && ss.blobs.length > 0) {
+            ss.blowing = false;
+            const blob = ss.blobs[ss.blobs.length - 1];
+            const { cx, cy } = blob;
+            ss.blobs.pop();
+
+            const r = clientRect(`#blob-${cx}-${cy}`);
+            const radius = r.width / 2;
+            ss.blobs.push({ cx, cy, radius });
+
+            return;
+        }
+
+        if (underMouse(e, ['.blob'])) {
             return;
         }
 
@@ -43,14 +60,16 @@
     const onPointerMove = (e) => {
         mouse.x = Math.floor(e.offsetX);
         mouse.y = Math.floor(e.offsetY);
+
+        cursor = underMouse(e, ['.blob']) ? 'initial' : 'crosshair';
     };
 </script>
 
 <div class="playground" style="padding: {pad}px">
     <div class="mouse">{`x = ${mouse.x} • y = ${mouse.y} • blobs = ${ss.blobs.length}`}</div>
-    <div class="clickable" onpointerdown={onPointerDown} onpointermove={onPointerMove}></div>
-    {#each ss.blobs as blob, i (i)}
-        <Blob {blob} index={i} />
+    <div class="clickable" onpointerdown={onPointerDown} onpointermove={onPointerMove} style="cursor: {cursor}"></div>
+    {#each ss.blobs as blob (`${blob.cx}-${blob.cy}-${blob.radius || 0}`)}
+        <Blob {blob} />
     {/each}
 </div>
 
@@ -66,7 +85,7 @@
     .clickable {
         grid-area: 1/1;
         display: grid;
-        cursor: crosshair;
+        /* cursor: crosshair; */
         z-index: 1;
     }
 
