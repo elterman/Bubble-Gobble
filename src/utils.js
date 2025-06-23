@@ -53,3 +53,5 @@ export const scrollClass = () => `root-scroll ${isTouchable() ? 'root-scroll-mob
 export const post = (fn, ms) => setTimeout(fn, ms);
 
 export const range = (n) => [...Array(n + 1).keys()].slice(1);
+
+export const sameBlob = (b1, b2) => b1.cx === b2.cx && b1.cy === b2.cy;
