@@ -10,7 +10,7 @@
     let x = $derived(cx - ((radius || MIN_BLOB_RADIUS) + PAD));
     let y = $derived(cy - ((radius || MIN_BLOB_RADIUS) + PAD));
     const transform = $derived(`translate(${x}px, ${y}px)`);
-    let width = $derived(((radius || MIN_BLOB_RADIUS) + PAD) * 2 - 1);
+    let width = $derived(((radius || MIN_BLOB_RADIUS) + PAD) * 2);
     const transition = $derived(radius ? 'initial' : `${maxRadius / 100}s linear`);
     let _this = $state(null);
 
@@ -21,7 +21,7 @@
 
         post(() => {
             const r = maxRadius + PAD;
-            width = r * 2 - 1;
+            width = r * 2;
             x = cx - r;
             y = cy - r;
         });
@@ -52,14 +52,14 @@
 <div
     {id}
     bind:this={_this}
-    class="blob"
+    class="blob-outer"
     style="width: {width}px; padding: {PAD}px; transform: {transform}; transition: {transition};"
     onpointerdown={onPointerDown}>
-    <div class="inner"></div>
+    <div class="blob"></div>
 </div>
 
 <style>
-    .blob {
+    .blob-outer {
         grid-area: 1/1;
         display: grid;
         border-radius: 50%;
@@ -69,7 +69,7 @@
         aspect-ratio: 1;
     }
 
-    .inner {
+    .blob {
         border-radius: 50%;
         background: linear-gradient(135deg, #feb47b80, #ff7e5f80);
     }

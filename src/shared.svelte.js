@@ -31,11 +31,11 @@ export const onPointerDown = (e) => {
         const sz = { x: ss.playground.width - 2 * PAD, y: ss.playground.height - 2 * PAD };
         const maxWidth = Math.min(cx, sz.x - cx) + PAD;
         const maxHeight = Math.min(cy, sz.y - cy) + PAD;
-        let maxRadius = Math.min(maxWidth, maxHeight);
+        let maxRadius = Math.min(maxWidth, maxHeight) + 1;
 
         for (const blob of ss.blobs) {
-            const dx = Math.abs(cx - blob.cx);
-            const dy = Math.abs(cy - blob.cy);
+            const dx = Math.abs(cx - blob.cx) + 1;
+            const dy = Math.abs(cy - blob.cy) + 1;
             const dist = Math.sqrt(dx * dx + dy * dy);
             maxRadius = Math.min(maxRadius, dist - blob.radius);
         }
