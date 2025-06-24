@@ -11,7 +11,7 @@ export const onPointerDown = (e) => {
     }
 
     if (ss.blowing && ss.blobs.length > 0) {
-        ss.blowing = false;
+        delete ss.blowing;
         const blob = ss.blobs[ss.blobs.length - 1];
         const { cx, cy } = blob;
         ss.blobs.pop();
@@ -31,21 +31,23 @@ export const onPointerDown = (e) => {
         const sz = { x: ss.playground.width - 2 * PAD, y: ss.playground.height - 2 * PAD };
         const maxWidth = Math.min(cx, sz.x - cx) + PAD;
         const maxHeight = Math.min(cy, sz.y - cy) + PAD;
-        let maxRadius = Math.min(maxWidth, maxHeight) + 1;
+        let maxRadius = Math.min(maxWidth, maxHeight);
+        let other = null;
 
         for (const blob of ss.blobs) {
-            const dx = Math.abs(cx - blob.cx) + 1;
-            const dy = Math.abs(cy - blob.cy) + 1;
+            const dx = Math.abs(cx - blob.cx);
+            const dy = Math.abs(cy - blob.cy);
             const dist = Math.sqrt(dx * dx + dy * dy);
             maxRadius = Math.min(maxRadius, dist - blob.radius);
+            other = blob;
         }
 
-        return maxRadius;
+        return { maxRadius, other };
     };
 
     const cx = Math.round(e.offsetX);
     const cy = Math.round(e.offsetY);
-    const maxRadius = calcMaxRadius(cx, cy);
-    const blob = { cx, cy, maxRadius };
+    const {maxRadius, other} = calcMaxRadius(cx, cy);
+    const blob = { cx, cy, maxRadius, other };
     ss.blobs.push(blob);
 };

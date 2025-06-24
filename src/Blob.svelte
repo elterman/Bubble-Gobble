@@ -5,13 +5,14 @@
     import { post } from './utils';
 
     const { blob } = $props();
-    const { cx, cy, maxRadius, radius } = blob;
+    const { cx, cy, maxRadius, radius } = $derived(blob);
     const id = $derived(`blob-${cx}-${cy}`);
     let x = $derived(cx - ((radius || MIN_BLOB_RADIUS) + PAD));
     let y = $derived(cy - ((radius || MIN_BLOB_RADIUS) + PAD));
     const transform = $derived(`translate(${x}px, ${y}px)`);
     let width = $derived(((radius || MIN_BLOB_RADIUS) + PAD) * 2);
-    const transition = $derived(radius ? 'initial' : `${maxRadius / 100}s linear`);
+    let padding = $state(PAD);
+    const transition = $derived(width === 0 ? '0.2s linear' : radius ? 'initial' : `${maxRadius / 100}s linear`);
     let _this = $state(null);
 
     $effect(() => {
@@ -31,20 +32,26 @@
         };
 
         const onTransitionEnd = () => {
-            ss.blowing = false;
-            const blob = ss.blobs.find((b) => b.cx === cx && b.cy === cy);
+            delete ss.blowing;
 
-            if (blob && !blob.radius) {
-                blob.radius = maxRadius;
+            if (width === 0) {
+                ss.blobs.pop();
             }
+
+            post(() => {
+                width = 0;
+                padding = 0;
+                x = cx;
+                y = cy;
+            }, 50);
         };
 
         _this.addEventListener('transitionstart', onTransitionStart);
         _this.addEventListener('transitionend', onTransitionEnd);
 
         return () => {
-            _this.removeEventListener('transitionend', onTransitionStart);
-            _this.removeEventListener('transitionstart', onTransitionEnd);
+            _this.removeEventListener('transitionstart', onTransitionStart);
+            _this.removeEventListener('transitionend', onTransitionEnd);
         };
     });
 </script>
@@ -53,7 +60,7 @@
     {id}
     bind:this={_this}
     class="blob-outer"
-    style="width: {width}px; padding: {PAD}px; transform: {transform}; transition: {transition};"
+    style="width: {width}px; padding: {padding}px; transform: {transform}; transition: {transition};"
     onpointerdown={onPointerDown}>
     <div class="blob"></div>
 </div>
