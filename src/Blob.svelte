@@ -1,10 +1,9 @@
 <script>
-    import { MIN_BLOB_RADIUS, PAD } from './const';
+    import { MIN_BLOB_RADIUS, PAD, SHRINK_MS } from './const';
     import { onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
     import { post, sameBlob } from './utils';
 
-    const SHRINK_MS = 150;
     const { blob } = $props();
     const { cx, cy, maxRadius, radius, other, shrink } = $derived(blob);
     const id = $derived(`blob-${cx}-${cy}`);
@@ -69,7 +68,7 @@
     class="blob-outer"
     style="width: {width}px; padding: {width ? PAD : 0}px; transform: {transform}; transition: {transition};"
     onpointerdown={onPointerDown}>
-    <div class="blob"></div>
+    <div class="blob {radius && width ? 'solid' : ''}"></div>
 </div>
 
 <style>
@@ -86,5 +85,10 @@
     .blob {
         border-radius: 50%;
         background: linear-gradient(135deg, #feb47b80, #ff7e5f80);
+        filter: hue-rotate(-100deg);
+    }
+
+    .solid {
+        background: linear-gradient(135deg, #c0c0c080, #60606080);
     }
 </style>
