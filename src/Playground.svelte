@@ -4,7 +4,7 @@
     import Orb from './Orb.svelte';
     import { onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
-    import { clientRect } from './utils';
+    import { clientRect, range } from './utils';
 
     const mouse = $state({ x: 0, y: 0 });
     let cursor = $state('crosshair');
@@ -25,8 +25,9 @@
     {#each ss.blobs as blob (`${blob.cx}-${blob.cy}-${blob.radius || 0}`)}
         <Blob {blob} />
     {/each}
-    {#each ss.orbs as orb, i (i)}
-        <Orb index={i} />
+    <!-- {#each ss.orbs as orb, i (i)} -->
+    {#each range(ss.orbs.length) as i (i)}
+        <Orb index={i - 1} />
     {/each}
 </div>
 
@@ -42,9 +43,9 @@
         grid-area: 1/1;
         display: grid;
         z-index: 1;
-        box-sizing: border-box;
-        border: 1px solid #ffffff80;
         cursor: crosshair;
+        box-sizing: border-box;
+        /* border: 1px solid #ffffff80; */
     }
 
     .mouse {
