@@ -1,12 +1,44 @@
 import { PAD } from './const';
 import { ss } from './state.svelte';
-import { clientRect } from './utils';
+import { blobId, clientRect } from './utils';
 
 export const log = (value) => console.log($state.snapshot(value));
 
+const onStart = () => {
+    if (ss.started) {
+        return;
+    }
+
+    ss.started = true;
+    ss.ticks = 0;
+    ss.blobs = [];
+    ss.orbs = [{ cx: 100, cy: 100 }];
+
+    ss.timer = setInterval(() => {
+        ss.ticks += 1;
+    }, 1);
+};
+
+const onClear = () => {
+    clearInterval(ss.timer);
+    delete ss.timer;
+    ss.blobs = [];
+    ss.orbs = [];
+    ss.started = false;
+};
+
 export const onPointerDown = (e) => {
     if (e.ctrlKey) {
-        ss.blobs = [];
+        onStart();
+        return;
+    }
+
+    if (!ss.started) {
+        return;
+    }
+
+    if (e.shiftKey) {
+        onClear();
         return;
     }
 
@@ -16,7 +48,7 @@ export const onPointerDown = (e) => {
         const { cx, cy } = blob;
         ss.blobs.pop();
 
-        const r = clientRect(`#blob-${cx}-${cy}`);
+        const r = clientRect(`#${blobId(cx, cy)}`);
         const radius = r.width / 2 - PAD;
         ss.blobs.push({ cx, cy, radius });
 

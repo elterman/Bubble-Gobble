@@ -2,15 +2,15 @@
     import { MIN_BLOB_RADIUS, PAD, SHRINK_MS } from './const';
     import { onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
-    import { post, sameBlob } from './utils';
+    import { blobId, post, sameBlob } from './utils';
 
     const { blob } = $props();
     const { cx, cy, maxRadius, radius, other, shrink } = $derived(blob);
-    const id = $derived(`blob-${cx}-${cy}`);
-    let x = $derived(shrink ? cx : cx - ((radius || MIN_BLOB_RADIUS) + PAD));
-    let y = $derived(shrink ? cy : cy - ((radius || MIN_BLOB_RADIUS) + PAD));
+    const rad = $derived((radius || MIN_BLOB_RADIUS) + PAD);
+    let x = $derived(shrink ? cx : cx - rad);
+    let y = $derived(shrink ? cy : cy - rad);
     const transform = $derived(`translate(${x}px, ${y}px)`);
-    let width = $derived((shrink ? 0 : (radius || MIN_BLOB_RADIUS) + PAD) * 2);
+    let width = $derived(shrink ? 0 : rad * 2);
     const transition = $derived(width === 0 ? `${SHRINK_MS}ms linear` : radius ? 'initial' : `${maxRadius / 100}s linear`);
     let _this = $state(null);
 
@@ -37,9 +37,9 @@
                 delete ss.blowing;
 
                 post(() => {
-                    width = 0;
                     x = cx;
                     y = cy;
+                    width = 0;
 
                     post(() => ss.blobs.pop(), SHRINK_MS);
 
@@ -63,7 +63,7 @@
 </script>
 
 <div
-    {id}
+    id={blobId(cx, cy)}
     bind:this={_this}
     class="blob-outer"
     style="width: {width}px; padding: {width ? PAD : 0}px; transform: {transform}; transition: {transition};"

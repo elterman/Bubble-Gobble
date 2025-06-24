@@ -1,9 +1,10 @@
 <script>
     import Blob from './Blob.svelte';
     import { PAD } from './const';
+    import Orb from './Orb.svelte';
     import { onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
-    import { clientRect, underMouse } from './utils';
+    import { clientRect } from './utils';
 
     const mouse = $state({ x: 0, y: 0 });
     let cursor = $state('crosshair');
@@ -15,8 +16,6 @@
     const onPointerMove = (e) => {
         mouse.x = Math.floor(e.offsetX);
         mouse.y = Math.floor(e.offsetY);
-
-        cursor = underMouse(e, ['.blob']) ? 'initial' : 'crosshair';
     };
 </script>
 
@@ -25,6 +24,9 @@
     <div class="clickable" onpointerdown={onPointerDown} onpointermove={onPointerMove} style="cursor: {cursor}"></div>
     {#each ss.blobs as blob (`${blob.cx}-${blob.cy}-${blob.radius || 0}`)}
         <Blob {blob} />
+    {/each}
+    {#each ss.orbs as orb, i (i)}
+        <Orb index={i} />
     {/each}
 </div>
 
@@ -39,8 +41,10 @@
     .clickable {
         grid-area: 1/1;
         display: grid;
-        /* cursor: crosshair; */
         z-index: 1;
+        box-sizing: border-box;
+        border: 1px solid #ffffff80;
+        cursor: crosshair;
     }
 
     .mouse {
@@ -49,6 +53,7 @@
         color: white;
         margin: 10px;
         font-family: Roboto Condensed;
-        transform: translate(20px, 20px);
+        transform: translate(20px, 28px);
+        font-size: 14px;
     }
 </style>
