@@ -2,17 +2,17 @@
     import { MIN_BLOB_RADIUS, PAD } from './const';
     import { onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
-    import { post } from './utils';
+    import { post, sameBlob } from './utils';
 
+    const SHRINK_MS = 150;
     const { blob } = $props();
-    const { cx, cy, maxRadius, radius } = $derived(blob);
+    const { cx, cy, maxRadius, radius, other, shrink } = $derived(blob);
     const id = $derived(`blob-${cx}-${cy}`);
-    let x = $derived(cx - ((radius || MIN_BLOB_RADIUS) + PAD));
-    let y = $derived(cy - ((radius || MIN_BLOB_RADIUS) + PAD));
+    let x = $derived(shrink ? cx : cx - ((radius || MIN_BLOB_RADIUS) + PAD));
+    let y = $derived(shrink ? cy : cy - ((radius || MIN_BLOB_RADIUS) + PAD));
     const transform = $derived(`translate(${x}px, ${y}px)`);
-    let width = $derived(((radius || MIN_BLOB_RADIUS) + PAD) * 2);
-    let padding = $state(PAD);
-    const transition = $derived(width === 0 ? '0.2s linear' : radius ? 'initial' : `${maxRadius / 100}s linear`);
+    let width = $derived((shrink ? 0 : (radius || MIN_BLOB_RADIUS) + PAD) * 2);
+    const transition = $derived(width === 0 ? `${SHRINK_MS}ms linear` : radius ? 'initial' : `${maxRadius / 100}s linear`);
     let _this = $state(null);
 
     $effect(() => {
@@ -28,22 +28,29 @@
         });
 
         const onTransitionStart = () => {
-            ss.blowing = true;
+            if (width) {
+                ss.blowing = true;
+            }
         };
 
         const onTransitionEnd = () => {
-            delete ss.blowing;
+            if (ss.blowing) {
+                delete ss.blowing;
 
-            if (width === 0) {
-                ss.blobs.pop();
+                post(() => {
+                    width = 0;
+                    x = cx;
+                    y = cy;
+
+                    post(() => ss.blobs.pop(), SHRINK_MS);
+
+                    if (other) {
+                        const i = ss.blobs.findIndex((b) => sameBlob(b, other));
+                        ss.blobs[i].shrink = true;
+                        post(() => ss.blobs.splice(i, 1), SHRINK_MS);
+                    }
+                }, 50);
             }
-
-            post(() => {
-                width = 0;
-                padding = 0;
-                x = cx;
-                y = cy;
-            }, 50);
         };
 
         _this.addEventListener('transitionstart', onTransitionStart);
@@ -60,7 +67,7 @@
     {id}
     bind:this={_this}
     class="blob-outer"
-    style="width: {width}px; padding: {padding}px; transform: {transform}; transition: {transition};"
+    style="width: {width}px; padding: {width ? PAD : 0}px; transform: {transform}; transition: {transition};"
     onpointerdown={onPointerDown}>
     <div class="blob"></div>
 </div>
@@ -72,7 +79,7 @@
         border-radius: 50%;
         z-index: 2;
         box-sizing: border-box;
-        border: 1px solid #ffffff80;
+        /* border: 1px solid #ffffff80; */
         aspect-ratio: 1;
     }
 

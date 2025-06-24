@@ -38,8 +38,11 @@ export const onPointerDown = (e) => {
             const dx = Math.abs(cx - blob.cx);
             const dy = Math.abs(cy - blob.cy);
             const dist = Math.sqrt(dx * dx + dy * dy);
-            maxRadius = Math.min(maxRadius, dist - blob.radius);
-            other = blob;
+
+            if (dist - blob.radius < maxRadius) {
+                maxRadius = dist - blob.radius;
+                other = blob;
+            }
         }
 
         return { maxRadius, other };
@@ -47,7 +50,7 @@ export const onPointerDown = (e) => {
 
     const cx = Math.round(e.offsetX);
     const cy = Math.round(e.offsetY);
-    const {maxRadius, other} = calcMaxRadius(cx, cy);
+    const { maxRadius, other } = calcMaxRadius(cx, cy);
     const blob = { cx, cy, maxRadius, other };
     ss.blobs.push(blob);
 };
