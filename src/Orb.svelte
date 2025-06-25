@@ -1,10 +1,11 @@
 <script>
     import { PAD } from './const';
     import { ss } from './state.svelte';
+    import { overlap } from './utils';
 
     const { index } = $props();
     const orb = $derived(ss.orbs[index]);
-    const { cx, cy, radius = 7, deg = 30 } = $derived(orb);
+    const { cx, cy, radius, deg = 30 } = $derived(orb);
     const width = $derived(radius * 2);
     const style = $derived(`transform: translate(${cx - radius}px, ${cy - radius}px); width: ${width}px;`);
     let ticks = $state(0);
@@ -25,22 +26,6 @@
                 }
             };
 
-            const hitSolid = () => {
-                for (let i = 0; i < ss.blobs.length; i++) {
-                    const blob = ss.blobs[i];
-
-                    if (blob.radius) {
-                        const dist = Math.hypot(ss.orbs[index].cx - blob.cx, ss.orbs[index].cy - blob.cy);
-
-                        if (dist < blob.radius + radius) {
-                            return i;
-                        }
-                    }
-                }
-
-                return -1;
-            };
-
             const dx = Math.cos(-deg * (Math.PI / 180)) * 2;
             const dy = Math.sin(-deg * (Math.PI / 180)) * 2;
 
@@ -48,11 +33,16 @@
             ss.orbs[index].cy += dy;
 
             if (hitWall()) {
-                //
+                return;
             }
 
-            if (hitSolid() !== -1) {
-                // bounce off the solid blob
+            const solid = ss.blobs.find(blob => blob.radius && overlap(orb, blob));
+
+            if (solid) {
+                // bounce of the solid blob
+                const angle = Math.atan2(orb.cy - solid.cy, orb.cx - solid.cx);
+                const newDeg = (angle * 180) / Math.PI + 90;
+                ss.orbs[index].deg = newDeg;
             }
         }
     });

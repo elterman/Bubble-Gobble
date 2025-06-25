@@ -12,7 +12,7 @@ const onStart = () => {
     ss.started = true;
     ss.ticks = 0;
     ss.blobs = [];
-    ss.orbs = [{ cx: 100, cy: 100 }];
+    ss.orbs = [{ cx: 100, cy: 100, radius: 7 }];
 
     ss.timer = setInterval(() => {
         ss.ticks += 1;
