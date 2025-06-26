@@ -62,7 +62,7 @@
         border-radius: 50%;
         z-index: 2;
         box-sizing: border-box;
-        border: 1px solid #ffffff80;
+        /* border: 1px solid #ffffff80; */
         aspect-ratio: 1;
     }
 

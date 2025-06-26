@@ -20,6 +20,7 @@ export default [
       'no-multiple-empty-lines': ['warn', { max: 1, maxEOF: 0, }],
       quotes: ['warn', 'single'],
       'no-irregular-whitespace': 'off',
+      'no-constant-condition': 'off',
     }
   }
 ];

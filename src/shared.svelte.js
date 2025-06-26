@@ -13,7 +13,7 @@ const onStart = () => {
     ss.ticks = 0;
     ss.blobs = [];
     ss.orbs = [
-        { cx: 100, cy: 300, radius: 7, deg: 0 },
+        { cx: 300, cy: 300, radius: 7, deg: 0 },
         // { cx: 100, cy: 200, radius: 7, deg: -90 }
     ];
 
