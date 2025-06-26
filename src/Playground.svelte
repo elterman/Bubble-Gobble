@@ -59,5 +59,6 @@
         font-family: Roboto Condensed;
         transform: translate(20px, 28px);
         font-size: 14px;
+        z-index: 5;
     }
 </style>
