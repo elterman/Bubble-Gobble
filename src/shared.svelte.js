@@ -5,7 +5,7 @@ import { blobId, clientRect } from './utils';
 
 export const log = (value) => console.log($state.snapshot(value));
 
-const onStart = () => {
+const onStart = (e) => {
     if (ss.started) {
         return;
     }
@@ -14,7 +14,7 @@ const onStart = () => {
     ss.ticks = 0;
     ss.blobs = [];
     ss.orbs = [
-        { cx: 300, cy: 300, radius: 7, deg: 30 },
+        { cx: Math.round(e.offsetX), cy: Math.round(e.offsetY), radius: 7, deg: random(0, 360), },
     ];
 
     ss.timer = setInterval(() => {
@@ -43,7 +43,7 @@ export const freezeBlob = (index, solid = true) => {
 
 export const onPointerDown = (e) => {
     if (e.ctrlKey) {
-        onStart();
+        onStart(e);
         return;
     }
 

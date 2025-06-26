@@ -62,5 +62,5 @@ export const overlap = (rob1, rob2) => Math.hypot(rob1.cx - rob2.cx, rob1.cy - r
 
 export const bounceAngle = (orb, other) => {
     const a = Math.atan2(other.cy - orb.cy, other.cx - orb.cx) * (180 / Math.PI);
-    return 180 - orb.deg - a * 2;
+    return (180 - orb.deg - a * 2) % 360;
 };
