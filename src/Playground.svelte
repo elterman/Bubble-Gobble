@@ -20,7 +20,7 @@
 </script>
 
 <div class="playground" style="padding: {PAD}px">
-    <div class="mouse">{`x = ${mouse.x} • y = ${mouse.y} • blobs = ${ss.blobs.length}`}</div>
+    <div class="mouse">{`blobs = ${ss.blobs.length} • orbs = ${ss.orbs.length}`}</div>
     <div class="clickable" onpointerdown={onPointerDown} onpointermove={onPointerMove} style="cursor: {cursor}"></div>
     {#each ss.blobs as blob (`${blob.cx}-${blob.cy}-${blob.radius || 0}`)}
         <Blob {blob} />

@@ -1,3 +1,4 @@
+import { random } from 'lodash-es';
 import { PAD } from './const';
 import { ss } from './state.svelte';
 import { blobId, clientRect } from './utils';
@@ -13,8 +14,7 @@ const onStart = () => {
     ss.ticks = 0;
     ss.blobs = [];
     ss.orbs = [
-        { cx: 300, cy: 300, radius: 7, deg: 0 },
-        // { cx: 100, cy: 200, radius: 7, deg: -90 }
+        { cx: 300, cy: 300, radius: 7, deg: 30 },
     ];
 
     ss.timer = setInterval(() => {
@@ -53,6 +53,17 @@ export const onPointerDown = (e) => {
 
     if (e.shiftKey) {
         onClear();
+        return;
+    }
+
+    if (e.altKey) {
+        ss.orbs.push({
+            cx: Math.round(e.offsetX),
+            cy: Math.round(e.offsetY),
+            radius: 7,
+            deg: random(0, 360),
+        });
+
         return;
     }
 
