@@ -36,10 +36,10 @@
             if (ss.blowing) {
                 freezeBlob(ss.blobs.length - 1, false);
 
-                if (other) {
-                    const i = ss.blobs.findIndex((b) => sameBlob(b, other));
-                    freezeBlob(i, false);
-                }
+                // if (other) {
+                //     const i = ss.blobs.findIndex((b) => sameBlob(b, other));
+                //     freezeBlob(i, false);
+                // }
             }
         };
 
@@ -69,7 +69,7 @@
         border-radius: 50%;
         z-index: 2;
         box-sizing: border-box;
-        /* border: 1px solid #ffffff80; */
+        border: 1px solid #ffffff80;
         aspect-ratio: 1;
     }
 
@@ -80,12 +80,11 @@
     }
 
     .solid {
-        background: linear-gradient(135deg, #c0c0c080, #60606080);
+        /* background: linear-gradient(135deg, #c0c0c080, #60606080); */
     }
 
     .hollow {
         background: none;
-        box-sizing: border-box;
         border: 1px solid #ff0055;
     }
 </style>
