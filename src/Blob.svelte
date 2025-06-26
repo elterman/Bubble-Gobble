@@ -52,7 +52,7 @@
     class="blob-outer"
     style="width: {width}px; padding: {PAD}px; transform: {transform}; transition: {transition};"
     onpointerdown={onPointerDown}>
-    <div class="blob {radius ? (solid ? 'solid' : 'hollow') : ''}"></div>
+    <div class="blob {solid ? 'solid' : radius ? 'dead' : ''}"></div>
 </div>
 
 <style>
@@ -77,7 +77,7 @@
         background: linear-gradient(135deg, #8b6493, #70538a);
     }
 
-    .hollow {
+    .dead {
         background: none;
         border: 1px solid #ff0055;
     }

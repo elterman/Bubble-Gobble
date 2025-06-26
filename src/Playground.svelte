@@ -11,6 +11,7 @@
 
     $effect(() => {
         ss.playground = clientRect('.playground');
+        ss.totalArea = ss.playground.width * ss.playground.height;
     });
 
     const onPointerMove = (e) => {
@@ -20,7 +21,9 @@
 </script>
 
 <div class="playground" style="padding: {PAD}px">
-    <div class="mouse">{`blobs = ${ss.blobs.length} • orbs = ${ss.orbs.length}`}</div>
+    <div class="mouse">
+        {`blobs = ${ss.blobs.length} • orbs = ${ss.orbs.length} • dead = ${Math.round(ss.deadArea / ss.totalArea * 100)}% • claimed = ${Math.round((ss.solidArea) / ss.totalArea * 100)}%`}
+    </div>
     <div class="clickable" onpointerdown={onPointerDown} onpointermove={onPointerMove} style="cursor: {cursor}"></div>
     {#each ss.blobs as blob (`${blob.cx}-${blob.cy}-${blob.radius || 0}`)}
         <Blob {blob} />

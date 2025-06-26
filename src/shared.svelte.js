@@ -13,13 +13,14 @@ const onStart = (e) => {
     ss.started = true;
     ss.ticks = 0;
     ss.blobs = [];
+    ss.solidArea = 0;
+    ss.deadArea = 0;
+
     ss.orbs = [
         { cx: Math.round(e.offsetX), cy: Math.round(e.offsetY), radius: 7, deg: random(0, 360), },
     ];
 
-    ss.timer = setInterval(() => {
-        ss.ticks += 1;
-    }, 1);
+    ss.timer = setInterval(() => (ss.ticks += 1), 1);
 };
 
 const onClear = () => {
@@ -39,6 +40,14 @@ export const freezeBlob = (index, solid = true) => {
     const r = clientRect(`#${blobId(cx, cy)}`);
     const radius = r.width / 2 - PAD;
     ss.blobs.push({ cx, cy, radius, solid });
+
+    const area = radius * radius * Math.PI;
+
+    if (solid) {
+        ss.solidArea += area;
+    } else {
+        ss.deadArea += area;
+    }
 };
 
 export const onPointerDown = (e) => {
