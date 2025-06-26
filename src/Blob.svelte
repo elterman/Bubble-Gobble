@@ -1,17 +1,17 @@
 <script>
-    import { MIN_BLOB_RADIUS, PAD, SHRINK_MS } from './const';
-    import { onPointerDown } from './shared.svelte';
+    import { MIN_BLOB_RADIUS, PAD } from './const';
+    import { freezeBlob, onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, post, sameBlob } from './utils';
 
     const { blob } = $props();
-    const { cx, cy, maxRadius, radius, other, shrink } = $derived(blob);
+    const { cx, cy, maxRadius, radius, solid, other } = $derived(blob);
     const rad = $derived((radius || MIN_BLOB_RADIUS) + PAD);
-    let x = $derived(shrink ? cx : cx - rad);
-    let y = $derived(shrink ? cy : cy - rad);
+    let x = $derived(cx - rad);
+    let y = $derived(cy - rad);
     const transform = $derived(`translate(${x}px, ${y}px)`);
-    let width = $derived(shrink ? 0 : rad * 2);
-    const transition = $derived(width === 0 ? `${SHRINK_MS}ms linear` : radius ? 'initial' : `${maxRadius / 100}s linear`);
+    let width = $derived(rad * 2);
+    const transition = $derived(radius ? 'initial' : `${maxRadius / 100}s linear`);
     let _this = $state(null);
 
     $effect(() => {
@@ -34,21 +34,12 @@
 
         const onTransitionEnd = () => {
             if (ss.blowing) {
-                delete ss.blowing;
+                freezeBlob(ss.blobs.length - 1, false);
 
-                post(() => {
-                    x = cx;
-                    y = cy;
-                    width = 0;
-
-                    post(() => ss.blobs.pop(), SHRINK_MS);
-
-                    if (other) {
-                        const i = ss.blobs.findIndex((b) => sameBlob(b, other));
-                        ss.blobs[i].shrink = true;
-                        post(() => ss.blobs.splice(i, 1), SHRINK_MS);
-                    }
-                }, 50);
+                if (other) {
+                    const i = ss.blobs.findIndex((b) => sameBlob(b, other));
+                    freezeBlob(i, false);
+                }
             }
         };
 
@@ -68,7 +59,7 @@
     class="blob-outer"
     style="width: {width}px; padding: {width ? PAD : 0}px; transform: {transform}; transition: {transition};"
     onpointerdown={onPointerDown}>
-    <div class="blob {radius && width ? 'solid' : ''}"></div>
+    <div class="blob {radius ? (solid ? 'solid' : 'hollow') : ''}"></div>
 </div>
 
 <style>
@@ -84,11 +75,17 @@
 
     .blob {
         border-radius: 50%;
-        background: linear-gradient(135deg, #feb47b80, #ff7e5f80);
-        filter: hue-rotate(-100deg);
+        background: linear-gradient(135deg, #8b6493, #70538a);
+        box-sizing: border-box;
     }
 
     .solid {
         background: linear-gradient(135deg, #c0c0c080, #60606080);
+    }
+
+    .hollow {
+        background: none;
+        box-sizing: border-box;
+        border: 1px solid #ff0055;
     }
 </style>

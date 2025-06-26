@@ -27,6 +27,17 @@ const onClear = () => {
     ss.started = false;
 };
 
+export const freezeBlob = (index, solid = true) => {
+    delete ss.blowing;
+    const blob = ss.blobs[index];
+    const { cx, cy } = blob;
+    ss.blobs.splice(index, 1);
+
+    const r = clientRect(`#${blobId(cx, cy)}`);
+    const radius = r.width / 2 - PAD;
+    ss.blobs.push({ cx, cy, radius, solid });
+};
+
 export const onPointerDown = (e) => {
     if (e.ctrlKey) {
         onStart();
@@ -43,15 +54,7 @@ export const onPointerDown = (e) => {
     }
 
     if (ss.blowing && ss.blobs.length > 0) {
-        delete ss.blowing;
-        const blob = ss.blobs[ss.blobs.length - 1];
-        const { cx, cy } = blob;
-        ss.blobs.pop();
-
-        const r = clientRect(`#${blobId(cx, cy)}`);
-        const radius = r.width / 2 - PAD;
-        ss.blobs.push({ cx, cy, radius });
-
+        freezeBlob(ss.blobs.length - 1);
         return;
     }
 
