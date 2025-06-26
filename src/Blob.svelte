@@ -2,10 +2,10 @@
     import { MIN_BLOB_RADIUS, PAD } from './const';
     import { freezeBlob, onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
-    import { blobId, post, sameBlob } from './utils';
+    import { blobId, post } from './utils';
 
     const { blob } = $props();
-    const { cx, cy, maxRadius, radius, solid, other } = $derived(blob);
+    const { cx, cy, maxRadius, radius, solid } = $derived(blob);
     const rad = $derived((radius || MIN_BLOB_RADIUS) + PAD);
     let x = $derived(cx - rad);
     let y = $derived(cy - rad);
@@ -27,19 +27,12 @@
         });
 
         const onTransitionStart = () => {
-            if (width) {
-                ss.blowing = true;
-            }
+            ss.blowing = true;
         };
 
         const onTransitionEnd = () => {
             if (ss.blowing) {
                 freezeBlob(ss.blobs.length - 1, false);
-
-                // if (other) {
-                //     const i = ss.blobs.findIndex((b) => sameBlob(b, other));
-                //     freezeBlob(i, false);
-                // }
             }
         };
 
@@ -57,7 +50,7 @@
     id={blobId(cx, cy)}
     bind:this={_this}
     class="blob-outer"
-    style="width: {width}px; padding: {width ? PAD : 0}px; transform: {transform}; transition: {transition};"
+    style="width: {width}px; padding: {PAD}px; transform: {transform}; transition: {transition};"
     onpointerdown={onPointerDown}>
     <div class="blob {radius ? (solid ? 'solid' : 'hollow') : ''}"></div>
 </div>
@@ -81,6 +74,7 @@
 
     .solid {
         /* background: linear-gradient(135deg, #c0c0c080, #60606080); */
+        background: linear-gradient(135deg, #8b6493, #70538a);
     }
 
     .hollow {
