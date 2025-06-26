@@ -40,9 +40,8 @@
 
             if (solid) {
                 // bounce of the solid blob
-                const angle = Math.atan2(orb.cy - solid.cy, orb.cx - solid.cx);
-                const newDeg = (angle * 180) / Math.PI + 90;
-                ss.orbs[index].deg = newDeg;
+                const a = Math.atan2(solid.cy - orb.cy, solid.cx - orb.cx) * (180 / Math.PI);
+                ss.orbs[index].deg = 180 - deg - a * 2;
             }
         }
     });
