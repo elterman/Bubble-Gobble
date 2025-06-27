@@ -87,8 +87,8 @@ export const onPointerDown = (e) => {
 
     const calcMaxRadius = (cx, cy) => {
         const sz = { x: ss.playground.width - 2 * PAD, y: ss.playground.height - 2 * PAD };
-        const maxWidth = Math.min(cx, sz.x - cx) + PAD;
-        const maxHeight = Math.min(cy, sz.y - cy) + PAD;
+        const maxWidth = Math.min(cx, sz.x - cx) + PAD - 1;
+        const maxHeight = Math.min(cy, sz.y - cy) + PAD - 1;
         let maxRadius = Math.min(maxWidth, maxHeight);
         let other = null;
 

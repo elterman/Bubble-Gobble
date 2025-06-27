@@ -1,4 +1,5 @@
 <script>
+    import { onMount } from 'svelte';
     import Blob from './Blob.svelte';
     import { PAD } from './const';
     import Orb from './Orb.svelte';
@@ -9,7 +10,7 @@
     const mouse = $state({ x: 0, y: 0 });
     let cursor = $state('crosshair');
 
-    $effect(() => {
+    onMount(() => {
         ss.playground = clientRect('.playground');
         ss.totalArea = ss.playground.width * ss.playground.height;
     });
@@ -22,7 +23,7 @@
 
 <div class="playground" style="padding: {PAD}px">
     <div class="mouse">
-        {`blobs = ${ss.blobs.length} • orbs = ${ss.orbs.length} • dead = ${Math.round(ss.deadArea / ss.totalArea * 100)}% • claimed = ${Math.round((ss.solidArea) / ss.totalArea * 100)}%`}
+        {`blobs = ${ss.blobs.length} • orbs = ${ss.orbs.length} • dead = ${Math.round((ss.deadArea / ss.totalArea) * 100)}% • claimed = ${Math.round((ss.solidArea / ss.totalArea) * 100)}%`}
     </div>
     <div class="clickable" onpointerdown={onPointerDown} onpointermove={onPointerMove} style="cursor: {cursor}"></div>
     {#each ss.blobs as blob (`${blob.cx}-${blob.cy}-${blob.radius || 0}`)}

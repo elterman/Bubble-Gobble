@@ -22,9 +22,9 @@
                 const x = orb.cx + PAD;
                 const y = orb.cy + PAD;
 
-                if (x - radius < 0 || x + radius > playground.width) {
+                if (x - radius <= 0 || x + radius >= playground.width) {
                     ss.orbs[index].deg = 180 - deg;
-                } else if (y - radius < 0 || y + radius > playground.height) {
+                } else if (y - radius <= 0 || y + radius >= playground.height) {
                     ss.orbs[index].deg = -deg;
                 }
             };
