@@ -19,7 +19,6 @@
 
     let splash = $state(true);
     post(() => (splash = false), 2000);
-
 </script>
 
 <div class="app">
@@ -30,6 +29,7 @@
         <Splash />
     {/if}
 </div>
+
 <style>
     /* :root {
     } */
@@ -71,7 +71,9 @@
         overflow: hidden;
         touch-action: manipulation;
         outline: none !important;
-        background: #303030;
+        background: #282828;
+        /* background-image: url('$lib/images/Pattern.webp');
+        background-size: 1000px; */
     }
 
     .vignette {
