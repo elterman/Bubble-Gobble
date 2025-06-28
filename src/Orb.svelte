@@ -17,31 +17,13 @@
             // if (false) {
             ticks = ss.ticks;
 
-            const hitWall = () => {
-                const { playground } = ss;
-                const x = orb.cx + PAD;
-                const y = orb.cy + PAD;
-
-                if (x - radius <= 0 || x + radius >= playground.width) {
-                    ss.orbs[index].deg = 180 - deg;
-                } else if (y - radius <= 0 || y + radius >= playground.height) {
-                    ss.orbs[index].deg = -deg;
-                }
-            };
-
-            const dx = Math.cos(-deg * (Math.PI / 180)) * 2;
-            const dy = Math.sin(-deg * (Math.PI / 180)) * 2;
-
-            ss.orbs[index].cx += dx;
-            ss.orbs[index].cy += dy;
-
-            if (hitWall()) {
-                return;
-            }
-
             const justBounced = (ob) => {
                 if (!lastBounce) {
                     return false;
+                }
+
+                if (ob.edge !== undefined) {
+                    return ob.edge === lastBounce.edge;
                 }
 
                 if (ob.otherIndex !== undefined) {
@@ -50,6 +32,48 @@
 
                 return sameBlob(lastBounce, ob);
             };
+
+            const hitEdge = () => {
+                const { playground } = ss;
+                const x = orb.cx + PAD;
+                const y = orb.cy + PAD;
+                let edge = 0;
+
+                if (x - radius <= 0) {
+                    edge = 4;
+                } else if (x + radius >= playground.width) {
+                    edge = 2;
+                } else if (y - radius <= 0) {
+                    edge = 1;
+                } else if (y + radius >= playground.height) {
+                    edge = 3;
+                }
+
+                if (orb.lastBounce && orb.lastBounce.edge === edge) {
+                    return 0; // already bounced off this edge
+                }
+
+                if (edge === 4 || edge === 2) {
+                    ss.orbs[index].deg = 180 - deg;
+                } else if (edge === 1 || edge === 3) {
+                    ss.orbs[index].deg = -deg;
+                }
+
+                return edge;
+            };
+
+            const dx = Math.cos(-deg * (Math.PI / 180)) * 2;
+            const dy = Math.sin(-deg * (Math.PI / 180)) * 2;
+
+            ss.orbs[index].cx += dx;
+            ss.orbs[index].cy += dy;
+
+            const edge = hitEdge();
+
+            if (edge) {
+                ss.orbs[index].lastBounce = { edge };
+                return;
+            }
 
             // bounce off the bubble?
             const bubble = ss.blowing ? ss.blobs[ss.blobs.length - 1] : null;
@@ -76,11 +100,11 @@
             }
 
             // bounce off another orb?
-            const otherIndex = ss.orbs.findIndex((o, i) => i !== index && overlap(orb, o));
+            const i = ss.orbs.findIndex((o, i) => i !== index && overlap(orb, o));
 
-            if (otherIndex >= 0 && !justBounced({ otherIndex })) {
-                ss.orbs[index].lastBounce = { otherIndex };
-                ss.orbs[index].deg = bounceAngle(orb, ss.orbs[otherIndex]);
+            if (i >= 0 && !justBounced({ otherIndex: i })) {
+                ss.orbs[index].lastBounce = { otherIndex: i };
+                ss.orbs[index].deg = bounceAngle(orb, ss.orbs[i]);
                 return;
             }
 
