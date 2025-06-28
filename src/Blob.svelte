@@ -1,5 +1,5 @@
 <script>
-    import { MIN_BLOB_RADIUS, PAD } from './const';
+    import { MIN_BLOB_RADIUS, NORM_AREA, PAD } from './const';
     import { freezeBlob, onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, post } from './utils';
@@ -11,7 +11,7 @@
     let y = $derived(cy - rad);
     const transform = $derived(`translate(${x}px, ${y}px)`);
     let width = $derived(rad * 2);
-    const transition = $derived(radius ? 'initial' : `${maxRadius / 100}s linear`);
+    const transition = $derived(radius ? 'initial' : `${maxRadius / 100 * ss.speed}s linear`);
     let _this = $state(null);
 
     $effect(() => {

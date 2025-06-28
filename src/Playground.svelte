@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import Blob from './Blob.svelte';
-    import { PAD } from './const';
+    import { NORM_AREA, PAD } from './const';
     import Orb from './Orb.svelte';
     import { onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
@@ -13,6 +13,8 @@
     onMount(() => {
         ss.playground = clientRect('.playground');
         ss.totalArea = ss.playground.width * ss.playground.height;
+        const max = Math.max(ss.playground.width, ss.playground.height);
+        ss.speed = NORM_AREA / max;
     });
 
     const onPointerMove = (e) => {
