@@ -1,8 +1,11 @@
 <script>
-    import { MIN_BLOB_RADIUS, NORM_AREA, PAD } from './const';
+    import { MIN_BLOB_RADIUS, PAD } from './const';
     import { freezeBlob, onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, post } from './utils';
+    import Orange from '$lib/images/Bubble Orange.webp';
+    import Blue from '$lib/images/Bubble Blue.webp';
+    import { fade } from 'svelte/transition';
 
     const { blob } = $props();
     const { cx, cy, maxRadius, radius, solid } = $derived(blob);
@@ -11,8 +14,9 @@
     let y = $derived(cy - rad);
     const transform = $derived(`translate(${x}px, ${y}px)`);
     let width = $derived(rad * 2);
-    const transition = $derived(radius ? 'initial' : `${maxRadius / 100 * ss.speed}s linear`);
+    const transition = $derived(radius ? 'initial' : `${(maxRadius / 100) * ss.speed}s linear`);
     let _this = $state(null);
+    const classes = $derived(`blob ${solid ? 'solid' : radius ? 'dead' : ''}`);
 
     $effect(() => {
         if (radius) {
@@ -52,7 +56,13 @@
     class="blob-outer"
     style="width: {width}px; padding: {PAD}px; transform: {transform}; transition: {transition};"
     onpointerdown={onPointerDown}>
-    <div class="blob {solid ? 'solid' : radius ? 'dead' : ''}"></div>
+    {#if solid}
+        <img src={Blue} alt="" class="blob solid"/>
+    {:else if radius}
+        <div class="blob dead"></div>
+    {:else}
+        <img src={Orange} alt="" class="blob"/>
+    {/if}
 </div>
 
 <style>
@@ -70,6 +80,7 @@
         border-radius: 50%;
         background: linear-gradient(135deg, #8b6493, #70538a);
         box-sizing: border-box;
+        width: 100%;
     }
 
     .solid {
