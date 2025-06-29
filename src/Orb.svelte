@@ -1,5 +1,5 @@
 <script>
-    import { PAD } from './const';
+    import { CORNER_RADIUS, PAD } from './const';
     import { freezeBlob } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, bounceAngle, clientRect, overlap, post, sameBlob } from './utils';
@@ -37,29 +37,43 @@
                 const { playground } = ss;
                 const x = orb.cx + PAD;
                 const y = orb.cy + PAD;
-                let edge = 0;
 
                 if (x - radius <= 0) {
-                    edge = 4;
-                } else if (x + radius >= playground.width) {
-                    edge = 2;
-                } else if (y - radius <= 0) {
-                    edge = 1;
-                } else if (y + radius >= playground.height) {
-                    edge = 3;
+                    return 4;
                 }
 
-                if (orb.lastBounce && orb.lastBounce.edge === edge) {
-                    return 0; // already bounced off this edge
+                if (x + radius >= playground.width) {
+                    return 2;
                 }
 
-                if (edge === 4 || edge === 2) {
-                    ss.orbs[index].deg = 180 - deg;
-                } else if (edge === 1 || edge === 3) {
-                    ss.orbs[index].deg = -deg;
+                if (y - radius <= 0) {
+                    return 1;
                 }
 
-                return edge;
+                if (y + radius >= playground.height) {
+                    return 3;
+                }
+
+                return 0;
+            };
+
+            const hitCorner = () => {
+                const corners = [
+                    { cx: -PAD, cy: -PAD, radius: CORNER_RADIUS },
+                    { cx: ss.playground.width - PAD, cy: -PAD, radius: CORNER_RADIUS },
+                    { cx: ss.playground.width - PAD, cy: ss.playground.height - PAD, radius: CORNER_RADIUS },
+                    { cx: -PAD, cy: ss.playground.height - PAD, radius: CORNER_RADIUS },
+                ];
+
+                for (let i = 0; i < corners.length; i++) {
+                    const corner = corners[i];
+
+                    if (overlap(orb, corner)) {
+                        return corner;
+                    }
+                }
+
+                return null;
             };
 
             const dx = Math.cos(-deg * (Math.PI / 180)) * 2;
@@ -70,8 +84,24 @@
 
             const edge = hitEdge();
 
-            if (edge) {
+            if (edge && !justBounced({ edge })) {
                 ss.orbs[index].lastBounce = { edge };
+
+                if (edge === 4 || edge === 2) {
+                    ss.orbs[index].deg = 180 - deg;
+                } else if (edge === 1 || edge === 3) {
+                    ss.orbs[index].deg = -deg;
+                }
+
+                return;
+            }
+
+            const corner = hitCorner();
+
+            // bounce off the corner?
+            if (corner && !justBounced({ corner })) {
+                ss.orbs[index].lastBounce = { corner };
+                ss.orbs[index].deg = bounceAngle(orb, corner);
                 return;
             }
 

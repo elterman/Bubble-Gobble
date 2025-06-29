@@ -41,7 +41,7 @@
     .playground {
         grid-area: 1/1;
         display: grid;
-        border: 1px solid #ff0055;
+        /* border: 1px solid #ff0055; */
         box-sizing: border-box;
     }
 

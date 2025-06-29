@@ -1,11 +1,10 @@
 <script>
+    import Blue from '$lib/images/Bubble Blue.webp';
+    import Orange from '$lib/images/Bubble Orange.webp';
     import { MIN_BLOB_RADIUS, PAD } from './const';
     import { freezeBlob, onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, post } from './utils';
-    import Orange from '$lib/images/Bubble Orange.webp';
-    import Blue from '$lib/images/Bubble Blue.webp';
-    import { fade } from 'svelte/transition';
 
     const { blob } = $props();
     const { cx, cy, maxRadius, radius, solid } = $derived(blob);
@@ -16,7 +15,6 @@
     let width = $derived(rad * 2);
     const transition = $derived(radius ? 'initial' : `${(maxRadius / 100) * ss.speed}s linear`);
     let _this = $state(null);
-    const classes = $derived(`blob ${solid ? 'solid' : radius ? 'dead' : ''}`);
 
     $effect(() => {
         if (radius) {
