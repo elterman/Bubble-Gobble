@@ -17,13 +17,13 @@
         margin: 0 5px 5px 0;
         cursor: pointer;
         z-index: 2;
-        /* background: #fff8; */
         transition: opacity 0.3s;
+        clip-path: circle(50%);
+        /* background: #fff7; */
     }
 
     .disabled {
         pointer-events: none;
-        /* cursor: initial; */
         filter: grayscale(1);
         opacity: 0.35;
     }

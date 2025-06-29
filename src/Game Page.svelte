@@ -1,5 +1,6 @@
 <script>
     import { PAD } from './const';
+    import Corner from './Corner.svelte';
     import Gear from './Gear.svelte';
     import Next from './Next.svelte';
     import Percent from './Percent.svelte';
@@ -10,6 +11,10 @@
 <div class="game-page">
     <Playground/>
     <div class="box" style="padding: {PAD}px"></div>
+    <Corner pos='nw'/>
+    <Corner pos='ne'/>
+    <Corner pos='se'/>
+    <Corner pos='sw'/>
     <Percent/>
     <Next/>
     <Gear/>

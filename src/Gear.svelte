@@ -14,6 +14,7 @@
         margin: 0 0 -1px -1px;
         cursor: pointer;
         z-index: 2;
-        /* background: #fff8; */
+        clip-path: circle(50%);
+        /* background: #fff7; */
     }
 </style>
