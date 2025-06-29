@@ -2,6 +2,7 @@
     import { PAD } from './const';
     import Corner from './Corner.svelte';
     import Gear from './Gear.svelte';
+    import Help from './Help.svelte';
     import Next from './Next.svelte';
     import Percent from './Percent.svelte';
     import Playground from './Playground.svelte';
@@ -19,6 +20,7 @@
     <Next/>
     <Gear/>
     <Score/>
+    <Help/>
 </div>
 
 <style>
