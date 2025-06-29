@@ -37,7 +37,7 @@
         {`orbs = ${ss.orbs.length} • dead = ${Math.round((ss.deadArea / ss.totalArea) * 100)}%`}
     </div>
     <div class="clickable" onpointerdown={onPointerDown} onpointermove={onPointerMove} style="cursor: {cursor}"></div>
-    <div class="level">10</div>
+    <div class="level">{ss.orbs.length}</div>
     {#each ss.blobs as blob (`${blob.cx}-${blob.cy}-${blob.radius || 0}`)}
         <Blob {blob} />
     {/each}
@@ -67,7 +67,8 @@
     .level {
         grid-area: 1/1;
         place-self: center;
-        color: #ffffff08;
+        color: white;
+        opacity: 0.08;
         font-family: Roboto Condensed;
         font-size: 25dvh;
     }

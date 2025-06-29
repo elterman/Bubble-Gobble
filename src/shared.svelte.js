@@ -50,7 +50,10 @@ export const freezeBlob = (index, solid = true) => {
     if (solid) {
         ss.solidArea += area;
 
-        if (prev < 50 && percent() >= 50) {
+        const pct = percent();
+        ss.score += pct - prev;
+
+        if (prev < 50 && pct >= 50) {
             _sound.play('won', { rate: 2 });
         }
     } else {

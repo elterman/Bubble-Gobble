@@ -1,13 +1,19 @@
 <script>
     import { PAD } from './const';
+    import Gear from './Gear.svelte';
+    import Next from './Next.svelte';
     import Percent from './Percent.svelte';
     import Playground from './Playground.svelte';
+    import Score from './Score.svelte';
 </script>
 
 <div class="game-page">
     <Playground/>
     <div class="box" style="padding: {PAD}px"></div>
     <Percent/>
+    <Next/>
+    <Gear/>
+    <Score/>
 </div>
 
 <style>
