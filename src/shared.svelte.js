@@ -92,14 +92,12 @@ export const onPointerDown = (e) => {
         let maxRadius = Math.min(maxWidth, maxHeight);
         let other = null;
 
-        for (const blob of ss.blobs) {
-            const dx = Math.abs(cx - blob.cx);
-            const dy = Math.abs(cy - blob.cy);
-            const dist = Math.sqrt(dx * dx + dy * dy);
+        for (const rob of [...ss.blobs, ...ss.corners]) {
+            const dist = Math.hypot(cx - rob.cx, cy - rob.cy);
 
-            if (dist - blob.radius < maxRadius) {
-                maxRadius = dist - blob.radius;
-                other = blob;
+            if (dist - rob.radius < maxRadius) {
+                maxRadius = dist - rob.radius;
+                other = rob;
             }
         }
 

@@ -88,6 +88,6 @@
 
     .dead {
         background: none;
-        border: 1px solid #ff0055;
+        border: 2px solid #ff0055;
     }
 </style>

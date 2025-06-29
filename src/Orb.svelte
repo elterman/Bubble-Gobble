@@ -34,7 +34,6 @@
             };
 
             const hitEdge = () => {
-                const { playground } = ss;
                 const x = orb.cx + PAD;
                 const y = orb.cy + PAD;
 
@@ -42,7 +41,7 @@
                     return 4;
                 }
 
-                if (x + radius >= playground.width) {
+                if (x + radius >= ss.playground.width) {
                     return 2;
                 }
 
@@ -50,30 +49,11 @@
                     return 1;
                 }
 
-                if (y + radius >= playground.height) {
+                if (y + radius >= ss.playground.height) {
                     return 3;
                 }
 
                 return 0;
-            };
-
-            const hitCorner = () => {
-                const corners = [
-                    { cx: -PAD, cy: -PAD, radius: CORNER_RADIUS },
-                    { cx: ss.playground.width - PAD, cy: -PAD, radius: CORNER_RADIUS },
-                    { cx: ss.playground.width - PAD, cy: ss.playground.height - PAD, radius: CORNER_RADIUS },
-                    { cx: -PAD, cy: ss.playground.height - PAD, radius: CORNER_RADIUS },
-                ];
-
-                for (let i = 0; i < corners.length; i++) {
-                    const corner = corners[i];
-
-                    if (overlap(orb, corner)) {
-                        return corner;
-                    }
-                }
-
-                return null;
             };
 
             const dx = Math.cos(-deg * (Math.PI / 180)) * 2;
@@ -96,7 +76,7 @@
                 return;
             }
 
-            const corner = hitCorner();
+            const corner = ss.corners.find(corner => overlap(orb, corner));
 
             // bounce off the corner?
             if (corner && !justBounced({ corner })) {
