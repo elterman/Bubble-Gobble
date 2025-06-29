@@ -92,7 +92,7 @@
     }
 
     @font-face {
-        font-family: 'Roboto Mono';
-        src: url('$lib/fonts/RobotoMono-Regular.ttf');
+        font-family: 'Jelly Belly';
+        src: url('$lib/fonts/JellyBellyFont-Regular.ttf');
     }
 </style>
