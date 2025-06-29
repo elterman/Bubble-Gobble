@@ -4,4 +4,5 @@ export const ss = $state({
     totalArea: 0,
     solidArea: 0,
     deadArea: 0,
+    percent: 0,
 });

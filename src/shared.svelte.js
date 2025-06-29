@@ -2,6 +2,7 @@ import { random } from 'lodash-es';
 import { PAD } from './const';
 import { ss } from './state.svelte';
 import { blobId, clientRect } from './utils';
+import { _sound } from './sound.svelte';
 
 export const log = (value) => console.log($state.snapshot(value));
 
@@ -29,6 +30,8 @@ const onClear = () => {
     ss.blobs = [];
     ss.orbs = [];
     ss.started = false;
+    ss.solidArea = 0;
+    ss.deadArea = 0;
 };
 
 export const freezeBlob = (index, solid = true) => {
@@ -42,9 +45,14 @@ export const freezeBlob = (index, solid = true) => {
     ss.blobs.push({ cx, cy, radius, solid });
 
     const area = radius * radius * Math.PI;
+    const prev = percent();
 
     if (solid) {
         ss.solidArea += area;
+
+        if (prev < 50 && percent() >= 50) {
+            _sound.play('won', { rate: 2 });
+        }
     } else {
         ss.deadArea += area;
     }
@@ -110,3 +118,5 @@ export const onPointerDown = (e) => {
     const blob = { cx, cy, maxRadius, other };
     ss.blobs.push(blob);
 };
+
+export const percent = () => Math.floor((ss.solidArea / ss.totalArea) * 100);

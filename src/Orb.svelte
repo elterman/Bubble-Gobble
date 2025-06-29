@@ -1,5 +1,5 @@
 <script>
-    import { CORNER_RADIUS, PAD } from './const';
+    import { PAD } from './const';
     import { freezeBlob } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, bounceAngle, clientRect, overlap, post, sameBlob } from './utils';

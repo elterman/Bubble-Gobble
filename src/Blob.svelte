@@ -79,6 +79,7 @@
         background: linear-gradient(135deg, #8b6493, #70538a);
         box-sizing: border-box;
         width: 100%;
+        filter: drop-shadow(0 0 calc(10%) red);
     }
 
     .solid {

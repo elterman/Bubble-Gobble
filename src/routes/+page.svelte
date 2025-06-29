@@ -71,9 +71,9 @@
         overflow: hidden;
         touch-action: manipulation;
         outline: none !important;
-        background: #282828;
-        /* background-image: url('$lib/images/Pattern.webp');
-        background-size: 1000px; */
+        background: #202020;
+        background-image: url('$lib/images/Pattern.webp');
+        /* background-size: 200px; */
     }
 
     .vignette {

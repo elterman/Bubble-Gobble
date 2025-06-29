@@ -34,9 +34,10 @@
 
 <div class="playground" style="padding: {PAD}px">
     <div class="mouse">
-        {`blobs = ${ss.blobs.length} • orbs = ${ss.orbs.length} • dead = ${Math.round((ss.deadArea / ss.totalArea) * 100)}% • claimed = ${Math.round((ss.solidArea / ss.totalArea) * 100)}%`}
+        {`orbs = ${ss.orbs.length} • dead = ${Math.round((ss.deadArea / ss.totalArea) * 100)}%`}
     </div>
     <div class="clickable" onpointerdown={onPointerDown} onpointermove={onPointerMove} style="cursor: {cursor}"></div>
+    <div class="level">10</div>
     {#each ss.blobs as blob (`${blob.cx}-${blob.cy}-${blob.radius || 0}`)}
         <Blob {blob} />
     {/each}
@@ -63,14 +64,19 @@
         /* border: 1px solid #ffffff80; */
     }
 
+    .level {
+        grid-area: 1/1;
+        place-self: center;
+        color: #ffffff08;
+        font-family: Roboto Condensed;
+        font-size: 25dvh;
+    }
+
     .mouse {
         grid-area: 1/1;
-        place-self: end;
-        color: white;
-        margin: 10px;
+        place-self: end center;
+        color: #ffffff40;
         font-family: Roboto Condensed;
-        transform: translate(20px, 28px);
-        font-size: 14px;
         z-index: 5;
     }
 </style>

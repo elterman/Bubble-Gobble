@@ -1,11 +1,13 @@
 <script>
     import { PAD } from './const';
+    import Percent from './Percent.svelte';
     import Playground from './Playground.svelte';
 </script>
 
 <div class="game-page">
     <Playground/>
     <div class="box" style="padding: {PAD}px"></div>
+    <Percent/>
 </div>
 
 <style>
