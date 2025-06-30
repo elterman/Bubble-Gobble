@@ -5,10 +5,12 @@
     import SoundTool from './Sound Tool.svelte';
     import { ss } from './state.svelte';
     import StatsTool from './Stats Tool.svelte';
+    import Stats from './Stats.svelte';
 </script>
 
 {#if ss.tools}
     <div class="toolbar" transition:fade>
+        <Stats/>
         <StatsTool />
         <RestartTool />
         <SoundTool />
@@ -29,5 +31,6 @@
         backdrop-filter: blur(15px);
         border-radius: 3vh;
         padding: 1px 10px;
+        align-items: center;
     }
 </style>
