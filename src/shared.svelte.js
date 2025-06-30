@@ -6,7 +6,7 @@ import { _sound } from './sound.svelte';
 
 export const log = (value) => console.log($state.snapshot(value));
 
-const onStart = (e) => {
+export const onStart = () => {
     if (ss.started) {
         return;
     }
@@ -18,7 +18,7 @@ const onStart = (e) => {
     ss.deadArea = 0;
 
     ss.orbs = [
-        { cx: Math.round(e.offsetX), cy: Math.round(e.offsetY), radius: 7, deg: random(0, 360), },
+        { cx: Math.round(ss.playground.width / 2), cy: Math.round(ss.playground.height / 2), radius: 7, deg: random(0, 360), },
     ];
 
     ss.timer = setInterval(() => (ss.ticks += 1), 1);

@@ -6,9 +6,9 @@
     import { onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
     import { clientRect, range } from './utils';
+    import { fade } from 'svelte/transition';
 
     const mouse = $state({ x: 0, y: 0 });
-    let cursor = $state('crosshair');
 
     onMount(() => {
         ss.playground = clientRect('.playground');
@@ -36,8 +36,11 @@
     <div class="mouse">
         {`orbs = ${ss.orbs.length} • dead = ${Math.round((ss.deadArea / ss.totalArea) * 100)}%`}
     </div>
-    <div class="clickable" onpointerdown={onPointerDown} onpointermove={onPointerMove} style="cursor: {cursor}"></div>
-    <div class="level">{ss.orbs.length}</div>
+    <div class="clickable {ss.help ? 'hidden' : ''}" onpointerdown={onPointerDown} onpointermove={onPointerMove}>
+        {#if ss.orbs.length}
+            <div class="level {ss.help ? 'hidden' : ''}" transition:fade>{ss.orbs.length}</div>
+        {/if}
+    </div>
     {#each ss.blobs as blob (`${blob.cx}-${blob.cy}-${blob.radius || 0}`)}
         <Blob {blob} />
     {/each}
@@ -73,7 +76,13 @@
         font-size: 25dvh;
     }
 
+    .hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
     .mouse {
+        display: none;
         grid-area: 1/1;
         place-self: end center;
         color: #ffffff40;
