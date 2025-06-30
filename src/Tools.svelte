@@ -1,23 +1,24 @@
 <script>
     import Cog from '$lib/images/Settings.webp';
     import { ss } from './state.svelte';
+    import ToolButton from './Tool Button.svelte';
 
-    const onPointerDown = () => {
-        ss.help = true;
+    const onClick = () => {
+        ss.tools = !ss.tools;
+        ss.help = false;
     };
 </script>
 
-<div class="gear" onpointerdown={onPointerDown}>
-    <img src={Cog} alt='' width={80}/>
+<div class="tools">
+    <ToolButton src={Cog} width={80} {onClick} />
 </div>
 
 <style>
-    .gear {
+    .tools {
         grid-area: 1/1;
         place-self: end start;
         display: grid;
         margin: 0 0 -1px -1px;
-        cursor: pointer;
         z-index: 2;
         clip-path: circle(50%);
         /* background: #fff7; */

@@ -1,12 +1,13 @@
 <script>
     import { PAD } from './const';
     import Corner from './Corner.svelte';
-    import Gear from './Gear.svelte';
     import Help from './Help.svelte';
     import Next from './Next.svelte';
     import Percent from './Percent.svelte';
     import Playground from './Playground.svelte';
     import Score from './Score.svelte';
+    import Toolbar from './Toolbar.svelte';
+    import Tools from './Tools.svelte';
 </script>
 
 <div class="game-page">
@@ -18,7 +19,8 @@
     <Corner pos="sw" />
     <Percent />
     <Next />
-    <Gear />
+    <Tools />
+    <Toolbar/>
     <Score />
     <Help />
 </div>

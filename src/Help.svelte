@@ -10,14 +10,16 @@
     const click = tapOrClick();
 
     const content = `
-    <span>Inflate greedy blobs to claim space.</span>
-    <span>Fill at least 50% of the playfield to unlock the next level.</span>
-    ${ul}
-    ${li}${click} anywhere to start growing a bubble.</li>
-    ${li}${click} again to freeze it in place.</li>
-    ${li}Avoid the walls, flying balls, and existing bubbles.</li>
-    ${li}Collisions turn inflating bubbles into permanent dead zones.</li>
-    </ul>`;
+        <span>Inflate greedy blobs to claim space.</span>
+        <span>Fill at least 50% of the playfield to unlock the next level.</span>
+        ${ul}
+        ${li}${click} anywhere to start growing a bubble.</li>
+        ${li}${click} again to freeze it in place.</li>
+        ${li}Avoid the walls, flying balls, and existing bubbles.</li>
+        ${li}Collisions turn inflating bubbles into permanent dead zones.</li>
+        </ul>`;
+
+    const challenge = '<span>New challenge: when two bubbles collide, both turn into a dead zone.</span>';
 
     const onClick = () => {
         delete ss.help;
@@ -61,8 +63,13 @@
             <span class="orange">GOBBLE</span>
         </div>
         <div class="content" tabindex="-1">
-            <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-            {@html content}
+            {#if ss.help === 'challenge'}
+                <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                {@html challenge}
+            {:else}
+                <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                {@html content}
+            {/if}
         </div>
         <div class="buttons">
             <PromptButton op={{ label: ss.orbs.length ? 'RESUME' : 'PLAY', onClick }} />
@@ -80,9 +87,9 @@
         box-sizing: border-box;
         width: 550px;
         gap: 50px;
-        background: #00000040;
         z-index: 3;
         padding: calc(min(40px, 8%)) calc(min(40px, 8%)) calc(min(40px, 8%)) calc(min(50px, 10%));
+        background: #00000040;
         backdrop-filter: blur(15px);
         border-radius: 50px;
     }
