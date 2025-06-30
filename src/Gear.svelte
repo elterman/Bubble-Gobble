@@ -1,8 +1,13 @@
 <script>
     import Cog from '$lib/images/Settings.webp';
+    import { ss } from './state.svelte';
+
+    const onPointerDown = () => {
+        ss.help = true;
+    };
 </script>
 
-<div class="gear">
+<div class="gear" onpointerdown={onPointerDown}>
     <img src={Cog} alt='' width={80}/>
 </div>
 

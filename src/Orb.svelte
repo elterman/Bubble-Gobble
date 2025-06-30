@@ -76,7 +76,7 @@
                 return;
             }
 
-            const corner = ss.corners.find(corner => overlap(orb, corner));
+            const corner = ss.corners.find((corner) => overlap(orb, corner));
 
             // bounce off the corner?
             if (corner && !justBounced({ corner })) {
@@ -123,9 +123,11 @@
     });
 </script>
 
-<div class="orb-outer" {style}>
-    <div class="orb"></div>
-</div>
+{#if !ss.next}
+    <div class="orb-outer" {style}>
+        <div class="orb"></div>
+    </div>
+{/if}
 
 <style>
     .orb-outer {

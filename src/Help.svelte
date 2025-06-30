@@ -13,7 +13,10 @@
 
     const onClick = () => {
         delete ss.help;
-        onStart();
+
+        if (!ss.orbs.length) {
+            onStart();
+        }
     };
 </script>
 
@@ -28,7 +31,7 @@
             {@html content}
         </div>
         <div class="buttons">
-            <PromptButton op={{ label: 'PLAY', onClick }} />
+            <PromptButton op={{ label: ss.orbs.length ? 'RESUME' : 'PLAY', onClick }} />
         </div>
     </div>
 {/if}
@@ -41,7 +44,11 @@
         justify-content: center;
         width: calc(min(80dvw, 500px));
         gap: 50px;
-        /* background: #fff2; */
+        background: #00000040;
+        z-index: 3;
+        padding: 40px 40px 40px 50px;
+        backdrop-filter: blur(20px);
+        border-radius: 50px;
     }
 
     .title {

@@ -36,9 +36,11 @@
     <div class="mouse">
         {`orbs = ${ss.orbs.length} • dead = ${Math.round((ss.deadArea / ss.totalArea) * 100)}%`}
     </div>
-    <div class="clickable {ss.help ? 'hidden' : ''}" onpointerdown={onPointerDown} onpointermove={onPointerMove}>
+    <div class="clickable {ss.help ? 'disabled' : ''}" onpointerdown={onPointerDown} onpointermove={onPointerMove}>
         {#if ss.orbs.length}
-            <div class="level {ss.help ? 'hidden' : ''}" transition:fade>{ss.orbs.length}</div>
+            {#key ss.orbs.length}
+                <div class="level" transition:fade>{ss.orbs.length}</div>
+            {/key}
         {/if}
     </div>
     {#each ss.blobs as blob (`${blob.cx}-${blob.cy}-${blob.radius || 0}`)}
@@ -77,8 +79,7 @@
         pointer-events: none;
     }
 
-    .hidden {
-        opacity: 0;
+    .disabled {
         pointer-events: none;
     }
 

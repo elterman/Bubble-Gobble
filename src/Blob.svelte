@@ -1,6 +1,7 @@
 <script>
     import Blue from '$lib/images/Bubble Blue.webp';
     import Orange from '$lib/images/Bubble Orange.webp';
+    import { fade } from 'svelte/transition';
     import { MIN_BLOB_RADIUS, PAD } from './const';
     import { freezeBlob, onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
@@ -48,20 +49,22 @@
     });
 </script>
 
-<div
-    id={blobId(cx, cy)}
-    bind:this={_this}
-    class="blob-outer"
-    style="width: {width}px; padding: {PAD}px; transform: {transform}; transition: {transition};"
-    onpointerdown={onPointerDown}>
-    {#if solid}
-        <img src={Blue} alt="" class="blob solid"/>
-    {:else if radius}
-        <div class="blob dead"></div>
-    {:else}
-        <img src={Orange} alt="" class="blob"/>
-    {/if}
-</div>
+{#if !ss.next}
+    <div
+        id={blobId(cx, cy)}
+        bind:this={_this}
+        class="blob-outer"
+        style="width: {width}px; padding: {PAD}px; transform: {transform}; transition: {transition};"
+        onpointerdown={onPointerDown} transition:fade>
+        {#if solid}
+            <img src={Blue} alt="" class="blob solid" />
+        {:else if radius}
+            <div class="blob dead"></div>
+        {:else}
+            <img src={Orange} alt="" class="blob" />
+        {/if}
+    </div>
+{/if}
 
 <style>
     .blob-outer {
