@@ -9,7 +9,7 @@ export const log = (value) => console.log($state.snapshot(value));
 const createOrbs = () => {
     const count = ss.orbs.length + 1;
     ss.orbs = [];
-    
+
     const width = ss.playground.width - PAD * 2;
     const height = ss.playground.height - PAD * 2;
 
@@ -20,6 +20,8 @@ const createOrbs = () => {
 };
 
 export const onStart = () => {
+    _sound.play('dice');
+
     delete ss.blowing;
     ss.ticks = 0;
     ss.blobs = [];
@@ -49,12 +51,16 @@ export const freezeBlob = (index, solid = true) => {
         ss.solidArea += area;
 
         const pct = percent();
-        ss.score += pct - prev;
+        const gain = pct - prev;
+
+        _sound.play(gain < 5 ? 'coin1' : gain < 15 ? 'coin2' : 'coins');
+        ss.score += gain;
 
         if (prev < 50 && pct >= 50) {
             _sound.play('won', { rate: 2 });
         }
     } else {
+        _sound.play('lost', { rate: 3 });
         ss.deadArea += area;
     }
 };
