@@ -9,7 +9,7 @@
     };
 </script>
 
-<div class="tools">
+<div class="tools {ss.tools ? 'spin' : ''}">
     <ToolButton src={Cog} width={80} {onClick} />
 </div>
 
@@ -19,8 +19,13 @@
         place-self: end start;
         display: grid;
         margin: 0 0 -1px -1px;
-        z-index: 2;
+        z-index: 4;
         clip-path: circle(50%);
         /* background: #fff7; */
+        transition: transform 0.3s;
+    }
+
+    .spin {
+        transform: rotate(180deg);
     }
 </style>

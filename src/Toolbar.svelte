@@ -1,5 +1,5 @@
 <script>
-    import { fade } from 'svelte/transition';
+    import { fade, fly } from 'svelte/transition';
     import HelpTool from './Help Tool.svelte';
     import RestartTool from './Restart Tool.svelte';
     import SoundTool from './Sound Tool.svelte';
@@ -9,8 +9,8 @@
 </script>
 
 {#if ss.tools}
-    <div class="toolbar" transition:fade>
-        <Stats/>
+    <div class="toolbar" transition:fly={{ x: -300 }}>
+        <Stats />
         <StatsTool />
         <RestartTool />
         <SoundTool />
