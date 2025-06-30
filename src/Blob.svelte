@@ -14,7 +14,7 @@
     let y = $derived(cy - rad);
     const transform = $derived(`translate(${x}px, ${y}px)`);
     let width = $derived(rad * 2);
-    const transition = $derived(radius ? 'initial' : `${(maxRadius / 100)}s linear`);
+    const transition = $derived(radius ? 'initial' : `${maxRadius / 100}s linear`);
     let _this = $state(null);
 
     $effect(() => {
@@ -36,6 +36,18 @@
         const onTransitionEnd = () => {
             if (ss.blowing) {
                 freezeBlob(ss.blobs.length - 1, false);
+
+                if (ss.orbs > 5) {
+                    const other = blob.other;
+
+                    if (other) {
+                        delete other.solid;
+
+                        const area = other.radius * other.radius * Math.PI;
+                        ss.solidArea = Math.max(ss.solidArea - area, 0);
+                        ss.deadArea += area;
+                    }
+                }
             }
         };
 
@@ -55,7 +67,8 @@
         bind:this={_this}
         class="blob-outer"
         style="width: {width}px; padding: {PAD}px; transform: {transform}; transition: {transition};"
-        onpointerdown={onPointerDown} transition:fade>
+        onpointerdown={onPointerDown}
+        transition:fade>
         {#if solid}
             <img src={Blue} alt="" class="blob solid" />
         {:else if radius}

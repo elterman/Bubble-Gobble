@@ -44,7 +44,7 @@ export const freezeBlob = (index, solid = true) => {
     const radius = r.width / 2 - PAD;
     ss.blobs.push({ cx, cy, radius, solid });
 
-    const area = radius * radius * Math.PI;
+    let area = radius * radius * Math.PI;
     const prev = percent();
 
     if (solid) {

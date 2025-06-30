@@ -5,12 +5,12 @@
     import { ss } from './state.svelte';
     import { tapOrClick, windowSize } from './utils';
 
-    const ul = "<ul style='margin: 15px 0 0 0;'>";
-    const li = "<li style='margin: 5px 0 0 -20px;'>";
+    const ul = '<ul style="margin: 15px 0 0 0;">';
+    const li = '<li style="margin: 5px 0 0 -20px;">';
     const click = tapOrClick();
 
     const content = `
-    <span style='margin-right: 10px;'>Inflate greedy blobs to claim space.</span>
+    <span>Inflate greedy blobs to claim space.</span>
     <span>Fill at least 50% of the playfield to unlock the next level.</span>
     ${ul}
     ${li}${click} anywhere to start growing a bubble.</li>
