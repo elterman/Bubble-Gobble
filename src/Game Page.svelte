@@ -5,6 +5,7 @@
     import Next from './Next.svelte';
     import Percent from './Percent.svelte';
     import Playground from './Playground.svelte';
+    import Prompt from './Prompt.svelte';
     import Score from './Score.svelte';
     import Toolbar from './Toolbar.svelte';
     import Tools from './Tools.svelte';
@@ -23,6 +24,7 @@
     <Toolbar/>
     <Score />
     <Help />
+    <Prompt/>
 </div>
 
 <style>

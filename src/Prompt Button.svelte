@@ -35,7 +35,7 @@
     style={`${op.style}; ${style}`}
     onpointerdown={() => (scale = 0.8)}>
     {#if x}
-        <img src={imgX} alt="X" width={13} />
+        <img src={imgX} alt="X" width={18} />
     {:else}
         {op.label}
     {/if}
@@ -50,7 +50,7 @@
         padding: 0px 20px 3px 20px;
         font-family: Jelly Belly;
         font-size: 32px;
-        color: #000000b0;
+        color: #000;
         opacity: 0.8;
         letter-spacing: 0.07em;
     }

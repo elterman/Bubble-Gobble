@@ -1,5 +1,5 @@
 <script>
-    import { fade, fly } from 'svelte/transition';
+    import { fly } from 'svelte/transition';
     import HelpTool from './Help Tool.svelte';
     import RestartTool from './Restart Tool.svelte';
     import SoundTool from './Sound Tool.svelte';

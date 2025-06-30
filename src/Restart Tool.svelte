@@ -1,10 +1,18 @@
 <script>
-    import ToolButton from './Tool Button.svelte';
     import Restart from '$lib/images/Restart.webp';
-    import { ss } from './state.svelte';
+    import { PROMPT_START_OVER } from './const';
+    import { _sound } from './sound.svelte';
+    import { _prompt } from './state.svelte';
+    import ToolButton from './Tool Button.svelte';
 
     const onClick = () => {
-        //
+        if (_prompt.id == PROMPT_START_OVER) {
+            _prompt.opacity = 0;
+            return;
+        }
+
+        _sound.play('plop');
+        _prompt.set(PROMPT_START_OVER);
     };
 </script>
 

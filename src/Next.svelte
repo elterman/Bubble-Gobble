@@ -1,7 +1,7 @@
 <script>
     import Arrow from '$lib/images/Next.webp';
     import { onStart, percent } from './shared.svelte';
-    import { ss } from './state.svelte';
+    import { _prompt, ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
     import { post } from './utils';
 
@@ -16,13 +16,14 @@
 
             if (ss.orbs.length === 6) {
                 ss.help = 'challenge';
+                _prompt.opacity = 0;
             }
         }, 500);
     };
 </script>
 
 <div class="next">
-    <ToolButton src={Arrow} {disabled} width={70} onClick={onClick} />
+    <ToolButton src={Arrow} {disabled} width={70} {onClick} />
 </div>
 
 <style>
