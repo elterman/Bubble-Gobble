@@ -52,7 +52,7 @@
         font-size: 32px;
         color: #000000b0;
         opacity: 0.8;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.07em;
     }
 
     .button:hover {
