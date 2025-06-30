@@ -21,7 +21,7 @@
 </script>
 
 {#if ss.help}
-    <div class="help" transition:fade={{ duration: 200 }}>
+    <div class="help {ss.orbs.length ? '' : 'initial'}" transition:fade={{ duration: 200 }}>
         <div class="title">
             <span class="blue">BUBBLE</span>
             <span class="orange">GOBBLE</span>
@@ -49,6 +49,11 @@
         padding: 40px 40px 40px 50px;
         backdrop-filter: blur(15px);
         border-radius: 50px;
+    }
+
+    .initial {
+        background: none;
+        backdrop-filter: none;
     }
 
     .title {
