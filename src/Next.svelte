@@ -1,11 +1,15 @@
 <script>
     import Arrow from '$lib/images/Next.webp';
-    import { percent } from './shared.svelte';
+    import { onStart, percent } from './shared.svelte';
 
     const disabled = $derived(percent() < 50);
+
+    const onPointerDown = () => {
+        onStart();
+    };
 </script>
 
-<div class="next {disabled ? 'disabled' : ''}">
+<div class="next {disabled ? 'disabled' : ''}" onpointerdown={onPointerDown}>
     <img src={Arrow} alt='' width={70}/>
 </div>
 

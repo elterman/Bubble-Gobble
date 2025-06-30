@@ -10,7 +10,7 @@
     const rad = $derived(radius + PAD);
     const width = $derived(rad * 2);
     const style = $derived(`transform: translate(${cx - rad}px, ${cy - rad}px); width: ${width}px; padding: ${PAD}px;`);
-    let ticks = $state(0);
+    let ticks = $derived(orb.ticks);
 
     $effect(() => {
         if (ss.ticks > ticks) {

@@ -1,37 +1,35 @@
 import { random } from 'lodash-es';
 import { PAD } from './const';
+import { _sound } from './sound.svelte';
 import { ss } from './state.svelte';
 import { blobId, clientRect } from './utils';
-import { _sound } from './sound.svelte';
 
 export const log = (value) => console.log($state.snapshot(value));
 
-export const onStart = () => {
-    if (ss.started) {
-        return;
-    }
+const createOrbs = () => {
+    const count = ss.orbs.length + 1;
+    ss.orbs = [];
+    
+    const width = ss.playground.width - PAD * 2;
+    const height = ss.playground.height - PAD * 2;
 
-    ss.started = true;
+    for (let i = 0; i < count; i++) {
+        const orb = { cx: random(width), cy: random(height), radius: 7, deg: random(0, 360), ticks: 0 };
+        ss.orbs.push(orb);
+    }
+};
+
+export const onStart = () => {
+    delete ss.blowing;
     ss.ticks = 0;
     ss.blobs = [];
     ss.solidArea = 0;
     ss.deadArea = 0;
 
-    ss.orbs = [
-        { cx: Math.round(ss.playground.width / 2), cy: Math.round(ss.playground.height / 2), radius: 7, deg: random(0, 360), },
-    ];
+    createOrbs();
 
-    ss.timer = setInterval(() => (ss.ticks += 1), 1);
-};
-
-const onClear = () => {
     clearInterval(ss.timer);
-    delete ss.timer;
-    ss.blobs = [];
-    ss.orbs = [];
-    ss.started = false;
-    ss.solidArea = 0;
-    ss.deadArea = 0;
+    ss.timer = setInterval(() => (ss.ticks += 1), 1);
 };
 
 export const freezeBlob = (index, solid = true) => {
@@ -62,31 +60,6 @@ export const freezeBlob = (index, solid = true) => {
 };
 
 export const onPointerDown = (e) => {
-    if (e.ctrlKey) {
-        onStart(e);
-        return;
-    }
-
-    if (!ss.started) {
-        return;
-    }
-
-    if (e.shiftKey) {
-        onClear();
-        return;
-    }
-
-    if (e.altKey) {
-        ss.orbs.push({
-            cx: Math.round(e.offsetX),
-            cy: Math.round(e.offsetY),
-            radius: 7,
-            deg: random(0, 360),
-        });
-
-        return;
-    }
-
     if (ss.blowing && ss.blobs.length > 0) {
         freezeBlob(ss.blobs.length - 1);
         return;

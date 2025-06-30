@@ -74,6 +74,7 @@
         opacity: 0.08;
         font-family: Roboto Condensed;
         font-size: 25dvh;
+        pointer-events: none;
     }
 
     .hidden {
