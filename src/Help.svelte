@@ -1,15 +1,23 @@
 <script>
     import { fade } from 'svelte/transition';
     import PromptButton from './Prompt Button.svelte';
-    import { scrollClass, tapOrClick } from './utils';
+    import { scrollClass, tapOrClick, windowSize } from './utils';
     import { ss } from './state.svelte';
     import { onStart } from './shared.svelte';
 
     // const hi = '<span style=\'color: #65dbdc;\'>';
     const ul = '<ul style=\'margin: 15px 0 0 0;\'>';
     const li = '<li style=\'margin: 5px 0 0 -20px;\'>';
+    const click = tapOrClick();
 
-    const content = `<span style='margin-right: 10px;'>Fill at least 50% of the available space with bubbles to progress to the next level.</span>${ul}${li}${tapOrClick()} anywhere to start growing a bubble.</li>${li}${tapOrClick()} again to freeze it in place.</li>${li}Avoid the walls, flying balls, and existing bubbles.</li>${li}Collisions turn inflating bubbles into permenent dead zones.</li></ul>`;
+    const content = `
+    <span style='margin-right: 10px;'>Fill at least 50% of the available space with bubbles to unlock the next level.</span>
+    ${ul}
+    ${li}${click} anywhere to start growing a bubble.</li>
+    ${li}${click} again to freeze it in place.</li>
+    ${li}Avoid the walls, flying balls, and existing bubbles.</li>
+    ${li}Collisions turn inflating bubbles into permenent dead zones.</li>
+    </ul>`;
 
     const onClick = () => {
         delete ss.help;
@@ -18,10 +26,28 @@
             onStart();
         }
     };
+
+    let scale = $state(1);
+
+    $effect(() => {
+        const { x: wx, y: wy } = windowSize();
+        let scaleX = 1;
+        let scaleY = 1;
+
+        if (wx < 600) {
+            scaleX = wx / 600;
+        }
+
+        if (wy < 800) {
+            scaleY = wy / 800;
+        }
+
+        scale = Math.min(scaleX, scaleY);
+    });
 </script>
 
 {#if ss.help}
-    <div class="help {ss.orbs.length ? '' : 'initial'}" transition:fade={{ duration: 200 }}>
+    <div class="help {ss.orbs.length ? '' : 'initial'}" style="transform: scale({scale});" transition:fade={{ duration: 200 }}>
         <div class="title">
             <span class="blue">BUBBLE</span>
             <span class="orange">GOBBLE</span>
@@ -42,7 +68,7 @@
         place-self: center;
         display: grid;
         justify-content: center;
-        width: calc(min(80dvw, 500px));
+        width: 500px;
         gap: 50px;
         background: #00000040;
         z-index: 3;

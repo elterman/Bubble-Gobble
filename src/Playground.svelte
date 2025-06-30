@@ -23,7 +23,8 @@
         ss.totalArea = ss.playground.width * ss.playground.height - Math.PI * Math.pow(CORNER_RADIUS, 2);
 
         const max = Math.max(ss.playground.width, ss.playground.height);
-        ss.speed = NORM_AREA / max;
+        // ss.speed = NORM_AREA / max;
+        ss.speed = 1;
     });
 
     const onPointerMove = (e) => {
