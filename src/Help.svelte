@@ -1,22 +1,22 @@
 <script>
     import { fade } from 'svelte/transition';
     import PromptButton from './Prompt Button.svelte';
-    import { scrollClass, tapOrClick, windowSize } from './utils';
-    import { ss } from './state.svelte';
     import { onStart } from './shared.svelte';
+    import { ss } from './state.svelte';
+    import { tapOrClick, windowSize } from './utils';
 
-    // const hi = '<span style=\'color: #65dbdc;\'>';
-    const ul = '<ul style=\'margin: 15px 0 0 0;\'>';
-    const li = '<li style=\'margin: 5px 0 0 -20px;\'>';
+    const ul = "<ul style='margin: 15px 0 0 0;'>";
+    const li = "<li style='margin: 5px 0 0 -20px;'>";
     const click = tapOrClick();
 
     const content = `
-    <span style='margin-right: 10px;'>Fill at least 50% of the available space with bubbles to unlock the next level.</span>
+    <span style='margin-right: 10px;'>Inflate greedy blobs to claim space.</span>
+    <span>Fill at least 50% of the playfield to unlock the next level.</span>
     ${ul}
     ${li}${click} anywhere to start growing a bubble.</li>
     ${li}${click} again to freeze it in place.</li>
     ${li}Avoid the walls, flying balls, and existing bubbles.</li>
-    ${li}Collisions turn inflating bubbles into permenent dead zones.</li>
+    ${li}Collisions turn inflating bubbles into permanent dead zones.</li>
     </ul>`;
 
     const onClick = () => {
@@ -30,19 +30,27 @@
     let scale = $state(1);
 
     $effect(() => {
-        const { x: wx, y: wy } = windowSize();
-        let scaleX = 1;
-        let scaleY = 1;
+        const onResize = () => {
+            let scx = 1;
+            let scy = 1;
 
-        if (wx < 600) {
-            scaleX = wx / 600;
-        }
+            const { x: w, y: h } = windowSize();
 
-        if (wy < 800) {
-            scaleY = wy / 800;
-        }
+            if (w < 750) {
+                scx = w / 750;
+            }
 
-        scale = Math.min(scaleX, scaleY);
+            if (h < 850) {
+                scy = h / 850;
+            }
+
+            scale = Math.min(scx, scy);
+        };
+
+        onResize();
+
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
     });
 </script>
 
@@ -52,7 +60,7 @@
             <span class="blue">BUBBLE</span>
             <span class="orange">GOBBLE</span>
         </div>
-        <div class="content {scrollClass()}" tabindex="-1">
+        <div class="content" tabindex="-1">
             <!-- eslint-disable-next-line svelte/no-at-html-tags -->
             {@html content}
         </div>
@@ -64,15 +72,17 @@
 
 <style>
     .help {
+        position: absolute;
         grid-area: 1/1;
         place-self: center;
         display: grid;
         justify-content: center;
-        width: 500px;
+        box-sizing: border-box;
+        width: 550px;
         gap: 50px;
         background: #00000040;
         z-index: 3;
-        padding: 40px 40px 40px 50px;
+        padding: calc(min(40px, 8%)) calc(min(40px, 8%)) calc(min(40px, 8%)) calc(min(50px, 10%));
         backdrop-filter: blur(15px);
         border-radius: 50px;
     }
@@ -103,7 +113,7 @@
     .content {
         color: #ffffffa0;
         font-family: Jelly Belly;
-        font-size: 28px;
+        font-size: 26px;
         letter-spacing: 0.05em;
         display: grid;
         align-content: start;

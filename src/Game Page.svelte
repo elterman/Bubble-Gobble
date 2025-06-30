@@ -10,17 +10,17 @@
 </script>
 
 <div class="game-page">
-    <Playground/>
+    <Playground />
     <div class="box" style="padding: {PAD}px"></div>
-    <Corner pos='nw'/>
-    <Corner pos='ne'/>
-    <Corner pos='se'/>
-    <Corner pos='sw'/>
-    <Percent/>
-    <Next/>
-    <Gear/>
-    <Score/>
-    <Help/>
+    <Corner pos="nw" />
+    <Corner pos="ne" />
+    <Corner pos="se" />
+    <Corner pos="sw" />
+    <Percent />
+    <Next />
+    <Gear />
+    <Score />
+    <Help />
 </div>
 
 <style>

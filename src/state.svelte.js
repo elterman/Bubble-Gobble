@@ -5,7 +5,7 @@ export const ss = $state({
     solidArea: 0,
     deadArea: 0,
     score: 0,
-    help: true,
+    help: true
 });
 
 export const _prompt = $state({

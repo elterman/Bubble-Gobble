@@ -60,8 +60,8 @@
             const dx = Math.cos(-deg * (Math.PI / 180)) * 2;
             const dy = Math.sin(-deg * (Math.PI / 180)) * 2;
 
-            ss.orbs[index].cx += dx / ss.speed;
-            ss.orbs[index].cy += dy / ss.speed;
+            ss.orbs[index].cx += dx;
+            ss.orbs[index].cy += dy;
 
             const edge = hitEdge();
 

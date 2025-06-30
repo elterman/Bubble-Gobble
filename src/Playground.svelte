@@ -1,16 +1,16 @@
 <script>
     import { onMount } from 'svelte';
+    import { fade } from 'svelte/transition';
     import Blob from './Blob.svelte';
-    import { CORNER_RADIUS, NORM_AREA, PAD } from './const';
+    import { CORNER_RADIUS, PAD } from './const';
     import Orb from './Orb.svelte';
     import { onPointerDown } from './shared.svelte';
     import { ss } from './state.svelte';
     import { clientRect, range } from './utils';
-    import { fade } from 'svelte/transition';
 
     const mouse = $state({ x: 0, y: 0 });
 
-    onMount(() => {
+    const onResize = () => {
         ss.playground = clientRect('.playground');
 
         ss.corners = [
@@ -21,10 +21,15 @@
         ];
 
         ss.totalArea = ss.playground.width * ss.playground.height - Math.PI * Math.pow(CORNER_RADIUS, 2);
+    };
 
-        const max = Math.max(ss.playground.width, ss.playground.height);
-        // ss.speed = NORM_AREA / max;
-        ss.speed = 1;
+    onMount(() => {
+        onResize();
+    });
+
+    $effect(() => {
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
     });
 
     const onPointerMove = (e) => {

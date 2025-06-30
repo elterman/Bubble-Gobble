@@ -14,7 +14,7 @@
     let y = $derived(cy - rad);
     const transform = $derived(`translate(${x}px, ${y}px)`);
     let width = $derived(rad * 2);
-    const transition = $derived(radius ? 'initial' : `${(maxRadius / 100) * ss.speed}s linear`);
+    const transition = $derived(radius ? 'initial' : `${(maxRadius / 100)}s linear`);
     let _this = $state(null);
 
     $effect(() => {
