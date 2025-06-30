@@ -1,4 +1,5 @@
 <script>
+    import { fade } from 'svelte/transition';
     import { PAD } from './const';
     import { freezeBlob } from './shared.svelte';
     import { ss } from './state.svelte';
@@ -124,7 +125,7 @@
 </script>
 
 {#if !ss.next}
-    <div class="orb-outer" {style}>
+    <div class="orb-outer" {style} transition:fade>
         <div class="orb"></div>
     </div>
 {/if}

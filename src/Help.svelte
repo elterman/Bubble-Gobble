@@ -47,7 +47,7 @@
         background: #00000040;
         z-index: 3;
         padding: 40px 40px 40px 50px;
-        backdrop-filter: blur(20px);
+        backdrop-filter: blur(15px);
         border-radius: 50px;
     }
 
