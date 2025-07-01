@@ -1,8 +1,8 @@
 <script>
     import { PROMPT_RESET_STATS, PROMPT_START_OVER, X } from './const';
     import PromptPanel from './Prompt Panel.svelte';
-    import { onStart } from './shared.svelte';
-    import { _prompt, ss } from './state.svelte';
+    import { isGameOn, onStart, persist } from './shared.svelte';
+    import { _prompt, _stats, ss } from './state.svelte';
     import { post } from './utils';
 
     const label = $derived(_prompt.id);
@@ -23,7 +23,15 @@
     };
 
     const onResetStats = () => {
-        //
+        if (isGameOn()) {
+            _stats.plays = 1;
+            _stats.best = ss.score;
+        } else {
+            _stats.plays = 0;
+            _stats.best = 0;
+        }
+
+        persist();
     };
 
     $effect(() => {

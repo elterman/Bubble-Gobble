@@ -3,7 +3,7 @@
     import Orange from '$lib/images/Bubble Orange.webp';
     import { fade } from 'svelte/transition';
     import { MIN_BLOB_RADIUS, PAD, THRESHOLD1 } from './const';
-    import { freezeBlob, onPointerDown } from './shared.svelte';
+    import { freezeBlob, onPointerDown, percent, updateScore } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, post } from './utils';
 
@@ -43,9 +43,13 @@
                     if (other) {
                         delete other.solid;
 
+                        const prev = percent();
+
                         const area = other.radius * other.radius * Math.PI;
                         ss.solidArea = Math.max(ss.solidArea - area, 0);
                         ss.deadArea += area;
+
+                        updateScore(percent() - prev);
                     }
                 }
             }

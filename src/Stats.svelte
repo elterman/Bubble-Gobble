@@ -6,8 +6,6 @@
 <div class="panel">
     <span class="label">PLAYS</span>
     <span class="value"><NumberFlow value={_stats.plays}/></span>
-    <span class="label">  AVE</span>
-    <span class="value"><NumberFlow value={_stats.ave()}/></span>
     <span class="label">  BEST</span>
     <span class="value"><NumberFlow value={_stats.best}/></span>
 </div>

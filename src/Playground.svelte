@@ -43,7 +43,7 @@
     <div class="clickable {ss.help || _prompt.opacity ? 'disabled' : ''}" onpointerdown={onPointerDown} onpointermove={onPointerMove}>
         {#if ss.orbs.length}
             {#key ss.orbs.length}
-                <div class="level" transition:fade>{ss.orbs.length}</div>
+                <div class="level" transition:fade>{ss.level}</div>
             {/key}
         {/if}
     </div>

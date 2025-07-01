@@ -13,7 +13,7 @@
     $effect(() => {
         const onResize = () => {
             const { x: w } = windowSize();
-            scale = w < 680 ? w / 680 : 1;
+            scale = w < 630 ? w / 630 : 1;
         };
 
         onResize();

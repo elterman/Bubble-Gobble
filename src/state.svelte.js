@@ -22,7 +22,5 @@ export const _prompt = $state({
 
 export const _stats = $state({
     plays: 0,
-    total_score: 0,
     best: 0,
-    ave: () => _stats.plays ? Math.round(_stats.total_score / _stats.plays) : 0,
 });

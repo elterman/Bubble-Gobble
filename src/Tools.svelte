@@ -5,7 +5,7 @@
 
     const onClick = () => {
         ss.tools = !ss.tools;
-        ss.help = false;
+        // ss.help = false;
     };
 </script>
 

@@ -1,5 +1,6 @@
 <script>
-    import { PAD } from './const';
+    import { onMount } from 'svelte';
+    import { APP_STATE, PAD } from './const';
     import Corner from './Corner.svelte';
     import Help from './Help.svelte';
     import Next from './Next.svelte';
@@ -7,8 +8,24 @@
     import Playground from './Playground.svelte';
     import Prompt from './Prompt.svelte';
     import Score from './Score.svelte';
+    import { _stats } from './state.svelte';
     import Toolbar from './Toolbar.svelte';
     import Tools from './Tools.svelte';
+    import { post } from './utils';
+
+    onMount(() => {
+        const loadGame = () => {
+            const json = localStorage.getItem(APP_STATE);
+            const job = JSON.parse(json);
+
+            if (job) {
+                _stats.plays = job.plays;
+                _stats.best = job.best;
+            }
+        };
+
+        post(loadGame);
+    });
 </script>
 
 <div class="game-page">
@@ -21,10 +38,10 @@
     <Percent />
     <Next />
     <Tools />
-    <Toolbar/>
+    <Toolbar />
     <Score />
     <Help />
-    <Prompt/>
+    <Prompt />
 </div>
 
 <style>

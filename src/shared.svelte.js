@@ -1,7 +1,7 @@
 import { random } from 'lodash-es';
-import { PAD } from './const';
+import { APP_STATE, PAD } from './const';
 import { _sound } from './sound.svelte';
-import { ss } from './state.svelte';
+import { _stats, ss } from './state.svelte';
 import { blobId, clientRect } from './utils';
 
 export const log = (value) => console.log($state.snapshot(value));
@@ -54,7 +54,7 @@ export const freezeBlob = (index, solid = true) => {
         const gain = pct - prev;
 
         _sound.play(gain < 5 ? 'coin1' : gain < 15 ? 'coin2' : 'coins');
-        ss.score += gain;
+        updateScore(gain);
 
         if (prev < 50 && pct >= 50) {
             _sound.play('won', { rate: 2 });
@@ -63,7 +63,7 @@ export const freezeBlob = (index, solid = true) => {
         if (!blob.dead) {
             _sound.play('lost', { rate: 3 });
         }
-        
+
         ss.deadArea += area;
     }
 };
@@ -103,6 +103,26 @@ export const onPointerDown = (e) => {
     const { maxRadius, other } = calcMaxRadius(cx, cy);
     const blob = { cx, cy, maxRadius, other };
     ss.blobs.push(blob);
+
+    if (ss.level === 1 && ss.blobs.length === 1) {
+        _stats.plays += 1;
+        persist();
+    }
+};
+
+export const updateScore = (gain) => {
+    ss.score += gain;
+
+    if (ss.score > _stats.best) {
+        _stats.best = ss.score;
+        persist();
+    }
+};
+
+export const persist = () => {
+    localStorage.setItem(APP_STATE, JSON.stringify({..._stats}));
 };
 
 export const percent = () => Math.floor((ss.solidArea / ss.totalArea) * 100);
+
+export const isGameOn = () =>  ss.level > 1 || ss.blobs.length > 0;
