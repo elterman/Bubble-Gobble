@@ -5,3 +5,4 @@ export const PAD = 12;
 export const CORNER_RADIUS = 100;
 export const PROMPT_START_OVER = 'Start over?';
 export const PROMPT_RESET_STATS = 'Reset stats?';
+export const THRESHOLD1 = 5;

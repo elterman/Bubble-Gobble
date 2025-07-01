@@ -17,7 +17,7 @@
 </script>
 
 <div class="restart-tool">
-    <ToolButton src={Restart} width={45} {onClick} disabled={ss.blobs.length === 0 && ss.orbs.length < 2}/>
+    <ToolButton src={Restart} width={45} {onClick} disabled={ss.level === 1 && ss.blobs.length === 0}/>
 </div>
 
 <style>

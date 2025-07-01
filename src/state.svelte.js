@@ -1,5 +1,6 @@
 
 export const ss = $state({
+    level: 1,
     blobs: [],
     orbs: [],
     totalArea: 0,
@@ -20,9 +21,8 @@ export const _prompt = $state({
 });
 
 export const _stats = $state({
-    steps: 0,
     plays: 0,
     total_score: 0,
-    best: null,
+    best: 0,
     ave: () => _stats.plays ? Math.round(_stats.total_score / _stats.plays) : 0,
 });

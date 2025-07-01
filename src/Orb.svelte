@@ -1,9 +1,10 @@
 <script>
     import { fade } from 'svelte/transition';
-    import { PAD } from './const';
+    import { PAD, THRESHOLD1 } from './const';
     import { freezeBlob } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, bounceAngle, clientRect, overlap, post, sameBlob } from './utils';
+    import { _sound } from './sound.svelte';
 
     const { index } = $props();
     const orb = $derived(ss.orbs[index]);
@@ -86,8 +87,10 @@
                 return;
             }
 
+            const bi = ss.blobs.length - 1;
+
             // bounce off the bubble?
-            const bubble = ss.blowing ? ss.blobs[ss.blobs.length - 1] : null;
+            const bubble = ss.blowing ? ss.blobs[bi] : null;
 
             if (bubble && !justBounced(bubble)) {
                 const r = clientRect(`#${blobId(bubble.cx, bubble.cy)}`);
@@ -96,7 +99,14 @@
                 if (Math.hypot(cx - bubble.cx, cy - bubble.cy) < radius + bubbleRadius) {
                     ss.orbs[index].lastBounce = { cx: bubble.cx, cy: bubble.cy };
                     ss.orbs[index].deg = bounceAngle(orb, bubble);
-                    freezeBlob(ss.blobs.length - 1, false);
+
+                    if (ss.level <= THRESHOLD1) {
+                        freezeBlob(bi, false);
+                    } else if (!bubble.dead) {
+                        _sound.play('lost', { rate: 3 });
+                        ss.blobs[bi].dead = true;
+                    }
+
                     return;
                 }
             }

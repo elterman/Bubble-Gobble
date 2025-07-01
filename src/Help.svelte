@@ -19,7 +19,7 @@
         ${li}Collisions turn inflating bubbles into permanent dead zones.</li>
         </ul>`;
 
-    const challenge = `
+    const challenge1 = `
         <span>So far so good! From now on:</span>
         ${ul}
         ${li}When two bubbles collide, both turn into a dead zone.</li>
@@ -68,9 +68,9 @@
             <span class="orange">GOBBLE</span>
         </div>
         <div class="content" tabindex="-1">
-            {#if ss.help === 'challenge'}
+            {#if ss.help === 'challenge1'}
                 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-                {@html challenge}
+                {@html challenge1}
             {:else}
                 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
                 {@html content}

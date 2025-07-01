@@ -24,7 +24,7 @@
 </script>
 
 {#if ss.tools}
-    <div class="toolbar" style="transform: scale({scale});" transition:fly={{ x: -300 }}>
+    <div class="toolbar" style="transform: scale({scale});" transition:fly={{ x: -300, duration: 700 }}>
         <Stats />
         <StatsTool />
         <RestartTool />

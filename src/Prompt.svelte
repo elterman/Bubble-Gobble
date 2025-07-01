@@ -16,6 +16,7 @@
 
             ss.orbs = [];
             ss.score = 0;
+            ss.level = 1;
 
             onStart();
         }, 500);

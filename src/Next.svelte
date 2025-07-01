@@ -1,5 +1,6 @@
 <script>
     import Arrow from '$lib/images/Next.webp';
+    import { THRESHOLD1 } from './const';
     import { onStart, percent } from './shared.svelte';
     import { _prompt, ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
@@ -13,9 +14,10 @@
         post(() => {
             delete ss.next;
             onStart();
+            ss.level += 1;
 
-            if (ss.orbs.length === 6) {
-                ss.help = 'challenge';
+            if (ss.level === THRESHOLD1 + 1) {
+                ss.help = 'challenge1';
                 _prompt.opacity = 0;
             }
         }, 500);

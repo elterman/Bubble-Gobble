@@ -60,14 +60,18 @@ export const freezeBlob = (index, solid = true) => {
             _sound.play('won', { rate: 2 });
         }
     } else {
-        _sound.play('lost', { rate: 3 });
+        if (!blob.dead) {
+            _sound.play('lost', { rate: 3 });
+        }
+        
         ss.deadArea += area;
     }
 };
 
 export const onPointerDown = (e) => {
     if (ss.blowing && ss.blobs.length > 0) {
-        freezeBlob(ss.blobs.length - 1);
+        const bi = ss.blobs.length - 1;
+        freezeBlob(bi, !ss.blobs[bi].dead);
         return;
     }
 

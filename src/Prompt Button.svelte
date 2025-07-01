@@ -52,7 +52,7 @@
         font-size: 32px;
         color: #000;
         opacity: 0.8;
-        letter-spacing: 0.07em;
+        letter-spacing: 0.05em;
         border: 5px solid black;
     }
 
