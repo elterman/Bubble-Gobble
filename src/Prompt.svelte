@@ -1,12 +1,24 @@
 <script>
     import { PROMPT_RESET_STATS, PROMPT_START_OVER, X } from './const';
     import PromptPanel from './Prompt Panel.svelte';
-    import { _prompt } from './state.svelte';
+    import { onStart } from './shared.svelte';
+    import { _prompt, ss } from './state.svelte';
+    import { post } from './utils';
 
     const label = $derived(_prompt.id);
 
     const onStartOver = () => {
-        //
+        ss.next = true;
+
+        post(() => {
+            delete ss.next;
+            delete ss.tools;
+
+            ss.orbs = [];
+            ss.score = 0;
+
+            onStart();
+        }, 500);
     };
 
     const onResetStats = () => {

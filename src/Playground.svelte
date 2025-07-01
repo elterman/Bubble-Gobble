@@ -5,7 +5,7 @@
     import { CORNER_RADIUS, PAD } from './const';
     import Orb from './Orb.svelte';
     import { onPointerDown } from './shared.svelte';
-    import { ss } from './state.svelte';
+    import { _prompt, ss } from './state.svelte';
     import { clientRect, range } from './utils';
 
     const mouse = $state({ x: 0, y: 0 });
@@ -23,9 +23,7 @@
         ss.totalArea = ss.playground.width * ss.playground.height - Math.PI * Math.pow(CORNER_RADIUS, 2);
     };
 
-    onMount(() => {
-        onResize();
-    });
+    onMount(onResize);
 
     $effect(() => {
         window.addEventListener('resize', onResize);
@@ -42,7 +40,7 @@
     <div class="mouse">
         {`orbs = ${ss.orbs.length} • dead = ${Math.round((ss.deadArea / ss.totalArea) * 100)}%`}
     </div>
-    <div class="clickable {ss.help ? 'disabled' : ''}" onpointerdown={onPointerDown} onpointermove={onPointerMove}>
+    <div class="clickable {ss.help || _prompt.opacity ? 'disabled' : ''}" onpointerdown={onPointerDown} onpointermove={onPointerMove}>
         {#if ss.orbs.length}
             {#key ss.orbs.length}
                 <div class="level" transition:fade>{ss.orbs.length}</div>

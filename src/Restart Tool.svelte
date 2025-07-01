@@ -2,7 +2,7 @@
     import Restart from '$lib/images/Restart.webp';
     import { PROMPT_START_OVER } from './const';
     import { _sound } from './sound.svelte';
-    import { _prompt } from './state.svelte';
+    import { _prompt, ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
 
     const onClick = () => {
@@ -17,7 +17,7 @@
 </script>
 
 <div class="restart-tool">
-    <ToolButton src={Restart} width={45} {onClick} />
+    <ToolButton src={Restart} width={45} {onClick} disabled={ss.blobs.length === 0 && ss.orbs.length < 2}/>
 </div>
 
 <style>

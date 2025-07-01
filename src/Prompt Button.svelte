@@ -53,6 +53,7 @@
         color: #000;
         opacity: 0.8;
         letter-spacing: 0.07em;
+        border: 5px solid black;
     }
 
     .button:hover {

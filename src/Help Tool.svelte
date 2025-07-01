@@ -5,7 +5,7 @@
 
     const onClick = () => {
         ss.help = true;
-        ss.tools = false;
+        delete ss.tools;
         _prompt.opacity = 0;
     };
 </script>
