@@ -19,7 +19,12 @@
         ${li}Collisions turn inflating bubbles into permanent dead zones.</li>
         </ul>`;
 
-    const challenge = '<span>New challenge: when two bubbles collide, both turn into a dead zone.</span>';
+    const challenge = `
+        <span>So far so good! From now on:</span>
+        ${ul}
+        ${li}When two bubbles collide, both turn into a dead zone.</li>
+        ${li}When hit by a ball, the bubble turns into a dead zone, but keeps inflating. ${click} to stop the inflation.</li>
+        </ul>`;
 
     const onClick = () => {
         delete ss.help;

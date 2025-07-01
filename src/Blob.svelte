@@ -37,7 +37,7 @@
             if (ss.blowing) {
                 freezeBlob(ss.blobs.length - 1, false);
 
-                if (ss.orbs > 5) {
+                if (ss.orbs.length > 5) {
                     const other = blob.other;
 
                     if (other) {

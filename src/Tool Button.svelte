@@ -2,7 +2,7 @@
     const { src, width, height, disabled, onClick } = $props();
 </script>
 
-<div class="button {disabled ? 'disabled' : ''}" style="width: {width}px; height: {height || width}px;" onpointerdown={onClick}>
+<div class="button no-highlight {disabled ? 'disabled' : ''}" style="width: {width}px; height: {height || width}px;" onpointerdown={onClick}>
     <img {src} alt="" width={width || 'unset'} />
 </div>
 

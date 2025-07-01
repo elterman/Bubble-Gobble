@@ -6,10 +6,25 @@
     import { ss } from './state.svelte';
     import StatsTool from './Stats Tool.svelte';
     import Stats from './Stats.svelte';
+    import { windowSize } from './utils';
+
+    let scale = $state(1);
+
+    $effect(() => {
+        const onResize = () => {
+            const { x: w } = windowSize();
+            scale = w < 680 ? w / 680 : 1;
+        };
+
+        onResize();
+
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+    });
 </script>
 
 {#if ss.tools}
-    <div class="toolbar" transition:fly={{ x: -300 }}>
+    <div class="toolbar" style="transform: scale({scale});" transition:fly={{ x: -300 }}>
         <Stats />
         <StatsTool />
         <RestartTool />
@@ -32,5 +47,6 @@
         border-radius: 3vh;
         padding: 1px 10px;
         align-items: center;
+        transform-origin: 0 50%;
     }
 </style>
