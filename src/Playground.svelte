@@ -73,7 +73,7 @@
         z-index: 1;
         cursor: crosshair;
         box-sizing: border-box;
-        /* border: 1px solid #ffffff80; */
+        border: 1px solid #ffffff80;
     }
 
     .level {

@@ -58,9 +58,29 @@ export const sameBlob = (b1, b2) => b1.cx === b2.cx && b1.cy === b2.cy;
 
 export const blobId = (cx, cy) => `blob-${cx}-${cy}`;
 
-export const overlap = (rob1, rob2) => Math.hypot(rob1.cx - rob2.cx, rob1.cy - rob2.cy) < rob1.radius + rob2.radius;
-
 export const bounceAngle = (orb, other) => {
     const a = Math.atan2(other.cy - orb.cy, other.cx - orb.cx) * (180 / Math.PI);
     return (180 - orb.deg - a * 2) % 360;
+};
+
+export const overlap = (rob1, rob2) => {
+    // const r1 = {
+    //     x1: rob1.cx - rob1.radius,
+    //     x2: rob1.cx + rob1.radius,
+    //     y1: rob1.cy - rob1.radius,
+    //     y2: rob1.cy + rob1.radius,
+    // };
+
+    // const r2 = {
+    //     x1: rob2.cx - rob2.radius,
+    //     x2: rob2.cx + rob2.radius,
+    //     y1: rob2.cy - rob2.radius,
+    //     y2: rob2.cy + rob2.radius,
+    // };
+
+    // if (r1.x1 > r2.x2 || r1.x2 < r1.x1 || r1.y1 > r2.y2 || r1.y2 < r2.y1) {
+    //     return false;
+    // }
+
+    return Math.hypot(rob1.cx - rob2.cx, rob1.cy - rob2.cy) < rob1.radius + rob2.radius;
 };

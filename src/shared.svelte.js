@@ -1,13 +1,14 @@
 import { random } from 'lodash-es';
-import { APP_STATE, PAD, THRESHOLD2 } from './const';
+import { APP_STATE, CORNER_RADIUS, MIN_BLOB_RADIUS, PAD, THRESHOLD2 } from './const';
 import { _sound } from './sound.svelte';
 import { _stats, ss } from './state.svelte';
-import { blobId, clientRect } from './utils';
+import { blobId, clientRect, overlap } from './utils';
 
 export const log = (value) => console.log($state.snapshot(value));
 
 const createOrbs = () => {
     const count = ss.orbs.length + 1;
+    // const count = Math.max(ss.orbs.length, 9) + 1;
     ss.orbs = [];
 
     const width = ss.playground.width - PAD * 2;
@@ -68,22 +69,45 @@ export const freezeBlob = (index, solid = true) => {
     }
 };
 
-export const onPointerDown = (e) => {
-    if (ss.blowing) {
-        const bi = ss.blobs.length - 1;
-        freezeBlob(bi, !ss.blobs[bi].dead);
-        return;
+export const randomBubble = () => {
+    const w = Math.floor(ss.playground.width - PAD * 2);
+    const h = Math.floor(ss.playground.height - PAD * 2);
+
+    let cx;
+    let cy;
+
+    while (true) {
+        cx = random(0, w);
+        cy = random(0, h);
+
+        if (cx < CORNER_RADIUS && cy < CORNER_RADIUS) {
+            continue;
+        }
+
+        if (cx < CORNER_RADIUS && cy > h -CORNER_RADIUS) {
+            continue;
+        }
+
+        if (cx > w - CORNER_RADIUS && cy < CORNER_RADIUS) {
+            continue;
+        }
+
+        if (cx > w - CORNER_RADIUS && cy > h - CORNER_RADIUS) {
+            continue;
+        }
+
+        if (ss.blobs.find(b => overlap(b, {cx, cy, radius: MIN_BLOB_RADIUS}))) {
+            continue;
+        }
+
+        break;
     }
 
-    if (ss.level > THRESHOLD2) {
-        return;
-    }
+    createBubble(Math.round(cx), Math.round(cy));
+};
 
-    if (e.target.className.startsWith('blob')) {
-        return;
-    }
-
-    const calcMaxRadius = (cx, cy) => {
+export const createBubble = (cx, cy) => {
+    const calcMaxRadius = () => {
         const sz = { x: ss.playground.width - 2 * PAD, y: ss.playground.height - 2 * PAD };
         const maxWidth = Math.min(cx, sz.x - cx) + PAD - 1;
         const maxHeight = Math.min(cy, sz.y - cy) + PAD - 1;
@@ -102,11 +126,28 @@ export const onPointerDown = (e) => {
         return { maxRadius, other };
     };
 
-    const cx = Math.round(e.offsetX);
-    const cy = Math.round(e.offsetY);
     const { maxRadius, other } = calcMaxRadius(cx, cy);
     const blob = { cx, cy, maxRadius, other };
     ss.blobs.push(blob);
+};
+
+export const onPointerDown = (e) => {
+    if (ss.blowing) {
+        const bi = ss.blobs.length - 1;
+        freezeBlob(bi, !ss.blobs[bi].dead);
+        return;
+    }
+
+    if (ss.level > THRESHOLD2) {
+        randomBubble();
+        return;
+    }
+
+    if (e.target.className.startsWith('blob')) {
+        return;
+    }
+
+    createBubble(Math.round(e.offsetX), Math.round(e.offsetY));
 
     if (ss.level === 1 && ss.blobs.length === 1) {
         _stats.plays += 1;

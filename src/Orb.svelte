@@ -94,9 +94,8 @@
 
             if (bubble && !justBounced(bubble)) {
                 const r = clientRect(`#${blobId(bubble.cx, bubble.cy)}`);
-                const bubbleRadius = r.width / 2 - PAD;
 
-                if (Math.hypot(cx - bubble.cx, cy - bubble.cy) < radius + bubbleRadius) {
+                if (overlap(orb, { ...bubble, radius: r.width / 2 - PAD })) {
                     ss.orbs[index].lastBounce = { cx: bubble.cx, cy: bubble.cy };
                     ss.orbs[index].deg = bounceAngle(orb, bubble);
 

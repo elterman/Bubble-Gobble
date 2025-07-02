@@ -19,7 +19,8 @@
         width: 224px;
         aspect-ratio: 1;
         border-radius: 50%;
-        /* background: #fff8; */
+        box-sizing: border-box;
+        border: 1px solid #ffffff80;
         z-index: 1;
     }
 
