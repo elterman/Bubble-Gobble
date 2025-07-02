@@ -26,6 +26,13 @@
         ${li}When hit by a ball, the bubble turns into a dead zone, but keeps inflating. ${click} to stop the inflation.</li>
         </ul>`;
 
+    const challenge2 = `
+        <span>The final frontier! From now on:</span>
+        ${ul}
+        ${li}Bubbles pop up by themselves, at random places.</li>
+        ${li}${click} anywhere to stop the inflation.</li>
+        </ul>`;
+
     const onClick = () => {
         delete ss.help;
 
@@ -71,13 +78,16 @@
             {#if ss.help === 'challenge1'}
                 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
                 {@html challenge1}
+            {:else if ss.help === 'challenge2'}
+                <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                {@html challenge2}
             {:else}
                 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
                 {@html content}
             {/if}
         </div>
         <div class="buttons">
-            <PromptButton op={{ label: ss.orbs.length ? 'RESUME' : 'PLAY', onClick }} />
+            <PromptButton op={{ label: ss.orbs.length ? 'CONTINUE' : 'PLAY', onClick }} />
         </div>
     </div>
 {/if}

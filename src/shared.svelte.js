@@ -1,5 +1,5 @@
 import { random } from 'lodash-es';
-import { APP_STATE, PAD } from './const';
+import { APP_STATE, PAD, THRESHOLD2 } from './const';
 import { _sound } from './sound.svelte';
 import { _stats, ss } from './state.svelte';
 import { blobId, clientRect } from './utils';
@@ -69,9 +69,13 @@ export const freezeBlob = (index, solid = true) => {
 };
 
 export const onPointerDown = (e) => {
-    if (ss.blowing && ss.blobs.length > 0) {
+    if (ss.blowing) {
         const bi = ss.blobs.length - 1;
         freezeBlob(bi, !ss.blobs[bi].dead);
+        return;
+    }
+
+    if (ss.level > THRESHOLD2) {
         return;
     }
 
@@ -120,9 +124,9 @@ export const updateScore = (gain) => {
 };
 
 export const persist = () => {
-    localStorage.setItem(APP_STATE, JSON.stringify({..._stats}));
+    localStorage.setItem(APP_STATE, JSON.stringify({ ..._stats }));
 };
 
 export const percent = () => Math.floor((ss.solidArea / ss.totalArea) * 100);
 
-export const isGameOn = () =>  ss.level > 1 || ss.blobs.length > 0;
+export const isGameOn = () => ss.level > 1 || ss.blobs.length > 0;

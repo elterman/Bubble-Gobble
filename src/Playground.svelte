@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
     import Blob from './Blob.svelte';
-    import { CORNER_RADIUS, PAD } from './const';
+    import { CORNER_RADIUS, PAD, THRESHOLD2 } from './const';
     import Orb from './Orb.svelte';
     import { onPointerDown } from './shared.svelte';
     import { _prompt, ss } from './state.svelte';
@@ -40,7 +40,10 @@
     <div class="mouse">
         {`orbs = ${ss.orbs.length} • dead = ${Math.round((ss.deadArea / ss.totalArea) * 100)}%`}
     </div>
-    <div class="clickable {ss.help || _prompt.opacity ? 'disabled' : ''}" onpointerdown={onPointerDown} onpointermove={onPointerMove}>
+    <div
+        class="clickable {ss.help || _prompt.opacity || (ss.level > THRESHOLD2 && !ss.blowing) ? 'disabled' : ''}"
+        onpointerdown={onPointerDown}
+        onpointermove={onPointerMove}>
         {#if ss.orbs.length}
             {#key ss.orbs.length}
                 <div class="level" transition:fade>{ss.level}</div>

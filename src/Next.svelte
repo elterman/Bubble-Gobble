@@ -10,6 +10,8 @@
 
     const onClick = () => {
         ss.next = true;
+        delete ss.help;
+        _prompt.opacity = 0;
 
         post(() => {
             delete ss.next;
@@ -23,6 +25,9 @@
 
             if (ss.level === THRESHOLD1 + 1) {
                 ss.help = 'challenge1';
+                _prompt.opacity = 0;
+            } else if (ss.level === THRESHOLD2 + 1) {
+                ss.help = 'challenge2';
                 _prompt.opacity = 0;
             }
         }, 500);
