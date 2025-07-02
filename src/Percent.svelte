@@ -1,11 +1,12 @@
 <script>
     import NumberFlow from '@number-flow/svelte';
     import { percent } from './shared.svelte';
+    import { PCT } from './const';
 
     const value = $derived(percent());
 </script>
 
-<div class="percent {value < 50 ? '' : 'threshold'}">
+<div class="percent {value < PCT ? '' : 'threshold'}">
     <NumberFlow value={value} />%
 </div>
 

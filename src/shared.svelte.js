@@ -1,13 +1,14 @@
 import { random } from 'lodash-es';
-import { APP_STATE, CORNER_RADIUS, MIN_BLOB_RADIUS, PAD, THRESHOLD2 } from './const';
+import { APP_STATE, CORNER_RADIUS, MIN_BLOB_RADIUS, PAD, PCT, THRESHOLD2 } from './const';
 import { _sound } from './sound.svelte';
 import { _stats, ss } from './state.svelte';
-import { blobId, clientRect, overlap } from './utils';
+import { blobId, clientRect, overlap, post } from './utils';
 
 export const log = (value) => console.log($state.snapshot(value));
 
 const createOrbs = () => {
-    const count = ss.orbs.length + 1;
+    // const count = ss.orbs.length + 1;
+    const count = 1;
     // const count = Math.max(ss.orbs.length, 9) + 1;
     ss.orbs = [];
 
@@ -57,7 +58,7 @@ export const freezeBlob = (index, solid = true) => {
         _sound.play(gain < 5 ? 'coin1' : gain < 15 ? 'coin2' : 'coins');
         updateScore(gain);
 
-        if (prev < 50 && pct >= 50) {
+        if (prev < PCT && pct >= PCT) {
             _sound.play('won', { rate: 2 });
         }
     } else {
@@ -67,6 +68,10 @@ export const freezeBlob = (index, solid = true) => {
 
         ss.deadArea += area;
     }
+
+    // if (ss.level > THRESHOLD2) {
+    //     post(randomBubble, 1000);
+    // }
 };
 
 export const randomBubble = () => {
@@ -76,32 +81,34 @@ export const randomBubble = () => {
     let cx;
     let cy;
 
-    while (true) {
-        cx = random(0, w);
-        cy = random(0, h);
-
+    const badSpot = () => {
         if (cx < CORNER_RADIUS && cy < CORNER_RADIUS) {
-            continue;
+            return true;
         }
 
-        if (cx < CORNER_RADIUS && cy > h -CORNER_RADIUS) {
-            continue;
+        if (cx < CORNER_RADIUS && cy > h - CORNER_RADIUS) {
+            return true;
         }
 
         if (cx > w - CORNER_RADIUS && cy < CORNER_RADIUS) {
-            continue;
+            return true;
         }
 
         if (cx > w - CORNER_RADIUS && cy > h - CORNER_RADIUS) {
-            continue;
+            return true;
         }
 
-        if (ss.blobs.find(b => overlap(b, {cx, cy, radius: MIN_BLOB_RADIUS}))) {
-            continue;
+        if (ss.blobs.find(b => overlap(b, { cx, cy, radius: MIN_BLOB_RADIUS }))) {
+            return true;
         }
 
-        break;
-    }
+        return false;
+    };
+
+    do {
+        cx = random(0, w);
+        cy = random(0, h);
+    } while (badSpot());
 
     createBubble(cx, cy);
 };
@@ -139,6 +146,7 @@ export const onPointerDown = (e) => {
     }
 
     if (ss.level > THRESHOLD2) {
+        randomBubble();
         return;
     }
 

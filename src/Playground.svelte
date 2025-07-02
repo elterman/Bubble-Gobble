@@ -41,7 +41,7 @@
         {`orbs = ${ss.orbs.length} • dead = ${Math.round((ss.deadArea / ss.totalArea) * 100)}%`}
     </div>
     <div
-        class="clickable {ss.help || _prompt.opacity || (ss.level > THRESHOLD2 && !ss.blowing) ? 'disabled' : ''}"
+        class="clickable {ss.help || _prompt.opacity ? 'disabled' : ''}"
         onpointerdown={onPointerDown}
         onpointermove={onPointerMove}>
         {#if ss.orbs.length}
@@ -73,7 +73,7 @@
         z-index: 1;
         cursor: crosshair;
         box-sizing: border-box;
-        border: 1px solid #ffffff80;
+        /* border: 1px solid #ffffff80; */
     }
 
     .level {
@@ -91,7 +91,7 @@
     }
 
     .mouse {
-        display: none;
+        /* display: none; */
         grid-area: 1/1;
         place-self: end center;
         color: #ffffff40;

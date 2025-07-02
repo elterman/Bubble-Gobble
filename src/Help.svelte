@@ -1,9 +1,10 @@
 <script>
     import { fade } from 'svelte/transition';
     import PromptButton from './Prompt Button.svelte';
-    import { onStart } from './shared.svelte';
+    import { onStart, randomBubble } from './shared.svelte';
     import { ss } from './state.svelte';
-    import { tapOrClick, windowSize } from './utils';
+    import { post, tapOrClick, windowSize } from './utils';
+    import { THRESHOLD2 } from './const';
 
     const ul = '<ul style="margin: 15px 0 0 0;">';
     const li = '<li style="margin: 5px 0 0 -20px;">';
@@ -38,7 +39,12 @@
 
         if (!ss.orbs.length) {
             onStart();
+            return;
         }
+
+        // if (ss.level === THRESHOLD2 + 1 && ss.blobs.length === 0) {
+        //     post(randomBubble, 1000);
+        // }
     };
 
     let scale = $state(1);

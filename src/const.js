@@ -10,3 +10,4 @@ export const PROMPT_RESET_STATS = 'Reset stats?';
 // export const THRESHOLD2 = 10;
 export const THRESHOLD1 = 1;
 export const THRESHOLD2 = 2;
+export const PCT = 5;

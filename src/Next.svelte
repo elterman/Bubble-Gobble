@@ -1,17 +1,18 @@
 <script>
     import Arrow from '$lib/images/Next.webp';
-    import { THRESHOLD1, THRESHOLD2 } from './const';
+    import { PCT, THRESHOLD1, THRESHOLD2 } from './const';
     import { onStart, percent } from './shared.svelte';
     import { _prompt, ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
     import { post } from './utils';
 
-    const disabled = $derived(ss.next || percent() < 50);
+    const disabled = $derived(ss.next || percent() < PCT);
 
     const onClick = () => {
         ss.next = true;
         delete ss.help;
         _prompt.opacity = 0;
+        clearInterval(ss.timer);
 
         post(() => {
             delete ss.next;

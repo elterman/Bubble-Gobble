@@ -1,6 +1,6 @@
 <script>
     import { fade } from 'svelte/transition';
-    import { PAD, THRESHOLD1 } from './const';
+    import { PAD, THRESHOLD1, THRESHOLD2 } from './const';
     import { freezeBlob } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, bounceAngle, clientRect, overlap, post, sameBlob } from './utils';
@@ -99,7 +99,7 @@
                     ss.orbs[index].lastBounce = { cx: bubble.cx, cy: bubble.cy };
                     ss.orbs[index].deg = bounceAngle(orb, bubble);
 
-                    if (ss.level <= THRESHOLD1) {
+                    if (ss.level <= THRESHOLD1 || ss.level >= THRESHOLD2) {
                         freezeBlob(bi, false);
                     } else if (!bubble.dead) {
                         _sound.play('lost', { rate: 3 });

@@ -2,8 +2,8 @@
     import Blue from '$lib/images/Bubble Blue.webp';
     import Orange from '$lib/images/Bubble Orange.webp';
     import { fade } from 'svelte/transition';
-    import { MIN_BLOB_RADIUS, PAD, THRESHOLD1 } from './const';
-    import { freezeBlob, onPointerDown, percent, updateScore } from './shared.svelte';
+    import { MIN_BLOB_RADIUS, PAD, THRESHOLD1, THRESHOLD2 } from './const';
+    import { freezeBlob, log, onPointerDown, percent, updateScore } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, post } from './utils';
 
@@ -37,7 +37,7 @@
             if (ss.blowing) {
                 freezeBlob(ss.blobs.length - 1, false);
 
-                if (ss.level > THRESHOLD1) {
+                if (ss.level > THRESHOLD1 && ss.level <= THRESHOLD2) {
                     const other = blob.other;
 
                     if (other) {
