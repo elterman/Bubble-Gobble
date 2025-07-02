@@ -1,7 +1,7 @@
 <script>
     import { fade } from 'svelte/transition';
-    import { PAD, THRESHOLD1, THRESHOLD2 } from './const';
-    import { freezeBlob } from './shared.svelte';
+    import { PAD, THRESHOLD1 } from './const';
+    import { freezeBlob, log } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, bounceAngle, clientRect, overlap, post, sameBlob } from './utils';
     import { _sound } from './sound.svelte';
@@ -14,122 +14,127 @@
     const style = $derived(`transform: translate(${cx - rad}px, ${cy - rad}px); width: ${width}px; padding: ${PAD}px;`);
     let ticks = $derived(orb.ticks);
 
-    $effect(() => {
-        if (ss.ticks > ticks) {
-            // if (false) {
-            ticks = ss.ticks;
-
-            const justBounced = (ob) => {
-                if (!lastBounce) {
-                    return false;
-                }
-
-                if (ob.edge !== undefined) {
-                    return ob.edge === lastBounce.edge;
-                }
-
-                if (ob.otherIndex !== undefined) {
-                    return ob.otherIndex === lastBounce.otherIndex;
-                }
-
-                return sameBlob(lastBounce, ob);
-            };
-
-            const hitEdge = () => {
-                const x = orb.cx + PAD;
-                const y = orb.cy + PAD;
-
-                if (x - radius <= 0) {
-                    return 4;
-                }
-
-                if (x + radius >= ss.playground.width) {
-                    return 2;
-                }
-
-                if (y - radius <= 0) {
-                    return 1;
-                }
-
-                if (y + radius >= ss.playground.height) {
-                    return 3;
-                }
-
-                return 0;
-            };
-
-            const dx = Math.cos(-deg * (Math.PI / 180)) * 2;
-            const dy = Math.sin(-deg * (Math.PI / 180)) * 2;
-
-            ss.orbs[index].cx += dx;
-            ss.orbs[index].cy += dy;
-
-            const edge = hitEdge();
-
-            if (edge && !justBounced({ edge })) {
-                ss.orbs[index].lastBounce = { edge };
-
-                if (edge === 4 || edge === 2) {
-                    ss.orbs[index].deg = 180 - deg;
-                } else if (edge === 1 || edge === 3) {
-                    ss.orbs[index].deg = -deg;
-                }
-
-                return;
-            }
-
-            const corner = ss.corners.find((corner) => overlap(orb, corner));
-
-            // bounce off the corner?
-            if (corner && !justBounced({ corner })) {
-                ss.orbs[index].lastBounce = { corner };
-                ss.orbs[index].deg = bounceAngle(orb, corner);
-                return;
-            }
-
-            const bi = ss.blobs.length - 1;
-
-            // bounce off the bubble?
-            const bubble = ss.blowing ? ss.blobs[bi] : null;
-
-            if (bubble && !justBounced(bubble)) {
-                const r = clientRect(`#${blobId(bubble.cx, bubble.cy)}`);
-
-                if (overlap(orb, { ...bubble, radius: r.width / 2 - PAD })) {
-                    ss.orbs[index].lastBounce = { cx: bubble.cx, cy: bubble.cy };
-                    ss.orbs[index].deg = bounceAngle(orb, bubble);
-
-                    if (ss.level <= THRESHOLD1 || ss.level >= THRESHOLD2) {
-                        freezeBlob(bi, false);
-                    } else if (!bubble.dead) {
-                        _sound.play('lost', { rate: 3 });
-                        ss.blobs[bi].dead = true;
-                    }
-
-                    return;
-                }
-            }
-
-            // bounce off a solid blob?
-            const solid = ss.blobs.find((blob) => blob.radius && overlap(orb, blob));
-
-            if (solid && !justBounced(solid)) {
-                ss.orbs[index].lastBounce = { cx: solid.cx, cy: solid.cy };
-                ss.orbs[index].deg = bounceAngle(orb, solid);
-                return;
-            }
-
-            // bounce off another orb?
-            const i = ss.orbs.findIndex((o, i) => i !== index && overlap(orb, o));
-
-            if (i >= 0 && !justBounced({ otherIndex: i })) {
-                ss.orbs[index].lastBounce = { otherIndex: i };
-                ss.orbs[index].deg = bounceAngle(orb, ss.orbs[i]);
-                return;
-            }
-
-            post(() => delete ss.orbs[index].lastBounce);
+    const justBounced = (ob) => {
+        if (!lastBounce) {
+            return false;
         }
+
+        if (ob.edge !== undefined) {
+            return ob.edge === lastBounce.edge;
+        }
+
+        if (ob.otherIndex !== undefined) {
+            return ob.otherIndex === lastBounce.otherIndex;
+        }
+
+        return sameBlob(lastBounce, ob);
+    };
+
+    const hitEdge = () => {
+        const x = orb.cx + PAD;
+        const y = orb.cy + PAD;
+
+        if (x - radius <= 0) {
+            return 4;
+        }
+
+        if (x + radius >= ss.playground.width) {
+            return 2;
+        }
+
+        if (y - radius <= 0) {
+            return 1;
+        }
+
+        if (y + radius >= ss.playground.height) {
+            return 3;
+        }
+
+        return 0;
+    };
+
+    $effect(() => {
+        if (ss.ticks <= ticks) {
+            return;
+        }
+
+        ticks = ss.ticks;
+
+        const dx = Math.cos(-deg * (Math.PI / 180)) * 2;
+        const dy = Math.sin(-deg * (Math.PI / 180)) * 2;
+
+        ss.orbs[index].cx += dx;
+        ss.orbs[index].cy += dy;
+
+        // bounce off an edge?
+        const edge = hitEdge();
+
+        if (edge && !justBounced({ edge })) {
+            ss.orbs[index].lastBounce = { edge };
+
+            if (edge === 4 || edge === 2) {
+                ss.orbs[index].deg = 180 - deg;
+            } else if (edge === 1 || edge === 3) {
+                ss.orbs[index].deg = -deg;
+            }
+
+            return;
+        }
+
+        // bounce off a corner?
+        const corner = ss.corners.find((corner) => overlap(orb, corner));
+
+        if (corner && !justBounced({ corner })) {
+            ss.orbs[index].lastBounce = { corner };
+            ss.orbs[index].deg = bounceAngle(orb, corner);
+            return;
+        }
+
+        const isOverlap = (rob1, rob2) => {
+            if (!rob1.radius) {
+                const r = clientRect(`#${blobId(rob1.cx, rob1.cy)}`);
+                rob1.radius = r.width / 2 - PAD;
+            }
+
+            if (!rob2.radius) {
+                const r = clientRect(`#${blobId(rob2.cx, rob2.cy)}`);
+                rob2.radius = r.width / 2 - PAD;
+            }
+
+            return overlap(rob1, rob2);
+        };
+
+        // bounce off a blob?
+        const blob = ss.blobs.find((blob) => isOverlap(orb, { ...blob }));
+
+        if (blob && !justBounced(blob)) {
+            ss.orbs[index].lastBounce = { cx: blob.cx, cy: blob.cy };
+            ss.orbs[index].deg = bounceAngle(orb, blob);
+
+            if (blob.radius) {
+                return;
+            }
+
+            if (ss.level <= THRESHOLD1) {
+                freezeBlob(blob, false);
+            } else if (!blob.dead) {
+                _sound.play('lost', { rate: 3 });
+                blob.dead = true;
+            }
+
+            return;
+        }
+
+        // bounce off another orb?
+        const i = ss.orbs.findIndex((o, i) => i !== index && overlap(orb, o));
+
+        if (i >= 0 && !justBounced({ otherIndex: i })) {
+            ss.orbs[index].lastBounce = { otherIndex: i };
+            ss.orbs[index].deg = bounceAngle(orb, ss.orbs[i]);
+            return;
+        }
+
+        post(() => delete ss.orbs[index].lastBounce);
     });
 </script>
 

@@ -1,8 +1,8 @@
 import { random } from 'lodash-es';
-import { APP_STATE, CORNER_RADIUS, MIN_BLOB_RADIUS, PAD, PCT, THRESHOLD2 } from './const';
+import { APP_STATE, PAD, PCT } from './const';
 import { _sound } from './sound.svelte';
 import { _stats, ss } from './state.svelte';
-import { blobId, clientRect, overlap, post } from './utils';
+import { blobId, clientRect } from './utils';
 
 export const log = (value) => console.log($state.snapshot(value));
 
@@ -16,7 +16,8 @@ const createOrbs = () => {
     const height = ss.playground.height - PAD * 2;
 
     for (let i = 0; i < count; i++) {
-        const orb = { cx: random(width), cy: random(height), radius: 7, deg: random(0, 360), ticks: 0 };
+        // const orb = { cx: random(width), cy: random(height), radius: 7, deg: random(0, 360), ticks: 0 };
+        const orb = { cx: random(width), cy: random(height), radius: 7, deg: random(0, 0), ticks: 0 };
         ss.orbs.push(orb);
     }
 };
@@ -24,7 +25,6 @@ const createOrbs = () => {
 export const onStart = () => {
     _sound.play('dice');
 
-    delete ss.blowing;
     ss.ticks = 0;
     ss.blobs = [];
     ss.solidArea = 0;
@@ -36,11 +36,11 @@ export const onStart = () => {
     ss.timer = setInterval(() => (ss.ticks += 1), 1);
 };
 
-export const freezeBlob = (index, solid = true) => {
-    delete ss.blowing;
-    const blob = ss.blobs[index];
+export const freezeBlob = (blob, solid = true) => {
     const { cx, cy } = blob;
-    ss.blobs.splice(index, 1);
+
+    const i = ss.blobs.findIndex(b => b === blob);
+    ss.blobs.splice(i, 1);
 
     const r = clientRect(`#${blobId(cx, cy)}`);
     const radius = r.width / 2 - PAD;
@@ -68,49 +68,6 @@ export const freezeBlob = (index, solid = true) => {
 
         ss.deadArea += area;
     }
-
-    // if (ss.level > THRESHOLD2) {
-    //     post(randomBubble, 1000);
-    // }
-};
-
-export const randomBubble = () => {
-    const w = Math.floor(ss.playground.width - PAD * 2);
-    const h = Math.floor(ss.playground.height - PAD * 2);
-
-    let cx;
-    let cy;
-
-    const badSpot = () => {
-        if (cx < CORNER_RADIUS && cy < CORNER_RADIUS) {
-            return true;
-        }
-
-        if (cx < CORNER_RADIUS && cy > h - CORNER_RADIUS) {
-            return true;
-        }
-
-        if (cx > w - CORNER_RADIUS && cy < CORNER_RADIUS) {
-            return true;
-        }
-
-        if (cx > w - CORNER_RADIUS && cy > h - CORNER_RADIUS) {
-            return true;
-        }
-
-        if (ss.blobs.find(b => overlap(b, { cx, cy, radius: MIN_BLOB_RADIUS }))) {
-            return true;
-        }
-
-        return false;
-    };
-
-    do {
-        cx = random(0, w);
-        cy = random(0, h);
-    } while (badSpot());
-
-    createBubble(cx, cy);
 };
 
 export const createBubble = (cx, cy) => {
@@ -134,20 +91,19 @@ export const createBubble = (cx, cy) => {
     };
 
     const { maxRadius, other } = calcMaxRadius(cx, cy);
-    const blob = { cx, cy, maxRadius, other };
+    const blob = { cx, cy, maxRadius, other, ticks: 0 };
     ss.blobs.push(blob);
 };
 
 export const onPointerDown = (e) => {
-    if (ss.blowing) {
+    if (ss.blobs.length) {
         const bi = ss.blobs.length - 1;
-        freezeBlob(bi, !ss.blobs[bi].dead);
-        return;
-    }
+        const blob = ss.blobs[bi];
 
-    if (ss.level > THRESHOLD2) {
-        randomBubble();
-        return;
+        if (!blob.radius && !blob.dead) {
+            freezeBlob(blob);
+            return;
+        }
     }
 
     if (e.target.className.startsWith('blob')) {
@@ -178,3 +134,5 @@ export const persist = () => {
 export const percent = () => Math.floor((ss.solidArea / ss.totalArea) * 100);
 
 export const isGameOn = () => ss.level > 1 || ss.blobs.length > 0;
+
+export const isBlowing = () => ss.blobs.some(b => !b.radius);

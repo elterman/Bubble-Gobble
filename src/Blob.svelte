@@ -2,13 +2,13 @@
     import Blue from '$lib/images/Bubble Blue.webp';
     import Orange from '$lib/images/Bubble Orange.webp';
     import { fade } from 'svelte/transition';
-    import { MIN_BLOB_RADIUS, PAD, THRESHOLD1, THRESHOLD2 } from './const';
+    import { MIN_BLOB_RADIUS, PAD, THRESHOLD1 } from './const';
     import { freezeBlob, onPointerDown, percent, updateScore } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, post } from './utils';
 
     const { blob } = $props();
-    const { cx, cy, maxRadius, radius, solid, dead } = $derived(blob);
+    const { cx, cy, maxRadius, radius, solid, dead, spread } = $derived(blob);
     const rad = $derived((radius || MIN_BLOB_RADIUS) + PAD);
     let x = $derived(cx - rad);
     let y = $derived(cy - rad);
@@ -16,6 +16,15 @@
     let width = $derived(rad * 2);
     const transition = $derived(radius ? 'initial' : `${maxRadius / 100}s linear`);
     let _this = $state(null);
+    let ticks = $derived(blob.ticks);
+
+    $effect(() => {
+        if (ss.ticks <= ticks) {
+            return;
+        }
+
+        ticks = ss.ticks;
+    });
 
     $effect(() => {
         if (radius) {
@@ -30,27 +39,29 @@
         });
 
         const onTransitionStart = () => {
-            ss.blowing = true;
+            //
         };
 
         const onTransitionEnd = () => {
-            if (ss.blowing) {
-                freezeBlob(ss.blobs.length - 1, false);
+            if (radius) {
+                return;
+            }
 
-                if (ss.level > THRESHOLD1 && ss.level <= THRESHOLD2) {
-                    const other = blob.other;
+            freezeBlob(blob, false);
 
-                    if (other) {
-                        delete other.solid;
+            if (ss.level > THRESHOLD1) {
+                const other = blob.other;
 
-                        const prev = percent();
+                if (other) {
+                    delete other.solid;
 
-                        const area = other.radius * other.radius * Math.PI;
-                        ss.solidArea = Math.max(ss.solidArea - area, 0);
-                        ss.deadArea += area;
+                    const prev = percent();
 
-                        updateScore(percent() - prev);
-                    }
+                    const area = other.radius * other.radius * Math.PI;
+                    ss.solidArea = Math.max(ss.solidArea - area, 0);
+                    ss.deadArea += area;
+
+                    updateScore(percent() - prev);
                 }
             }
         };
@@ -75,7 +86,7 @@
         transition:fade>
         {#if solid}
             <img src={Blue} alt="" class="blob solid" />
-        {:else if radius || dead}
+        {:else if radius || dead || spread}
             <div class="blob dead"></div>
         {:else}
             <img src={Orange} alt="" class="blob" />

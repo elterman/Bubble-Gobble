@@ -1,16 +1,15 @@
 <script>
     import { fade } from 'svelte/transition';
     import PromptButton from './Prompt Button.svelte';
-    import { onStart, randomBubble } from './shared.svelte';
+    import { onStart } from './shared.svelte';
     import { ss } from './state.svelte';
-    import { post, tapOrClick, windowSize } from './utils';
-    import { THRESHOLD2 } from './const';
+    import { tapOrClick, windowSize } from './utils';
 
     const ul = '<ul style="margin: 15px 0 0 0;">';
     const li = '<li style="margin: 5px 0 0 -20px;">';
     const click = tapOrClick();
 
-    const content = `
+    const CONTENT = `
         <span>Inflate greedy blobs to claim space.</span>
         <span>Fill at least 50% of the playfield to unlock the next level.</span>
         ${ul}
@@ -20,18 +19,11 @@
         ${li}Collisions turn inflating bubbles into permanent dead zones.</li>
         </ul>`;
 
-    const challenge1 = `
+    const CHALLENGE = `
         <span>So far so good! From now on:</span>
         ${ul}
         ${li}When two bubbles collide, both turn into a dead zone.</li>
-        ${li}When hit by a ball, the bubble turns into a dead zone, but keeps inflating. ${click} to stop the inflation.</li>
-        </ul>`;
-
-    const challenge2 = `
-        <span>The final frontier! From now on:</span>
-        ${ul}
-        ${li}Bubbles pop up by themselves, at random places.</li>
-        ${li}${click} anywhere to stop the inflation.</li>
+        ${li}When hit by a ball, the bubble turns into a dead zone, but keeps inflating.</li>
         </ul>`;
 
     const onClick = () => {
@@ -41,10 +33,6 @@
             onStart();
             return;
         }
-
-        // if (ss.level === THRESHOLD2 + 1 && ss.blobs.length === 0) {
-        //     post(randomBubble, 1000);
-        // }
     };
 
     let scale = $state(1);
@@ -81,15 +69,12 @@
             <span class="orange">GOBBLE</span>
         </div>
         <div class="content" tabindex="-1">
-            {#if ss.help === 'challenge1'}
+            {#if ss.help === 'CHALLENGE'}
                 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-                {@html challenge1}
-            {:else if ss.help === 'challenge2'}
-                <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-                {@html challenge2}
+                {@html CHALLENGE}
             {:else}
                 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-                {@html content}
+                {@html CONTENT}
             {/if}
         </div>
         <div class="buttons">
