@@ -3,7 +3,7 @@
     import Orange from '$lib/images/Bubble Orange.webp';
     import { fade } from 'svelte/transition';
     import { MIN_BLOB_RADIUS, PAD, THRESHOLD1, THRESHOLD2 } from './const';
-    import { freezeBlob, log, onPointerDown, percent, updateScore } from './shared.svelte';
+    import { freezeBlob, onPointerDown, percent, updateScore } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, post } from './utils';
 

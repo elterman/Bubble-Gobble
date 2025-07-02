@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
     import Blob from './Blob.svelte';
-    import { CORNER_RADIUS, PAD, THRESHOLD2 } from './const';
+    import { CORNER_RADIUS, PAD } from './const';
     import Orb from './Orb.svelte';
     import { onPointerDown } from './shared.svelte';
     import { _prompt, ss } from './state.svelte';
