@@ -103,7 +103,7 @@ export const randomBubble = () => {
         break;
     }
 
-    createBubble(Math.round(cx), Math.round(cy));
+    createBubble(cx, cy);
 };
 
 export const createBubble = (cx, cy) => {
@@ -139,7 +139,6 @@ export const onPointerDown = (e) => {
     }
 
     if (ss.level > THRESHOLD2) {
-        randomBubble();
         return;
     }
 
