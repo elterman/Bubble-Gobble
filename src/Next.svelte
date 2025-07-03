@@ -1,12 +1,12 @@
 <script>
     import Arrow from '$lib/images/Next.webp';
-    import { PCT, THRESHOLD1 } from './const';
+    import { PCT, THRESHOLD } from './const';
     import { percent, onStart } from './shared.svelte';
     import { _prompt, ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
     import { post } from './utils';
 
-    const disabled = $derived(ss.next || percent() < PCT);
+    const disabled = $derived(ss.level === 10 || ss.next || percent() < PCT);
 
     const onClick = () => {
         ss.next = true;
@@ -20,7 +20,7 @@
             onStart();
             ss.level += 1;
 
-            if (ss.level === THRESHOLD1 + 1) {
+            if (ss.level === THRESHOLD + 1) {
                 ss.help = 'CHALLENGE';
                 _prompt.opacity = 0;
             }

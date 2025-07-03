@@ -2,7 +2,7 @@
     import Blue from '$lib/images/Bubble Blue.webp';
     import Orange from '$lib/images/Bubble Orange.webp';
     import { fade } from 'svelte/transition';
-    import { MIN_BLOB_RADIUS, PAD, THRESHOLD1 } from './const';
+    import { MIN_BLOB_RADIUS, PAD, THRESHOLD } from './const';
     import { freezeBlob, onPointerDown, percent, updateScore } from './shared.svelte';
     import { ss } from './state.svelte';
     import { blobId, overlap, post } from './utils';
@@ -55,7 +55,7 @@
         const onTransitionStart = () => {
             //
         };
-
+THRESHOLD
         const onTransitionEnd = () => {
             if (radius) {
                 return;
@@ -63,7 +63,7 @@
 
             freezeBlob(blob, false);
 
-            if (ss.level > THRESHOLD1) {
+            if (ss.level > THRESHOLD) {
                 const other = blob.other;
 
                 if (other && other.solid) {

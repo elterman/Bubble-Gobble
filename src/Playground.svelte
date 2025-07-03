@@ -91,7 +91,7 @@
     }
 
     .mouse {
-        /* display: none; */
+        display: none;
         grid-area: 1/1;
         place-self: end center;
         color: #ffffff40;

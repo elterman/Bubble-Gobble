@@ -4,7 +4,8 @@
     import { onStart } from './shared.svelte';
     import { ss } from './state.svelte';
     import { tapOrClick, windowSize } from './utils';
-
+    import { THRESHOLD } from './const';
+    THRESHOLD;
     const ul = '<ul style="margin: 15px 0 0 0;">';
     const li = '<li style="margin: 5px 0 0 -20px;">';
     const click = tapOrClick();
@@ -21,6 +22,13 @@
 
     const CHALLENGE = `
         <span>So far so good! From now on:</span>
+        ${ul}
+        ${li}When two bubbles collide, both turn into a dead zone.</li>
+        ${li}When hit by a ball, the bubble turns into a dead zone, but keeps inflating.</li>
+        </ul>`;
+
+    const CURRENT_CHALLENGE = `
+        <span>The current challenge:</span>
         ${ul}
         ${li}When two bubbles collide, both turn into a dead zone.</li>
         ${li}When hit by a ball, the bubble turns into a dead zone, but keeps inflating.</li>
@@ -72,6 +80,9 @@
             {#if ss.help === 'CHALLENGE'}
                 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
                 {@html CHALLENGE}
+            {:else if ss.level > THRESHOLD}
+                <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                {@html CURRENT_CHALLENGE}
             {:else}
                 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
                 {@html CONTENT}

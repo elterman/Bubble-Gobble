@@ -1,6 +1,6 @@
 <script>
     import { fade } from 'svelte/transition';
-    import { PAD, THRESHOLD1 } from './const';
+    import { PAD, THRESHOLD } from './const';
     import { freezeBlob } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { ss } from './state.svelte';
@@ -101,7 +101,7 @@
                 return;
             }
 
-            if (ss.level <= THRESHOLD1) {
+            if (ss.level <= THRESHOLD) {
                 freezeBlob(blob, false);
             } else if (!blob.dead) {
                 _sound.play('lost', { rate: 3 });
