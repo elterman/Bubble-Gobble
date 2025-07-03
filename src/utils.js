@@ -1,4 +1,4 @@
-import { PAD } from "./const";
+import { PAD } from './const';
 
 export const windowSize = () => {
     const d = document,
