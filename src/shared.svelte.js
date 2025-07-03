@@ -134,5 +134,3 @@ export const persist = () => {
 export const percent = () => Math.floor((ss.solidArea / ss.totalArea) * 100);
 
 export const isGameOn = () => ss.level > 1 || ss.blobs.length > 0;
-
-export const isBlowing = () => ss.blobs.some(b => !b.radius);
