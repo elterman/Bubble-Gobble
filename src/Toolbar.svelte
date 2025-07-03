@@ -11,10 +11,7 @@
     let wide = $state(true);
 
     $effect(() => {
-        const onResize = () => {
-            const { x: w } = windowSize();
-            wide = w > 650;
-        };
+        const onResize = () => (wide = windowSize().w > 650);
 
         onResize();
 

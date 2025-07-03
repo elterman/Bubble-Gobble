@@ -3,9 +3,10 @@
     import PromptPanel from './Prompt Panel.svelte';
     import { isGameOn, onStart, persist } from './shared.svelte';
     import { _prompt, _stats, ss } from './state.svelte';
-    import { post } from './utils';
+    import { post, windowSize } from './utils';
 
     const label = $derived(_prompt.id);
+    let scale = $state(1);
 
     const onStartOver = () => {
         ss.next = true;
@@ -51,12 +52,27 @@
             }
         };
 
+        const onResize = () => {
+            const { w } = windowSize();
+
+            if (w < 500) {
+                scale = w / 500;
+            }
+        };
+
+        onResize();
+
+        window.addEventListener('resize', onResize);
         window.addEventListener('transitionend', onTransitionEnd);
-        return () => window.removeEventListener('transitionend', onTransitionEnd);
+
+        return () => {
+            window.rewindow.removeEventListener('resize', onResize);
+            window.removeEventListener('transitionend', onTransitionEnd);
+        };
     });
 </script>
 
-<div id="prompt" class="prompt {_prompt.opacity ? 'visible' : ''}">
+<div id="prompt" class="prompt {_prompt.opacity ? 'visible' : ''}" style="transform: scale({scale});">
     {#if label === PROMPT_START_OVER}
         <PromptPanel ops={[{ label, onClick: onStartOver }, { label: X }]} />
     {:else if label === PROMPT_RESET_STATS}

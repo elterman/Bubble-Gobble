@@ -50,10 +50,10 @@
             let scx = 1;
             let scy = 1;
 
-            const { x: w, y: h } = windowSize();
+            const { w, h } = windowSize();
 
-            if (w < 750) {
-                scx = w / 750;
+            if (w < 600) {
+                scx = w / 600;
             }
 
             if (h < 850) {
@@ -109,6 +109,7 @@
         background: #00000040;
         backdrop-filter: blur(15px);
         border-radius: 50px;
+        /* border: 1px solid #fff7; */
     }
 
     .initial {

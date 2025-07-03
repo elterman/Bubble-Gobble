@@ -7,8 +7,8 @@
     let classes = $state('splash');
 
     $effect(() => {
-        let { x: wx, y: wy } = windowSize();
-        bmgWidth = Math.min(300, Math.min(wx, wy) * 0.6);
+        let { w, h } = windowSize();
+        bmgWidth = Math.min(300, Math.min(w, h) * 0.6);
     });
 
     const onPointerDown = () => {

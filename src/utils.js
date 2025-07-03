@@ -4,10 +4,10 @@ export const windowSize = () => {
     const d = document,
         e = d.documentElement,
         g = d.getElementsByTagName('body')[0],
-        x = e.clientWidth || g.clientWidth,
-        y = e.clientHeight || g.clientHeight;
+        w = e.clientWidth || g.clientWidth,
+        h = e.clientHeight || g.clientHeight;
 
-    return { x, y };
+    return { w, h };
 };
 
 export const clientRect = selector => {

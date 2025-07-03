@@ -8,3 +8,4 @@ export const PROMPT_START_OVER = 'Start over?';
 export const PROMPT_RESET_STATS = 'Reset stats?';
 export const THRESHOLD = 5;
 export const PCT = 50;
+export const ORB_RADIUS = 7;
