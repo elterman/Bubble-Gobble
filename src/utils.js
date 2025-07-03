@@ -73,7 +73,7 @@ export const overlap = (rob1, rob2) => {
 
     if (!rob2.radius) {
         const r = clientRect(`#${blobId(rob2.cx, rob2.cy)}`);
-        rob1 = { ...rob2, radius: r.width / 2 - PAD };
+        rob2 = { ...rob2, radius: r.width / 2 - PAD };
     }
 
     // const r1 = {
