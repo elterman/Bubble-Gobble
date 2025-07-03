@@ -6,5 +6,5 @@ export const PAD = 12;
 export const CORNER_RADIUS = 100;
 export const PROMPT_START_OVER = 'Start over?';
 export const PROMPT_RESET_STATS = 'Reset stats?';
-export const THRESHOLD1 = 1;
-export const PCT = 5;
+export const THRESHOLD1 = 5;
+export const PCT = 50;
