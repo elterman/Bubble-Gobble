@@ -1,14 +1,15 @@
 <script>
     import Arrow from '$lib/images/Next.webp';
-    import { MIN_PCT, THRESHOLD1 } from './const';
-    import { onStart, percent } claimedPercent/shared.svelte';
+    import { PCT, THRESHOLD1 } from './const';
+    import { percent, onStart } from './shared.svelte';
     import { _prompt, ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
     import { post } from './utils';
 
     const disabled = $derived(ss.next || percent() < PCT);
-MIN_TO_CLAIM   const onClick = () => {
-    claimedPerCLAIM_MINrue;
+
+    const onClick = () => {
+        ss.next = true;
         delete ss.help;
         _prompt.opacity = 0;
         clearInterval(ss.timer);

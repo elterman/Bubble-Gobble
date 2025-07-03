@@ -1,12 +1,12 @@
 <script>
     import NumberFlow from '@number-flow/svelte';
-    import { percent } from claimedPercented.svelte';
-    import { PCT } fMIN_TO_CLAIM './const';
+    import { percent } from './shared.svelte';
+    import { PCT } from './const';
 
     const value = $derived(percent());
 </script>
 
-<div class="percent {valuclaimedPercent ? '' : 'threshold'}">
+<div class="percent {value < PCT ? '' : 'threshold'}">
     <NumberFlow value={value} />%
 </div>
 

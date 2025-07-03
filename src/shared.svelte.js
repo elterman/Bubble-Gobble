@@ -1,5 +1,5 @@
 import { random } from 'lodash-es';
-import { APP_STATE, PAD, MIN_PCT } from './const';
+import { APP_STATE, PAD, PCT } from './const';
 import { _sound } from './sound.svelte';
 import { _stats, ss } from './state.svelte';
 import { blobId, clientRect } from './utils';
@@ -46,15 +46,15 @@ export const freezeBlob = (blob, solid = true) => {
     ss.blobs.push({ cx, cy, radius, solid });
 
     let area = radius * radius * Math.PI;
-    const prev = claimedPercent();
+    const prev = percent();
 
     if (solid) {
         ss.solidArea += area;
 
-        const percent = claimedPercent();
-        const gain = percent - prev;
+        const pct = percent();
+        const gain = pct - prev;
 
-        if (prev < MIN_PCT && percent >= MIN_PCT) {
+        if (prev < PCT && pct >= PCT) {
             _sound.play('won', { rate: 2 });
         } else {
             _sound.play(gain < 5 ? 'coin1' : gain < 15 ? 'coin2' : 'coins');
@@ -131,7 +131,7 @@ export const persist = () => {
     localStorage.setItem(APP_STATE, JSON.stringify({ ..._stats }));
 };
 
-export const claimedPercent = () => Math.floor((ss.solidArea / ss.totalArea) * 100);
+export const percent = () => Math.floor((ss.solidArea / ss.totalArea) * 100);
 
 export const isGameOn = () => ss.level > 1 || ss.blobs.length > 0;
 

@@ -19,15 +19,15 @@
     let ticks = $derived(blob.ticks);
 
     $effect(() => {
+        if (radius) {
+            return;
+        }
+
         if (ss.ticks <= ticks) {
             return;
         }
 
         ticks = ss.ticks;
-
-        if (radius) {
-            return;
-        }
 
         const other = ss.blobs.find((b) => b !== blob && !b.radius && overlap(blob, b));
 
