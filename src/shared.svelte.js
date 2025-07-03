@@ -91,7 +91,7 @@ export const createBubble = (cx, cy) => {
     };
 
     const { maxRadius, other } = calcMaxRadius(cx, cy);
-    const blob = { cx, cy, maxRadius, other, ticks: 0 };
+    const blob = { cx, cy, maxRadius, other, ticks: ss.ticks };
     ss.blobs.push(blob);
 };
 

@@ -29,10 +29,14 @@
 
         ticks = ss.ticks;
 
-        const other = ss.blobs.find((b) => b !== blob && !b.radius && overlap(blob, b));
+        const other = ss.blobs.find((b) => b !== blob && overlap(blob, b));
 
         if (other) {
             freezeBlob(blob, false);
+
+            if (!other.radius) {
+                freezeBlob(other, false);
+            }
         }
     });
 
