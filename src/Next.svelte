@@ -17,6 +17,10 @@
         post(() => {
             delete ss.next;
 
+            if (ss.level === THRESHOLD) {
+                ss.orbs = [];
+            }
+
             onStart();
             ss.level += 1;
 

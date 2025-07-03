@@ -14,6 +14,7 @@ const staticOps = {
 };
 
 const ops = nops;
+// const ops = staticOps;
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

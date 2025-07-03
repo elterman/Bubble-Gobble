@@ -1,5 +1,5 @@
 import { random } from 'lodash-es';
-import { APP_STATE, PAD, PCT } from './const';
+import { APP_STATE, CORNER_RADIUS, PAD, PCT } from './const';
 import { _sound } from './sound.svelte';
 import { _stats, ss } from './state.svelte';
 import { blobId, clientRect } from './utils';
@@ -12,11 +12,11 @@ const createOrbs = () => {
     // const count = Math.max(ss.orbs.length, 9) + 1;
     ss.orbs = [];
 
-    const width = ss.playground.width - PAD * 2;
-    const height = ss.playground.height - PAD * 2;
+    const width = ss.playground.width - (PAD + CORNER_RADIUS) * 2;
+    const height = ss.playground.height - (PAD + CORNER_RADIUS) * 2;
 
     for (let i = 0; i < count; i++) {
-        const orb = { cx: random(width), cy: random(height), radius: 7, deg: random(0, 360), ticks: 0 };
+        const orb = { cx: random(width) + CORNER_RADIUS, cy: random(height) + CORNER_RADIUS, radius: 7, deg: random(0, 360), ticks: 0 };
         ss.orbs.push(orb);
     }
 };
