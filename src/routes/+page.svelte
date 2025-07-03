@@ -62,9 +62,9 @@
             user-select: none;
         }
 
-        .gradient-blue {
+        .button-gradient {
             background: -webkit-linear-gradient(-90deg, #ede2c5, #ffe4ad 50%, #d8ac3c 100%);
-            /* filter: hue-rotate(180deg); */
+            /* filter: hue-rotate(-145deg); */
         }
     }
 

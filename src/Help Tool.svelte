@@ -4,9 +4,12 @@
     import { _prompt, ss } from './state.svelte';
 
     const onClick = () => {
-        ss.help = true;
-        delete ss.tools;
-        _prompt.opacity = 0;
+        ss.help = !ss.help;
+
+        if (ss.help) {
+            delete ss.tools;
+            _prompt.opacity = 0;
+        }
     };
 </script>
 

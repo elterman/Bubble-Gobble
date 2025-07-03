@@ -3,12 +3,12 @@
     import Orange from '$lib/images/Bubble Orange.webp';
     import { fade } from 'svelte/transition';
     import { MIN_BLOB_RADIUS, PAD, THRESHOLD1 } from './const';
-    import { freezeBlob, onPointerDown, percent, updateScore } from './shared.svelte';
+    import { freezeBlob, onPointerDown, claimedPercent, updateScore } from './shared.svelte';
     import { ss } from './state.svelte';
-    import { blobId, post } from './utils';
+    import { blobId, overlap, post } from './utils';
 
     const { blob } = $props();
-    const { cx, cy, maxRadius, radius, solid, dead, spread } = $derived(blob);
+    const { cx, cy, maxRadius, radius, solid, dead } = $derived(blob);
     const rad = $derived((radius || MIN_BLOB_RADIUS) + PAD);
     let x = $derived(cx - rad);
     let y = $derived(cy - rad);
@@ -24,6 +24,16 @@
         }
 
         ticks = ss.ticks;
+
+        if (radius) {
+            return;
+        }
+
+        const other = ss.blobs.find((b) => b !== blob && !b.radius && overlap(blob, b));
+
+        if (other) {
+            freezeBlob(blob, false);
+        }
     });
 
     $effect(() => {
@@ -46,16 +56,14 @@
             if (radius) {
                 return;
             }
-
-            freezeBlob(blob, false);
-
+claimedPercent
             if (ss.level > THRESHOLD1) {
                 const other = blob.other;
 
                 if (other) {
                     delete other.solid;
 
-                    const prev = percent();
+                    const prclaimedPercentrcent();
 
                     const area = other.radius * other.radius * Math.PI;
                     ss.solidArea = Math.max(ss.solidArea - area, 0);
@@ -86,7 +94,7 @@
         transition:fade>
         {#if solid}
             <img src={Blue} alt="" class="blob solid" />
-        {:else if radius || dead || spread}
+        {:else if radius || dead}
             <div class="blob dead"></div>
         {:else}
             <img src={Orange} alt="" class="blob" />

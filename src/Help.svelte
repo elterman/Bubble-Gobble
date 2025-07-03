@@ -14,7 +14,7 @@
         <span>Fill at least 50% of the playfield to unlock the next level.</span>
         ${ul}
         ${li}${click} anywhere to start growing a bubble.</li>
-        ${li}${click} again to freeze it in place.</li>
+        ${li}${click} again to fix it in place.</li>
         ${li}Avoid the walls, flying balls, and existing bubbles.</li>
         ${li}Collisions turn inflating bubbles into permanent dead zones.</li>
         </ul>`;

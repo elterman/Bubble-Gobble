@@ -2,7 +2,7 @@
     import Stats from '$lib/images/Stats.webp';
     import { PROMPT_RESET_STATS } from './const';
     import { _sound } from './sound.svelte';
-    import { _prompt } from './state.svelte';
+    import { _prompt, ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
 
     const onClick = () => {
@@ -10,6 +10,8 @@
             _prompt.opacity = 0;
             return;
         }
+
+        delete ss.help;
 
         _sound.play('plop');
         _prompt.set(PROMPT_RESET_STATS);

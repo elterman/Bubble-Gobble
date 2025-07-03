@@ -1,5 +1,5 @@
 import { random } from 'lodash-es';
-import { APP_STATE, PAD, PCT } from './const';
+import { APP_STATE, PAD, MIN_PCT } from './const';
 import { _sound } from './sound.svelte';
 import { _stats, ss } from './state.svelte';
 import { blobId, clientRect } from './utils';
@@ -16,8 +16,7 @@ const createOrbs = () => {
     const height = ss.playground.height - PAD * 2;
 
     for (let i = 0; i < count; i++) {
-        // const orb = { cx: random(width), cy: random(height), radius: 7, deg: random(0, 360), ticks: 0 };
-        const orb = { cx: random(width), cy: random(height), radius: 7, deg: random(0, 0), ticks: 0 };
+        const orb = { cx: random(width), cy: random(height), radius: 7, deg: random(0, 360), ticks: 0 };
         ss.orbs.push(orb);
     }
 };
@@ -47,20 +46,21 @@ export const freezeBlob = (blob, solid = true) => {
     ss.blobs.push({ cx, cy, radius, solid });
 
     let area = radius * radius * Math.PI;
-    const prev = percent();
+    const prev = claimedPercent();
 
     if (solid) {
         ss.solidArea += area;
 
-        const pct = percent();
-        const gain = pct - prev;
+        const percent = claimedPercent();
+        const gain = percent - prev;
 
-        _sound.play(gain < 5 ? 'coin1' : gain < 15 ? 'coin2' : 'coins');
-        updateScore(gain);
-
-        if (prev < PCT && pct >= PCT) {
+        if (prev < MIN_PCT && percent >= MIN_PCT) {
             _sound.play('won', { rate: 2 });
+        } else {
+            _sound.play(gain < 5 ? 'coin1' : gain < 15 ? 'coin2' : 'coins');
         }
+
+        updateScore(gain);
     } else {
         if (!blob.dead) {
             _sound.play('lost', { rate: 3 });
@@ -131,7 +131,7 @@ export const persist = () => {
     localStorage.setItem(APP_STATE, JSON.stringify({ ..._stats }));
 };
 
-export const percent = () => Math.floor((ss.solidArea / ss.totalArea) * 100);
+export const claimedPercent = () => Math.floor((ss.solidArea / ss.totalArea) * 100);
 
 export const isGameOn = () => ss.level > 1 || ss.blobs.length > 0;
 

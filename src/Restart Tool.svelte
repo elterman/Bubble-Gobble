@@ -12,6 +12,8 @@
             return;
         }
 
+        delete ss.help;
+
         _sound.play('plop');
         _prompt.set(PROMPT_START_OVER);
     };

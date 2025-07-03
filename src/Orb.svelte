@@ -1,10 +1,10 @@
 <script>
     import { fade } from 'svelte/transition';
     import { PAD, THRESHOLD1 } from './const';
-    import { freezeBlob, log } from './shared.svelte';
-    import { ss } from './state.svelte';
-    import { blobId, bounceAngle, clientRect, overlap, post, sameBlob } from './utils';
+    import { freezeBlob } from './shared.svelte';
     import { _sound } from './sound.svelte';
+    import { ss } from './state.svelte';
+    import { bounceAngle, overlap, post, sameBlob } from './utils';
 
     const { index } = $props();
     const orb = $derived(ss.orbs[index]);
@@ -90,22 +90,8 @@
             return;
         }
 
-        const isOverlap = (rob1, rob2) => {
-            if (!rob1.radius) {
-                const r = clientRect(`#${blobId(rob1.cx, rob1.cy)}`);
-                rob1.radius = r.width / 2 - PAD;
-            }
-
-            if (!rob2.radius) {
-                const r = clientRect(`#${blobId(rob2.cx, rob2.cy)}`);
-                rob2.radius = r.width / 2 - PAD;
-            }
-
-            return overlap(rob1, rob2);
-        };
-
         // bounce off a blob?
-        const blob = ss.blobs.find((blob) => isOverlap(orb, { ...blob }));
+        const blob = ss.blobs.find((blob) => overlap(orb, blob));
 
         if (blob && !justBounced(blob)) {
             ss.orbs[index].lastBounce = { cx: blob.cx, cy: blob.cy };

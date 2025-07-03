@@ -31,7 +31,7 @@
 
 <div
     id={op.label}
-    class={['button-base no-highlight button gradient-blue', { x }]}
+    class={['button-base no-highlight button button-gradient', { x }]}
     style={`${op.style}; ${style}`}
     onpointerdown={() => (scale = 0.8)}>
     {#if x}
@@ -51,13 +51,14 @@
         font-family: Jelly Belly;
         font-size: 32px;
         color: #000;
-        opacity: 0.8;
+        opacity: 0.9;
         letter-spacing: 0.05em;
         border: 5px solid black;
+        filter: drop-shadow(-1px -1px 3px white) drop-shadow(1px 1px 3px white);
     }
 
     .button:hover {
-        filter: sepia(1);
+        filter: sepia(1) drop-shadow(-1px -1px 3px white) drop-shadow(1px 1px 3px white);
     }
 
     .x {

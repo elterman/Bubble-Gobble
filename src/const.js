@@ -8,4 +8,4 @@ export const PROMPT_START_OVER = 'Start over?';
 export const PROMPT_RESET_STATS = 'Reset stats?';
 // export const THRESHOLD1 = 5;
 export const THRESHOLD1 = 1;
-export const PCT = 5;
+export const MIN_PCT = 5;
