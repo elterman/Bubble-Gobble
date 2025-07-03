@@ -55,7 +55,7 @@
         const onTransitionStart = () => {
             //
         };
-THRESHOLD
+
         const onTransitionEnd = () => {
             if (radius) {
                 return;
