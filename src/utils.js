@@ -66,17 +66,14 @@ export const bounceAngle = (orb, other) => {
 };
 
 export const overlap = (rob1, rob2) => {
-    rob1 = { ...rob1 };
-    rob2 = { ...rob2 };
-
     if (!rob1.radius) {
         const r = clientRect(`#${blobId(rob1.cx, rob1.cy)}`);
-        rob1.radius = r.width / 2 - PAD;
+        rob1 = { ...rob1, radius: r.width / 2 - PAD };
     }
 
     if (!rob2.radius) {
         const r = clientRect(`#${blobId(rob2.cx, rob2.cy)}`);
-        rob2.radius = r.width / 2 - PAD;
+        rob1 = { ...rob2, radius: r.width / 2 - PAD };
     }
 
     // const r1 = {
