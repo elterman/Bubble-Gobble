@@ -65,6 +65,7 @@
         display: grid;
         /* border: 1px solid #ff0055; */
         box-sizing: border-box;
+        overflow: hidden;
     }
 
     .clickable {

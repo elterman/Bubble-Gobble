@@ -8,12 +8,12 @@
     import Stats from './Stats.svelte';
     import { windowSize } from './utils';
 
-    let scale = $state(1);
+    let wide = $state(true);
 
     $effect(() => {
         const onResize = () => {
             const { x: w } = windowSize();
-            scale = w < 630 ? w / 630 : 1;
+            wide = w > 650;
         };
 
         onResize();
@@ -23,13 +23,25 @@
     });
 </script>
 
-{#if ss.tools}
-    <div class="toolbar" style="transform: scale({scale});" transition:fly={{ x: -300, duration: 700 }}>
-        <Stats />
-        <StatsTool />
-        <RestartTool />
-        <SoundTool />
-        <HelpTool />
+{#if wide}
+    {#if ss.tools}
+        <div class="toolbar wide" transition:fly={{ x: -300, duration: 700 }}>
+            <Stats />
+            <StatsTool />
+            <RestartTool />
+            <SoundTool />
+            <HelpTool />
+        </div>
+    {/if}
+{:else if ss.tools}
+    <div class="toolbar narrow" transition:fly={{ x: -300, duration: 700 }}>
+        <div><Stats /></div>
+        <div class="tools">
+            <StatsTool />
+            <RestartTool />
+            <SoundTool />
+            <HelpTool />
+        </div>
     </div>
 {/if}
 
@@ -40,13 +52,26 @@
         z-index: 3;
         margin: 0 0 10px 100px;
         display: grid;
-        grid-auto-flow: column;
-        gap: 10px;
         background: #00000040;
         backdrop-filter: blur(15px);
         border-radius: 3vh;
         padding: 1px 10px;
         align-items: center;
         transform-origin: 0 50%;
+    }
+
+    .wide {
+        grid-auto-flow: column;
+        gap: 10px;
+    }
+
+    .narrow {
+        justify-items: start;
+    }
+
+    .tools {
+        display: grid;
+        grid-auto-flow: column;
+        gap: 10px;
     }
 </style>
