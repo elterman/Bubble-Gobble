@@ -7,8 +7,8 @@ import { blobId, clientRect } from './utils';
 export const log = (value) => console.log($state.snapshot(value));
 
 const createOrbs = () => {
-    // const count = ss.orbs.length + 1;
-    const count = 1;
+    const count = ss.orbs.length + 1;
+    // const count = 1;
     // const count = Math.max(ss.orbs.length, 9) + 1;
     ss.orbs = [];
 

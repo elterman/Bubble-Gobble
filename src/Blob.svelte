@@ -66,7 +66,7 @@
             if (ss.level > THRESHOLD1) {
                 const other = blob.other;
 
-                if (other) {
+                if (other && other.solid) {
                     delete other.solid;
 
                     const prev = percent();
