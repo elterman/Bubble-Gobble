@@ -1,5 +1,4 @@
 <script>
-    import { onMount } from 'svelte';
     import { ORB_RADIUS, PAD, PAGE_PAD, THRESHOLD } from './const';
     import { freezeBlob, setDelta } from './shared.svelte';
     import { _sound } from './sound.svelte';
@@ -55,8 +54,8 @@
 
     $effect(() => {
         post(() => {
-            orb.cx += orb.delta.dx;
-            orb.cy += orb.delta.dy;
+            ss.orbs[index].cx += orb.delta.dx;
+            ss.orbs[index].cy += orb.delta.dy;
         });
     });
 
@@ -122,8 +121,8 @@
         }
 
         if (bounce) {
-            orb.lastBounce = bounce;
-            orb.deg = angle;
+            ss.orbs[index].lastBounce = bounce;
+            ss.orbs[index].deg = angle;
         } else {
             post(() => delete orb.lastBounce);
         }
@@ -131,8 +130,8 @@
         setDelta(index);
 
         const d = orb.delta;
-        orb.cx += d.dx;
-        orb.cy += d.dy;
+        ss.orbs[index].cx += d.dx;
+        ss.orbs[index].cy += d.dy;
     };
 
     $effect(() => {
@@ -161,8 +160,8 @@
         box-sizing: border-box;
         /* border: 1px solid #fff7; */
         transition:
-            left 1ms linear,
-            top 1ms linear;
+            left 2ms linear,
+            top 2ms linear;
     }
 
     .orb {

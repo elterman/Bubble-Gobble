@@ -10,4 +10,5 @@ export const PROMPT_RESET_STATS = 'Reset stats?';
 export const THRESHOLD = 5;
 export const PCT = 5;
 export const ORB_RADIUS = 7;
-export const PPT = 4;   // pixels per tick
+export const PPT = 4.5;   // pixels per tick
+export const MAX_LEVELS = 10;

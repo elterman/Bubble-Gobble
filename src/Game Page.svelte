@@ -49,6 +49,7 @@
         grid-area: 1/1;
         display: grid;
         gap: 10px;
+        overflow: hidden;
     }
 
     .box {

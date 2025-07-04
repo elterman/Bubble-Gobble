@@ -2,7 +2,7 @@ import { random } from 'lodash-es';
 import { APP_STATE, CORNER_RADIUS, PAD, PCT, PPT } from './const';
 import { _sound } from './sound.svelte';
 import { _stats, ss } from './state.svelte';
-import { blobId, clientRect, post } from './utils';
+import { blobId, clientRect } from './utils';
 
 export const log = (value) => console.log($state.snapshot(value));
 
@@ -45,7 +45,7 @@ export const onStart = () => {
     createOrbs();
 
     clearInterval(ss.timer);
-    ss.timer = setInterval(() => (ss.ticks += 1), 1);
+    ss.timer = setInterval(() => (ss.ticks += 1), 2);
 };
 
 export const freezeBlob = (blob, solid = true) => {
