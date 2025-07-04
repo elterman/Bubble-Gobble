@@ -23,7 +23,7 @@
     }
 
     .label {
-        color: #ffffff80;
+        color: #fff7;
     }
 
     .value {

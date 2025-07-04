@@ -76,23 +76,5 @@ export const overlap = (rob1, rob2) => {
         rob2 = { ...rob2, radius: r.width / 2 - PAD };
     }
 
-    // const r1 = {
-    //     x1: rob1.cx - rob1.radius,
-    //     x2: rob1.cx + rob1.radius,
-    //     y1: rob1.cy - rob1.radius,
-    //     y2: rob1.cy + rob1.radius,
-    // };
-
-    // const r2 = {
-    //     x1: rob2.cx - rob2.radius,
-    //     x2: rob2.cx + rob2.radius,
-    //     y1: rob2.cy - rob2.radius,
-    //     y2: rob2.cy + rob2.radius,
-    // };
-
-    // if (r1.x1 > r2.x2 || r1.x2 < r1.x1 || r1.y1 > r2.y2 || r1.y2 < r2.y1) {
-    //     return false;
-    // }
-
     return Math.hypot(rob1.cx - rob2.cx, rob1.cy - rob2.cy) < rob1.radius + rob2.radius;
 };

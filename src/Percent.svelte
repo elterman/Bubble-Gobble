@@ -17,7 +17,7 @@
         display: grid;
         grid-auto-flow: column;
         align-items: center;
-        color: #ffffff80;
+        color: #fff7;
         font-family: Roboto Condensed;
         font-size: 40px;
         margin: 10px 10px 0 0;

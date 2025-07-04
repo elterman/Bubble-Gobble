@@ -1,12 +1,12 @@
 <script>
     import Arrow from '$lib/images/Next.webp';
-    import { PCT, THRESHOLD } from './const';
+    import { MAX_LEVELS, PCT, THRESHOLD } from './const';
     import { percent, onStart } from './shared.svelte';
     import { _prompt, ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
     import { post } from './utils';
 
-    const disabled = $derived(ss.level === 10 || ss.next || percent() < PCT);
+    const disabled = $derived(ss.level === MAX_LEVELS || ss.next || percent() < PCT);
 
     const onClick = () => {
         ss.next = true;
@@ -33,7 +33,16 @@
 </script>
 
 <div class="next">
-    <ToolButton src={Arrow} {disabled} width={70} {onClick} />
+    {#if ss.level < MAX_LEVELS}
+        <div class="circle">
+            <ToolButton src={Arrow} {disabled} width={70} {onClick} />
+        </div>
+    {:else}
+        <div class="last-round">
+            <span>LAST</span>
+            <span>ROUND</span>
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -43,7 +52,19 @@
         display: grid;
         margin: 0 5px 5px 0;
         z-index: 2;
+    }
+
+    .circle {
         clip-path: circle(50%);
         /* background: #fff7; */
+    }
+
+    .last-round {
+        display: grid;
+        place-items: end;
+        color: #f094e5c0;
+        font-family: Roboto Condensed;
+        font-size: 24px;
+        margin: 0 3px 6px 0;
     }
 </style>
