@@ -54,7 +54,7 @@
         <Blob {blob} />
     {/each}
     <!-- {#each ss.orbs as orb, i (i)} -->
-    {#each range(ss.orbs.length) as i (i)}
+    {#each range(ss.orbs.length) as i (i + Date.now())}
         <Orb index={i - 1} />
     {/each}
 </div>
@@ -74,7 +74,7 @@
         z-index: 1;
         cursor: crosshair;
         box-sizing: border-box;
-        /* border: 1px solid #ffffff80; */
+        /* border: 1px solid #fff7; */
     }
 
     .level {

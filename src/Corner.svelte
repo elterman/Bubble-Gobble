@@ -20,7 +20,7 @@
         aspect-ratio: 1;
         border-radius: 50%;
         box-sizing: border-box;
-        /* border: 1px solid #ffffff80; */
+        /* border: 1px solid #fff7; */
         z-index: 1;
     }
 

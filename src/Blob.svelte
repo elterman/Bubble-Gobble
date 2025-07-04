@@ -52,10 +52,6 @@
             y = cy - r;
         });
 
-        const onTransitionStart = () => {
-            //
-        };
-
         const onTransitionEnd = () => {
             if (radius) {
                 return;
@@ -80,13 +76,8 @@
             }
         };
 
-        _this.addEventListener('transitionstart', onTransitionStart);
         _this.addEventListener('transitionend', onTransitionEnd);
-
-        return () => {
-            _this.removeEventListener('transitionstart', onTransitionStart);
-            _this.removeEventListener('transitionend', onTransitionEnd);
-        };
+        return () => _this.removeEventListener('transitionend', onTransitionEnd);
     });
 </script>
 
