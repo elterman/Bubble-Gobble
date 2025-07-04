@@ -68,6 +68,80 @@
     });
 
     $effect(() => {
+        if (ss.ticks <= ticks) {
+            return;
+        }
+
+        ticks = ss.ticks;
+
+        let angle = null;
+        let bounce = null;
+
+        // bounce off an edge?
+        const edge = hitEdge();
+
+        if (edge && !justBounced({ edge })) {
+            bounce = { edge };
+
+            if (edge === 4 || edge === 2) {
+                angle = 180 - deg;
+            } else if (edge === 1 || edge === 3) {
+                angle = -deg;
+            }
+        }
+
+        if (!bounce) {
+            // bounce off a corner?
+            const corner = ss.corners.find((corner) => overlap(orb, corner));
+
+            if (corner && !justBounced({ corner })) {
+                bounce = { corner };
+                angle = bounceAngle(orb, corner);
+            }
+        }
+
+        if (!bounce) {
+            // bounce off a blob?
+            const blob = ss.blobs.find((blob) => overlap(orb, blob));
+
+            if (blob && !justBounced(blob)) {
+                bounce = { cx: blob.cx, cy: blob.cy };
+                angle = bounceAngle(orb, blob);
+
+                if (blob.radius) {
+                    return;
+                }
+
+                if (ss.level <= THRESHOLD) {
+                    freezeBlob(blob, false);
+                } else if (!blob.dead) {
+                    _sound.play('lost', { rate: 3 });
+                    blob.dead = true;
+                }
+            }
+        }
+
+        if (!bounce) {
+            // bounce off another orb?
+            const i = ss.orbs.findIndex((o, i) => i !== index && overlap(orb, o));
+
+            if (i >= 0 && !justBounced({ otherIndex: i })) {
+                bounce = { otherIndex: i };
+                angle = bounceAngle(orb, ss.orbs[i]);
+            }
+        }
+
+        if (bounce) {
+            ss.orbs[index].lastBounce = bounce;
+            ss.orbs[index].deg = angle;
+        }
+
+        setDelta(index);
+
+        post(() => delete ss.orbs[index].lastBounce);
+    });
+
+    $effect(() => {
         const onTransitionEnd = () => {
             let angle = null;
             let bounce = null;

@@ -1,5 +1,5 @@
 import { random } from 'lodash-es';
-import { APP_STATE, CORNER_RADIUS, ORB_RADIUS, PAD, PCT } from './const';
+import { APP_STATE, CORNER_RADIUS, ORB_RADIUS, PAD, PCT, PPT } from './const';
 import { _sound } from './sound.svelte';
 import { _stats, ss } from './state.svelte';
 import { blobId, clientRect } from './utils';
@@ -7,18 +7,33 @@ import { blobId, clientRect } from './utils';
 export const log = (value) => console.log($state.snapshot(value));
 
 const createOrbs = () => {
-    const count = ss.orbs.length + 1;
+    const count = ss.orbs.length + 10;
     // const count = 1;
     // const count = Math.max(ss.orbs.length, 9) + 1;
     ss.orbs = [];
 
-    const width = ss.playground.width - (PAD + CORNER_RADIUS) * 2;
-    const height = ss.playground.height - (PAD + CORNER_RADIUS) * 2;
+// const CR = CORNER_RADIUS;
+const CR = 0;
+
+    const width = ss.playground.width - (PAD + CR) * 2;
+    const height = ss.playground.height - (PAD + CR) * 2;
 
     for (let i = 0; i < count; i++) {
-        const orb = { cx: random(width) + CORNER_RADIUS, cy: random(height) + CORNER_RADIUS, radius: ORB_RADIUS, deg: random(0, 360), ticks: 0 };
+        const orb = { cx: random(width) + (PAD + CR - ORB_RADIUS), cy: random(height) + (PAD + CR - ORB_RADIUS), deg: random(0, 360), ticks: 0 };
         ss.orbs.push(orb);
+        setDelta(i);
     }
+};
+
+export const setDelta = (index) => {
+    const orb = ss.orbs[index];
+    const { deg } = orb;
+
+    const dx = Math.cos(-deg * (Math.PI / 180)) * PPT;
+    const dy = Math.sin(-deg * (Math.PI / 180)) * PPT;
+
+    ss.orbs[index].delta = { dx, dy };
+    // ss.orbs[index].delta = { dx: 0, dy: 0 };
 };
 
 export const onStart = () => {

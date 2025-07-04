@@ -93,10 +93,15 @@
 
     .mouse {
         display: none;
-        grid-area: 1/1;
-        place-self: end center;
-        color: #ffffff40;
+        /* grid-area: 1/1; */
+        /* place-self: end center; */
+        position: absolute;
+        left:22px;
+        top: 122px;
         font-family: Roboto Condensed;
         z-index: 5;
+        background: white;
+        /* color: #ffffff40; */
+        padding: 2px 5px;
     }
 </style>

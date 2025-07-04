@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { APP_STATE, PAD } from './const';
+    import { APP_STATE, PAD, PAGE_PAD } from './const';
     import Corner from './Corner.svelte';
     import Help from './Help.svelte';
     import Next from './Next.svelte';
@@ -28,7 +28,7 @@
     });
 </script>
 
-<div class="game-page">
+<div class="game-page" style='padding: {PAGE_PAD}px'>
     <Playground />
     <div class="box" style="padding: {PAD}px"></div>
     <Corner pos="nw" />
@@ -49,7 +49,6 @@
         grid-area: 1/1;
         display: grid;
         gap: 10px;
-        padding: 10px;
     }
 
     .box {

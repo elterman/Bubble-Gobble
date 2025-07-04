@@ -32,8 +32,15 @@
     };
 </script>
 
-<div class="next">
-    <ToolButton src={Arrow} {disabled} width={70} {onClick} />
+<div class="next {ss.level < 10 ? 'circle' : ''}">
+    {#if ss.level < 10}
+        <ToolButton src={Arrow} {disabled} width={70} {onClick} />
+    {:else}
+        <div class="last-round">
+            <span>LAST</span>
+            <span>ROUND</span>
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -43,7 +50,19 @@
         display: grid;
         margin: 0 5px 5px 0;
         z-index: 2;
-        clip-path: circle(50%);
         /* background: #fff7; */
+    }
+
+    .circle {
+        clip-path: circle(50%);
+    }
+
+    .last-round {
+        display: grid;
+        place-items: end;
+        color: #f094e5c0;
+        font-family: Roboto Condensed;
+        font-size: 24px;
+        margin: 0 3px 6px 0;
     }
 </style>

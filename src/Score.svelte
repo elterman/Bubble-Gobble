@@ -25,6 +25,5 @@
         color: #94e5f0;
         font-family: Roboto Condensed;
         font-size: 40px;
-        transition: color 0.3s linear;
     }
 </style>
