@@ -100,15 +100,13 @@
                 bounce = { cx: blob.cx, cy: blob.cy };
                 angle = bounceAngle(orb, blob);
 
-                if (blob.radius) {
-                    return;
-                }
-
-                if (ss.level <= THRESHOLD) {
-                    freezeBlob(blob, false);
-                } else if (!blob.dead) {
-                    _sound.play('lost', { rate: 3 });
-                    blob.dead = true;
+                if (!blob.radius) {
+                    if (ss.level <= THRESHOLD) {
+                        freezeBlob(blob, false);
+                    } else if (!blob.dead) {
+                        _sound.play('lost', { rate: 3 });
+                        blob.dead = true;
+                    }
                 }
             }
         }

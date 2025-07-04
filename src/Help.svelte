@@ -23,15 +23,15 @@
     const CHALLENGE = `
         <span>So far so good! From now on:</span>
         ${ul}
-        ${li}When two bubbles collide, both turn into a dead zone.</li>
-        ${li}When hit by a ball, the bubble turns into a dead zone, but keeps inflating.</li>
+        ${li}When two bubbles collide, both become dead zones.</li>
+        ${li}When hit by a ball, the new bubble turns into a dead zone, but keeps growing.</li>
         </ul>`;
 
     const CURRENT_CHALLENGE = `
         <span>The current challenge:</span>
         ${ul}
-        ${li}When two bubbles collide, both turn into a dead zone.</li>
-        ${li}When hit by a ball, the bubble turns into a dead zone, but keeps inflating.</li>
+        ${li}When two bubbles collide, both become dead zones.</li>
+        ${li}When struck by a ball, a new bubble becomes a dead zone but continues to grow.</li>
         </ul>`;
 
     const onClick = () => {
