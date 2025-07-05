@@ -79,7 +79,7 @@
     .last-round {
         display: grid;
         place-items: end;
-        color: #f094e5c0;
+        color: #f094e5;
         font-family: Roboto Condensed;
         font-size: 24px;
         margin: 0 3px 6px 0;
