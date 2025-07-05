@@ -129,6 +129,6 @@ export const persist = () => {
     localStorage.setItem(APP_STATE, JSON.stringify({ ..._stats }));
 };
 
-export const percent = () => Math.floor((ss.solidArea / ss.totalArea) * 100);
+export const percent = () => ss.totalArea ? Math.floor((ss.solidArea / ss.totalArea) * 100) : 0;
 
 export const isGameOn = () => ss.level > 1 || ss.blobs.length > 0;
