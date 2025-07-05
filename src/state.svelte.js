@@ -5,7 +5,6 @@ export const ss = $state({
     orbs: [],
     totalArea: 0,
     solidArea: 0,
-    deadArea: 0,
     score: 0,
     help: true,
 });

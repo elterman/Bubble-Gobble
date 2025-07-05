@@ -8,9 +8,7 @@
     import { _prompt, ss } from './state.svelte';
     import { clientRect, range } from './utils';
 
-    const mouse = $state({ x: 0, y: 0 });
-
-    const onResize = () => {
+    const doResize = () => {
         ss.playground = clientRect('.playground');
 
         ss.corners = [
@@ -23,27 +21,33 @@
         ss.totalArea = ss.playground.width * ss.playground.height - Math.PI * Math.pow(CORNER_RADIUS, 2);
     };
 
-    onMount(onResize);
+    onMount(doResize);
+
+    const onResize = () => {
+        doResize();
+
+        if (ss.level > 1 || ss.orbs.length) {
+            ss.level = 1;
+            ss.blobs = [];
+            ss.orbs = [];
+            ss.totalArea = 0;
+            ss.solidArea = 0;
+            ss.score = 0;
+            ss.help = true;
+        }
+    };
 
     $effect(() => {
         window.addEventListener('resize', onResize);
         return () => window.removeEventListener('resize', onResize);
     });
-
-    const onPointerMove = (e) => {
-        mouse.x = Math.floor(e.offsetX);
-        mouse.y = Math.floor(e.offsetY);
-    };
 </script>
 
 <div class="playground" style="padding: {PAD}px">
-    <div class="mouse">
-        {`orbs = ${ss.orbs.length} • dead = ${Math.round((ss.deadArea / ss.totalArea) * 100)}%`}
+    <div class="debug">
+        debug info
     </div>
-    <div
-        class="clickable {ss.help || _prompt.opacity ? 'disabled' : ''}"
-        onpointerdown={onPointerDown}
-        onpointermove={onPointerMove}>
+    <div class="clickable {ss.help || _prompt.opacity ? 'disabled' : ''}" onpointerdown={onPointerDown}>
         {#if ss.orbs.length}
             {#key ss.orbs.length}
                 <div class="level" transition:fade>{ss.level}</div>
@@ -91,7 +95,7 @@
         pointer-events: none;
     }
 
-    .mouse {
+    .debug {
         display: none;
         grid-area: 1/1;
         place-self: end center;

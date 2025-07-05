@@ -69,7 +69,6 @@
 
                     const area = other.radius * other.radius * Math.PI;
                     ss.solidArea = Math.max(ss.solidArea - area, 0);
-                    ss.deadArea += area;
 
                     updateScore(percent() - prev);
                 }

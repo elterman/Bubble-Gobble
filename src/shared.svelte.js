@@ -27,7 +27,6 @@ export const onStart = () => {
     ss.ticks = 0;
     ss.blobs = [];
     ss.solidArea = 0;
-    ss.deadArea = 0;
 
     createOrbs();
 
@@ -65,8 +64,6 @@ export const freezeBlob = (blob, solid = true) => {
         if (!blob.dead) {
             _sound.play('lost', { rate: 3 });
         }
-
-        ss.deadArea += area;
     }
 };
 
