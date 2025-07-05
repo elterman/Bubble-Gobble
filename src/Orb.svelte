@@ -120,7 +120,11 @@
             return;
         }
 
-        post(() => delete ss.orbs[index].lastBounce);
+        post(() => {
+            if (ss.orbs.length > index) {
+                delete ss.orbs[index].lastBounce;
+            }
+        });
     });
 </script>
 
