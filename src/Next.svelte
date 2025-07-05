@@ -6,6 +6,7 @@
     import { _prompt, ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
     import { post } from './utils';
+    import Bonus from '$lib/images/Bonus.webp';
 
     const disabled = $derived(ss.level === MAX_LEVELS || ss.next || percent() < PCT);
 
@@ -40,10 +41,17 @@
         <div class="circle {disabled ? '' : 'pulse'}">
             <ToolButton src={Arrow} {disabled} width={70} {onClick} />
         </div>
-    {:else}
+    {:else if percent() < PCT}
         <div class="last-round pulse">
             <span>LAST</span>
             <span>ROUND</span>
+        </div>
+    {:else}
+        <div class="bonus pulse">
+            <div class="bonus-icon">
+                <ToolButton src={Bonus} width={40} {onClick} />
+            </div>
+            <div class="claim">CLAIM</div>
         </div>
     {/if}
 </div>
@@ -69,6 +77,14 @@
         font-family: Roboto Condensed;
         font-size: 24px;
         margin: 0 3px 6px 0;
+    }
+
+    .bonus {
+        display: grid;
+        gap: 15px;
+        margin: 0 5px 0 0;
+        color: #c9bb92;
+        font-family: Roboto Condensed;
     }
 
     .pulse {
