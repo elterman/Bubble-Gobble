@@ -10,4 +10,4 @@ export const PROMPT_RESET_STATS = 'Reset stats?';
 export const ORB_RADIUS = 7;
 export const MAX_LEVELS = 10;
 export const THRESHOLD = 5;
-export const PCT = 5;
+export const PCT = 50;
