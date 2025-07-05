@@ -98,6 +98,7 @@
 
 <style>
     .help {
+        position: absolute;
         grid-area: 1/1;
         place-self: center;
         display: grid;
