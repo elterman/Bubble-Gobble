@@ -1,10 +1,12 @@
 <script>
     import Cog from '$lib/images/Settings.webp';
+    import { _sound } from './sound.svelte';
     import { ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
 
     const onClick = () => {
         ss.tools = !ss.tools;
+        _sound.play(ss.tools ? 'cluck' : 'click');
     };
 </script>
 

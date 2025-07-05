@@ -20,7 +20,7 @@
 </script>
 
 <div class="restart-tool">
-    <ToolButton src={Restart} width={45} {onClick} disabled={!isGameOn()}/>
+    <ToolButton src={Restart} width={45} {onClick} disabled={!isGameOn()} />
 </div>
 
 <style>

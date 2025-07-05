@@ -1,7 +1,7 @@
 <script>
-    import ToolButton from './Tool Button.svelte';
     import Question from '$lib/images/Question.webp';
     import { _prompt, ss } from './state.svelte';
+    import ToolButton from './Tool Button.svelte';
 
     const onClick = () => {
         ss.help = !ss.help;

@@ -70,7 +70,7 @@ export const freezeBlob = (blob, solid = true) => {
     }
 };
 
-export const createBubble = (cx, cy) => {
+const createBubble = (cx, cy) => {
     const calcMaxRadius = () => {
         const sz = { x: ss.playground.width - 2 * PAD, y: ss.playground.height - 2 * PAD };
         const maxWidth = Math.min(cx, sz.x - cx) + PAD - 1;
@@ -110,6 +110,7 @@ export const onPointerDown = (e) => {
         return;
     }
 
+    _sound.play('plop');
     createBubble(Math.round(e.offsetX), Math.round(e.offsetY));
 
     if (ss.level === 1 && ss.blobs.length === 1) {

@@ -38,6 +38,7 @@
         body {
             margin: 0;
             overflow: hidden;
+            /* background: black; */
         }
 
         .button-base {

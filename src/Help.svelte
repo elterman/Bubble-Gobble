@@ -5,6 +5,7 @@
     import { ss } from './state.svelte';
     import { tapOrClick, windowSize } from './utils';
     import { THRESHOLD } from './const';
+    import { _sound } from './sound.svelte';
     THRESHOLD;
     const ul = '<ul style="margin: 15px 0 0 0;">';
     const li = '<li style="margin: 5px 0 0 -20px;">';
@@ -24,7 +25,7 @@
         <span>So far so good! From now on:</span>
         ${ul}
         ${li}When two bubbles collide, both become dead zones.</li>
-        ${li}When hit by a ball, the new bubble turns into a dead zone, but keeps growing.</li>
+        ${li}When struck by a ball, a new bubble becomes a dead zone but continues to grow.</li>
         </ul>`;
 
     const CURRENT_CHALLENGE = `
@@ -35,6 +36,7 @@
         </ul>`;
 
     const onClick = () => {
+        _sound.play('click');
         delete ss.help;
 
         if (!ss.orbs.length) {

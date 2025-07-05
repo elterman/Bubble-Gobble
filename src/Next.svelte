@@ -2,6 +2,7 @@
     import Arrow from '$lib/images/Next.webp';
     import { MAX_LEVELS, PCT, THRESHOLD } from './const';
     import { percent, onStart } from './shared.svelte';
+    import { _sound } from './sound.svelte';
     import { _prompt, ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
     import { post } from './utils';
@@ -9,6 +10,8 @@
     const disabled = $derived(ss.level === MAX_LEVELS || ss.next || percent() < PCT);
 
     const onClick = () => {
+        _sound.play('click');
+
         ss.next = true;
         delete ss.help;
         _prompt.opacity = 0;
