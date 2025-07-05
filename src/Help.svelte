@@ -169,10 +169,6 @@
         align-content: start;
     }
 
-    .center {
-        justify-items: center;
-    }
-
     .buttons {
         place-self: center;
     }

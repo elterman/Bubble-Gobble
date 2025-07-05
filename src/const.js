@@ -10,5 +10,5 @@ export const PROMPT_RESET_STATS = 'RESET STATS?';
 export const ORB_RADIUS = 7;
 export const MAX_LEVELS = 10;
 export const THRESHOLD = 5;
-export const PCT = 50;
+export const PCT = 2;
 export const PI_OVER_180 = Math.PI / 180;
