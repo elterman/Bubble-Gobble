@@ -37,11 +37,11 @@
 
 <div class="next">
     {#if ss.level < MAX_LEVELS}
-        <div class="circle">
+        <div class="circle {disabled ? '' : 'pulse'}">
             <ToolButton src={Arrow} {disabled} width={70} {onClick} />
         </div>
     {:else}
-        <div class="last-round">
+        <div class="last-round pulse">
             <span>LAST</span>
             <span>ROUND</span>
         </div>
@@ -69,5 +69,18 @@
         font-family: Roboto Condensed;
         font-size: 24px;
         margin: 0 3px 6px 0;
+    }
+
+    .pulse {
+        animation: pulse 0.2s alternate 8 ease-in-out;
+    }
+
+    @keyframes pulse {
+        from {
+            transform: scale(1);
+        }
+        to {
+            transform: scale(0.7);
+        }
     }
 </style>
