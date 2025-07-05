@@ -1,4 +1,4 @@
-import { PAD } from './const';
+import { PAD, PI_OVER_180 } from './const';
 
 export const windowSize = () => {
     const d = document,
@@ -61,7 +61,7 @@ export const sameBlob = (b1, b2) => b1.cx === b2.cx && b1.cy === b2.cy;
 export const blobId = (cx, cy) => `blob-${cx}-${cy}`;
 
 export const bounceAngle = (orb, other) => {
-    const a = Math.atan2(other.cy - orb.cy, other.cx - orb.cx) * (180 / Math.PI);
+    const a = Math.atan2(other.cy - orb.cy, other.cx - orb.cx) / PI_OVER_180;
     return (180 - orb.deg - a * 2) % 360;
 };
 

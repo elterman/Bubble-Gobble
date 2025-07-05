@@ -1,6 +1,6 @@
 <script>
     import { fade } from 'svelte/transition';
-    import { PAD, THRESHOLD } from './const';
+    import { PAD, PI_OVER_180, THRESHOLD } from './const';
     import { freezeBlob } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { ss } from './state.svelte';
@@ -60,8 +60,8 @@
 
         ticks = ss.ticks;
 
-        const dx = Math.cos(-deg * (Math.PI / 180)) * 2;
-        const dy = Math.sin(-deg * (Math.PI / 180)) * 2;
+        const dx = Math.cos(-deg * PI_OVER_180) * 2;
+        const dy = Math.sin(-deg * PI_OVER_180) * 2;
 
         ss.orbs[index].cx += dx;
         ss.orbs[index].cy += dy;
