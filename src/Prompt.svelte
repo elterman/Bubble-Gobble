@@ -1,27 +1,12 @@
 <script>
     import { PROMPT_RESET_STATS, PROMPT_START_OVER, X } from './const';
     import PromptPanel from './Prompt Panel.svelte';
-    import { isGameOn, onStart, persist } from './shared.svelte';
+    import { isGameOn, onStartOver, persist } from './shared.svelte';
     import { _prompt, _stats, ss } from './state.svelte';
-    import { post, windowSize } from './utils';
+    import { windowSize } from './utils';
 
     const label = $derived(_prompt.id);
     let scale = $state(1);
-
-    const onStartOver = () => {
-        ss.next = true;
-
-        post(() => {
-            delete ss.next;
-            delete ss.tools;
-
-            ss.orbs = [];
-            ss.score = 0;
-            ss.level = 1;
-
-            onStart();
-        }, 500);
-    };
 
     const onResetStats = () => {
         if (isGameOn()) {

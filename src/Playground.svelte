@@ -34,6 +34,7 @@
             ss.solidArea = 0;
             ss.score = 0;
             ss.help = true;
+            delete ss.over;
         }
     };
 
@@ -47,7 +48,7 @@
     <div class="debug">
         debug info
     </div>
-    <div class="clickable {ss.help || _prompt.opacity ? 'disabled' : ''}" onpointerdown={onPointerDown}>
+    <div class="clickable {ss.help || ss.over || _prompt.opacity ? 'disabled' : ''}" onpointerdown={onPointerDown}>
         {#if ss.orbs.length}
             {#key ss.orbs.length}
                 <div class="level" transition:fade>{ss.level}</div>

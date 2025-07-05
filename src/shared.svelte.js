@@ -2,7 +2,7 @@ import { random } from 'lodash-es';
 import { APP_STATE, CORNER_RADIUS, ORB_RADIUS, PAD, PCT } from './const';
 import { _sound } from './sound.svelte';
 import { _stats, ss } from './state.svelte';
-import { blobId, clientRect } from './utils';
+import { blobId, clientRect, post } from './utils';
 
 export const log = (value) => console.log($state.snapshot(value));
 
@@ -23,6 +23,8 @@ const createOrbs = () => {
 
 export const onStart = () => {
     _sound.play('dice');
+
+    delete ss.over;
 
     ss.ticks = 0;
     ss.blobs = [];
@@ -133,3 +135,18 @@ export const persist = () => {
 export const percent = () => ss.totalArea ? Math.floor((ss.solidArea / ss.totalArea) * 100) : 0;
 
 export const isGameOn = () => ss.level > 1 || ss.blobs.length > 0;
+
+export const onStartOver = () => {
+    ss.next = true;
+
+    post(() => {
+        delete ss.next;
+        delete ss.tools;
+
+        ss.orbs = [];
+        ss.score = 0;
+        ss.level = 1;
+
+        onStart();
+    }, 500);
+};

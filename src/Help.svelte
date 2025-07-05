@@ -1,7 +1,7 @@
 <script>
     import { fade } from 'svelte/transition';
     import PromptButton from './Prompt Button.svelte';
-    import { onStart } from './shared.svelte';
+    import { onStart, onStartOver } from './shared.svelte';
     import { ss } from './state.svelte';
     import { tapOrClick, windowSize } from './utils';
     import { THRESHOLD } from './const';
@@ -35,13 +35,22 @@
         ${li}When struck by a ball, a new bubble becomes a dead zone but continues to grow.</li>
         </ul>`;
 
+    const OVER = `
+        <span>Game over. Well done!</span>
+        <span>Your score has doubled.</span>
+    `;
+
     const onClick = () => {
         _sound.play('click');
         delete ss.help;
 
+        if (ss.over) {
+            onStartOver();
+            return;
+        }
+
         if (!ss.orbs.length) {
             onStart();
-            return;
         }
     };
 
@@ -73,13 +82,23 @@
 </script>
 
 {#if ss.help}
-    <div class="help {ss.orbs.length ? '' : 'initial'}" style="transform: scale({scale});" transition:fade={{ duration: 200 }}>
+    <div
+        class="help {ss.over ? 'over' : ''} {ss.orbs.length ? '' : 'initial'}"
+        style="transform: scale({scale});"
+        transition:fade={{ duration: 200 }}>
         <div class="title">
-            <span class="blue">BUBBLE</span>
-            <span class="orange">GOBBLE</span>
+            {#if ss.over}
+                <span class="orange">{ss.score}</span>
+            {:else}
+                <span class="blue">BUBBLE</span>
+                <span class="orange">GOBBLE</span>
+            {/if}
         </div>
         <div class="content" tabindex="-1">
-            {#if ss.help === 'CHALLENGE'}
+            {#if ss.over}
+                <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                {@html OVER}
+            {:else if ss.help === 'CHALLENGE'}
                 <!-- eslint-disable-next-line svelte/no-at-html-tags -->
                 {@html CHALLENGE}
             {:else if ss.level > THRESHOLD}
@@ -91,7 +110,7 @@
             {/if}
         </div>
         <div class="buttons">
-            <PromptButton op={{ label: ss.orbs.length ? 'CONTINUE' : 'PLAY', onClick }} />
+            <PromptButton op={{ label: ss.over ? 'PLAY AGAIN' : ss.orbs.length ? 'CONTINUE' : 'PLAY', onClick }} />
         </div>
     </div>
 {/if}
@@ -119,6 +138,10 @@
         backdrop-filter: none;
     }
 
+    .over {
+        width: initial;
+    }
+
     .title {
         font-family: Jelly Belly;
         font-size: 96px;
@@ -144,6 +167,10 @@
         letter-spacing: 0.05em;
         display: grid;
         align-content: start;
+    }
+
+    .center {
+        justify-items: center;
     }
 
     .buttons {

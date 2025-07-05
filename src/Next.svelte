@@ -1,7 +1,7 @@
 <script>
     import Arrow from '$lib/images/Next.webp';
     import { MAX_LEVELS, PCT, THRESHOLD } from './const';
-    import { percent, onStart } from './shared.svelte';
+    import { percent, onStart, updateScore } from './shared.svelte';
     import { _sound } from './sound.svelte';
     import { _prompt, ss } from './state.svelte';
     import ToolButton from './Tool Button.svelte';
@@ -34,6 +34,14 @@
             }
         }, 500);
     };
+
+    const onBonus = () => {
+        ss.over = true;
+        ss.help = true;
+
+        _sound.play('won');
+        updateScore(ss.score);
+    };
 </script>
 
 <div class="next">
@@ -48,10 +56,8 @@
         </div>
     {:else}
         <div class="bonus pulse">
-            <div class="bonus-icon">
-                <ToolButton src={Bonus} width={40} {onClick} />
-            </div>
-            <div class="claim">CLAIM</div>
+            <ToolButton src={Bonus} width={35} onClick={onBonus} disabled={ss.over} />
+            <div class="claim {ss.over ? 'disabled' : ''}">CLAIM</div>
         </div>
     {/if}
 </div>
@@ -81,10 +87,16 @@
 
     .bonus {
         display: grid;
-        gap: 15px;
-        margin: 0 5px 0 0;
+        justify-items: center;
+        gap: 17px;
+        margin: 0 7px 0 0;
         color: #c9bb92;
         font-family: Roboto Condensed;
+    }
+
+    .disabled {
+        filter: grayscale(1);
+        opacity: 0.35;
     }
 
     .pulse {
