@@ -63,6 +63,7 @@ export const freezeBlob = (blob, solid = true) => {
     } else {
         if (!blob.dead) {
             _sound.play('lost', { rate: 3 });
+            ss.blobs[ss.blobs.length - 1].dead = true;
         }
     }
 };

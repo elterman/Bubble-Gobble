@@ -60,8 +60,8 @@
 
         ticks = ss.ticks;
 
-        const dx = Math.cos(-deg * (Math.PI / 180)) * 2;
-        const dy = Math.sin(-deg * (Math.PI / 180)) * 2;
+        const dx = Math.cos(-deg * (Math.PI / 180)) * 2.5;
+        const dy = Math.sin(-deg * (Math.PI / 180)) * 2.5;
 
         ss.orbs[index].cx += dx;
         ss.orbs[index].cy += dy;
