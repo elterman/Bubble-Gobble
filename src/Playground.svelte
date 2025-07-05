@@ -11,6 +11,9 @@
     const doResize = () => {
         ss.playground = clientRect('.playground');
 
+        const perim = Math.round(ss.playground.width + ss.playground.height);
+        ss.velocity = 1 + (perim - 1100) / 1500;
+
         ss.corners = [
             { cx: -PAD, cy: -PAD, radius: CORNER_RADIUS },
             { cx: ss.playground.width - PAD, cy: -PAD, radius: CORNER_RADIUS },

@@ -12,4 +12,3 @@ export const MAX_LEVELS = 10;
 export const THRESHOLD = 5;
 export const PCT = 50;
 export const PI_OVER_180 = Math.PI / 180;
-export const ORB_SPEED = 2;
