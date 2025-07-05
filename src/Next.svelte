@@ -57,7 +57,7 @@
     {:else}
         <div class="bonus pulse">
             <ToolButton src={Bonus} width={35} onClick={onBonus} disabled={ss.over} />
-            <div class="claim {ss.over ? 'disabled' : ''}">CLAIM</div>
+            <div class="claim {ss.over ? 'disabled' : ''}">BONUS</div>
         </div>
     {/if}
 </div>
