@@ -91,7 +91,7 @@
             {/if}
         </div>
         <div class="buttons">
-            <PromptButton op={{ label: ss.orbs.length ? 'CONTINUE' : 'PLAY', onClick }} />
+            <PromptButton op={{ label: ss.orbs.length ? 'CONTINUE' : 'Play', onClick }} />
         </div>
     </div>
 {/if}

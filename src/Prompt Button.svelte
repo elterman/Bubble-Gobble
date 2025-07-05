@@ -44,7 +44,6 @@
 <style>
     .button {
         cursor: pointer;
-        /* height: 36px; */
         border-radius: 50vh;
         box-sizing: border-box;
         padding: 0px 20px 3px 20px;
