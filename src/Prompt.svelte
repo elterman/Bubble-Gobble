@@ -51,7 +51,7 @@
         window.addEventListener('transitionend', onTransitionEnd);
 
         return () => {
-            window.rewindow.removeEventListener('resize', onResize);
+            window.removeEventListener('resize', onResize);
             window.removeEventListener('transitionend', onTransitionEnd);
         };
     });
